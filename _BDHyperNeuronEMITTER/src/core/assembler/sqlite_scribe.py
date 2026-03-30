@@ -40,8 +40,10 @@ inhibit_edges
 content_fts
     FTS5 virtual table over content_nodes.content (content= option).
 
-Boundary rule: this module ONLY WRITES. It does not read from the database
-beyond the initial schema creation check. Reads belong to retrieval.py.
+Boundary rule: this module owns the write path and exposes one narrow
+FTS lookup seam used by ingest-time recall so callers do not reach into
+its private SQLite connection. Broader query/retrieval logic remains in
+retrieval.py.
 
 No v1 counterpart — original for the v2 Cold Artifact design.
 """
@@ -54,6 +56,8 @@ import sqlite3
 import struct
 from pathlib import Path
 from typing import Dict, List, Optional
+
+from ..content_fts import ContentFtsHit, search_content_fts
 
 log = logging.getLogger(__name__)
 
@@ -333,6 +337,17 @@ class SqliteScribe:
             }
             for r in rows
         ]
+
+    def fts_hits(self, query: str, top_k: int = 10) -> List[ContentFtsHit]:
+        """Run the shared FTS5 lookup against the current Cold Artifact.
+
+        This is intentionally narrow and exists so ingest-time recall can
+        reuse the same lexical search helper without reaching into private
+        SQLite state.
+        """
+        assert self._conn is not None
+        self.flush()
+        return search_content_fts(self._conn, query, top_k=top_k)
 
     # ── Stats ──────────────────────────────────────────────────────────────
 

@@ -693,7 +693,40 @@ The builder may use the following sandbox sources for reference, analysis, and b
     manifests, contracts, journal-backed history/backlog expectations, and
     other project-specific constraints
 
+- user-approved external read-only reference reservoirs
+  - example for this project: `E:\__________STORAGE__________\code_library\Corpus_BIN`
+  - this may be used as a large corpus / parts bin for reference, search,
+    analysis, and bounded replication only when the user explicitly
+    authorizes that location
+  - material from this bin may be replicated intentionally into the current
+    project only as bounded local code, tests, or data assets after
+    validation; it shall not be brought over wholesale in its current form
+  - it remains a reference-only source and shall not become a runtime
+    dependency or write target
+
 The builder shall treat these as reference sources, not as implicit runtime dependencies.
+
+### 6.2A Large external reservoir efficiency rule
+
+When using a user-approved large external reference reservoir, the builder
+shall operate surgically and token-conservatively.
+
+The builder shall:
+- prefer search tools, file listings, targeted greps, AST scans, and other
+  narrow discovery methods over broad file dumping,
+- avoid bulk-reading large directory trees into context,
+- inspect only the files or fragments needed for the current tranche,
+- and treat repository size as a reason to increase tool discipline rather
+  than to broaden context capture.
+
+The builder shall not treat a many-GB external reservoir as a prompt-time
+reading surface.
+
+For this project specifically, the builder shall treat
+`E:\__________STORAGE__________\code_library\Corpus_BIN` as a source bin rather
+than a transplant target. The builder may replicate only specific validated
+logic or data needed inside the current project root and shall not import or
+mirror `_PARTS` trees or other large source folders in their current form.
 
 ### 6.3 Project document location rule
 
@@ -773,6 +806,28 @@ Any borrowed or extracted logic incorporated into the current project shall be:
 - and brought into high compliance with this contract.
 
 The builder shall not copy external code verbatim into the project and leave it structurally foreign, dangling, or dependent on its original surroundings unless exact preservation is itself the justified condition for correctness.
+
+### 6.8A AST-first validation rule for borrowed code
+
+Before incorporating borrowed or extracted code from `_PARTS/`, `_dev_tools/`,
+user-approved external reservoirs, or any other non-target reference source,
+the builder shall validate that code in a disciplined way before it becomes
+part of the current project.
+
+Preferred validation order:
+1. parse or inspect the candidate code with an AST or equivalent language-aware
+   parser when practical for that language,
+2. if AST-level validation is unavailable or insufficient, isolate the code in
+   a local testable boilerplate or harness inside the current project root,
+3. run targeted tests or execution checks on that isolated copy before
+   incorporating it into live project logic.
+
+For Python-source borrowing, AST validation should be treated as the default
+minimum check before incorporation unless the code is trivially small and is
+being rewritten rather than copied.
+
+The builder shall not directly incorporate externally sourced code into live
+project paths without prior structural validation or isolated testing.
 
 ### 6.9 Provenance recording rule
 

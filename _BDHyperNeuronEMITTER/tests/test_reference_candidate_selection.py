@@ -217,5 +217,244 @@ class ReferenceCandidateSelectionTests(unittest.TestCase):
             self.assertNotIn((common_b.occurrence_id, incoming_index.occurrence_id), pairs)
 
 
+class FTSFallbackTests(unittest.TestCase):
+    """Tests for the ingest-time FTS cheap-fetch fallback in GraphAssembler."""
+
+    def test_fts_fallback_recovers_long_range_candidate_when_anchor_thin(self):
+        """FTS fallback should find a cross-document hunk via content match
+        when the anchor registry cannot reach it and the sliding window
+        has already evicted it."""
+        # A distant heading hunk about "Lexical analysis"
+        distant_heading = _make_hunk(
+            content="2. Lexical analysis describes how tokens are formed.",
+            origin_id="memory://lexical_analysis.txt",
+            node_kind="md_heading",
+            structural_path="doc/h1_lexical_analysis",
+            heading_trail=["Lexical analysis"],
+        )
+        # Filler that pushes distant_heading out of the window
+        filler_one = _make_hunk(
+            content="filler one unrelated",
+            origin_id="memory://filler1.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p1",
+        )
+        filler_two = _make_hunk(
+            content="filler two unrelated",
+            origin_id="memory://filler2.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p2",
+        )
+        # An index item referencing lexical_analysis — no heading anchor
+        # to match on, so anchor registry alone won't reach distant_heading
+        index_item = _make_hunk(
+            content="* 2. Lexical analysis",
+            origin_id="memory://index.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_4",
+            normalized_cross_refs=["lexical_analysis"],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+
+            # Baseline: no FTS, no anchor — pair should NOT appear
+            baseline_nucleus = RecordingNucleus()
+            with GraphAssembler(
+                db_path,
+                baseline_nucleus,
+                window_size=2,
+                reference_candidate_limit=0,
+                fts_candidate_limit=0,
+            ) as assembler:
+                for hunk in [distant_heading, filler_one, filler_two, index_item]:
+                    assembler.ingest_one(hunk)
+
+            baseline_pairs = set(baseline_nucleus.pairs)
+            self.assertNotIn(
+                (distant_heading.occurrence_id, index_item.occurrence_id),
+                baseline_pairs,
+                "Baseline should NOT reach the distant heading without FTS or anchors",
+            )
+
+            # With FTS fallback enabled
+            fts_nucleus = RecordingNucleus()
+            db_path_fts = Path(tmp) / "cold_fts.db"
+            with GraphAssembler(
+                db_path_fts,
+                fts_nucleus,
+                window_size=2,
+                reference_candidate_limit=8,
+                fts_candidate_limit=8,
+                fts_fallback_thin_threshold=2,
+            ) as assembler:
+                for hunk in [distant_heading, filler_one, filler_two, index_item]:
+                    assembler.ingest_one(hunk)
+
+            fts_pairs = set(fts_nucleus.pairs)
+            self.assertIn(
+                (distant_heading.occurrence_id, index_item.occurrence_id),
+                fts_pairs,
+                "FTS fallback should recover the distant heading as a candidate",
+            )
+
+    def test_fts_fallback_does_not_duplicate_window_or_anchor_candidates(self):
+        """FTS should not re-add candidates already in the sliding window
+        or already selected by the anchor registry."""
+        heading_a = _make_hunk(
+            content="Lexical analysis overview paragraph",
+            origin_id="memory://lexical_analysis.txt",
+            node_kind="md_heading",
+            structural_path="doc/h1_lexical_analysis",
+            heading_trail=["Lexical analysis"],
+        )
+        # This hunk will be in the sliding window
+        window_hunk = _make_hunk(
+            content="Lexical analysis is the first phase of compilation.",
+            origin_id="memory://lexical_analysis.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_lexical_analysis/p1",
+        )
+        index_item = _make_hunk(
+            content="* Lexical analysis",
+            origin_id="memory://index.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_1",
+            normalized_cross_refs=["lexical_analysis"],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            nucleus = RecordingNucleus()
+            with GraphAssembler(
+                db_path,
+                nucleus,
+                window_size=10,  # Large enough that everything stays in window
+                reference_candidate_limit=8,
+                fts_candidate_limit=8,
+                fts_fallback_thin_threshold=99,  # Always fire FTS
+            ) as assembler:
+                for hunk in [heading_a, window_hunk, index_item]:
+                    assembler.ingest_one(hunk)
+
+            # Count how many times each pair appears
+            pair_counts = {}
+            for pair in nucleus.pairs:
+                pair_counts[pair] = pair_counts.get(pair, 0) + 1
+
+            # No pair should appear more than once
+            for pair, count in pair_counts.items():
+                self.assertEqual(
+                    count, 1,
+                    f"Pair {pair} appeared {count} times — FTS should not duplicate",
+                )
+
+    def test_fts_fallback_stays_off_when_limit_is_zero(self):
+        """When fts_candidate_limit=0, FTS fallback should never fire."""
+        distant = _make_hunk(
+            content="Execution model describes how programs run.",
+            origin_id="memory://execution_model.txt",
+            node_kind="md_heading",
+            structural_path="doc/h1_execution_model",
+            heading_trail=["Execution model"],
+        )
+        filler = _make_hunk(
+            content="filler",
+            origin_id="memory://filler.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p1",
+        )
+        index_item = _make_hunk(
+            content="* Execution model",
+            origin_id="memory://index.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_1",
+            normalized_cross_refs=["execution_model"],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            nucleus = RecordingNucleus()
+            with GraphAssembler(
+                db_path,
+                nucleus,
+                window_size=1,
+                reference_candidate_limit=0,
+                fts_candidate_limit=0,  # Explicitly disabled
+            ) as assembler:
+                for hunk in [distant, filler, index_item]:
+                    assembler.ingest_one(hunk)
+                stats = assembler.stats()
+
+            self.assertEqual(stats["fts_fallback_fires"], 0)
+            pairs = set(nucleus.pairs)
+            self.assertNotIn(
+                (distant.occurrence_id, index_item.occurrence_id),
+                pairs,
+            )
+
+    def test_fts_fallback_prefers_cross_document_hits(self):
+        """When both same-origin and cross-document FTS hits exist,
+        cross-document should fill the budget first."""
+        # Same-origin hunk — has matching content
+        same_origin = _make_hunk(
+            content="Data model structures and storage mechanisms",
+            origin_id="memory://index.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_data/p1",
+        )
+        # Cross-document hunk — also has matching content
+        cross_doc = _make_hunk(
+            content="Data model defines how objects are represented in memory.",
+            origin_id="memory://data_model.txt",
+            node_kind="md_heading",
+            structural_path="doc/h1_data_model",
+            heading_trail=["Data model"],
+        )
+        # Filler to push both out of window
+        filler_one = _make_hunk(
+            content="filler one unrelated material",
+            origin_id="memory://filler1.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p1",
+        )
+        filler_two = _make_hunk(
+            content="filler two unrelated material",
+            origin_id="memory://filler2.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p2",
+        )
+        # The incoming hunk that triggers FTS
+        query_hunk = _make_hunk(
+            content="* Data model",
+            origin_id="memory://index.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_5",
+            normalized_cross_refs=["data_model"],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            nucleus = RecordingNucleus()
+            with GraphAssembler(
+                db_path,
+                nucleus,
+                window_size=2,
+                reference_candidate_limit=8,
+                fts_candidate_limit=1,  # Budget = 1, forces preference
+                fts_fallback_thin_threshold=99,  # Always fire
+            ) as assembler:
+                for hunk in [same_origin, cross_doc, filler_one, filler_two, query_hunk]:
+                    assembler.ingest_one(hunk)
+
+            pairs = set(nucleus.pairs)
+            # Cross-doc hit should be selected
+            self.assertIn(
+                (cross_doc.occurrence_id, query_hunk.occurrence_id),
+                pairs,
+                "FTS should prefer the cross-document hit",
+            )
+
+
 if __name__ == "__main__":
     unittest.main()

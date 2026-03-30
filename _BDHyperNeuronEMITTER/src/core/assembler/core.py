@@ -59,6 +59,8 @@ No v1 counterpart — original for the v2 Relational Field Engine.
 from __future__ import annotations
 
 import logging
+import re
+import sqlite3
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -122,6 +124,8 @@ class GraphAssembler:
         window_size: int = 50,
         reference_candidate_limit: int = 0,
         anchor_common_term_threshold: int = _DEFAULT_ANCHOR_COMMON_TERM_THRESHOLD,
+        fts_candidate_limit: int = 0,
+        fts_fallback_thin_threshold: int = 2,
     ) -> None:
         from .sqlite_scribe import SqliteScribe
         self.scribe = SqliteScribe(db_path)
@@ -130,6 +134,8 @@ class GraphAssembler:
         self.window_size = window_size
         self.reference_candidate_limit = max(0, int(reference_candidate_limit))
         self.anchor_common_term_threshold = max(1, int(anchor_common_term_threshold))
+        self.fts_candidate_limit = max(0, int(fts_candidate_limit))
+        self.fts_fallback_thin_threshold = max(0, int(fts_fallback_thin_threshold))
 
         # Sliding buffer: list of ingested HyperHunks (most recent last)
         self._buffer: List[Any] = []
@@ -138,15 +144,27 @@ class GraphAssembler:
         self._disabled_anchor_terms: set[str] = set()
         self._ingest_seq: int = 0
 
+        # Ingest-run HyperHunk cache: occurrence_id → HyperHunk
+        self._occ_cache: Dict[str, Any] = {}
+
         # All Nucleus evaluations (for Phase 2 training export)
         self._training_pairs: List[Dict] = []
 
+        # FTS fallback instrumentation counters
+        self._fts_fallback_fires: int = 0
+        self._fts_raw_hits: int = 0
+        self._fts_selected: int = 0
+        self._fts_selected_cross_doc: int = 0
+
         log.info(
-            "GraphAssembler ready — db=%s window=%d reference_candidate_limit=%d anchor_common_term_threshold=%d",
+            "GraphAssembler ready — db=%s window=%d reference_candidate_limit=%d "
+            "anchor_common_term_threshold=%d fts_candidate_limit=%d fts_fallback_thin_threshold=%d",
             db_path,
             window_size,
             self.reference_candidate_limit,
             self.anchor_common_term_threshold,
+            self.fts_candidate_limit,
+            self.fts_fallback_thin_threshold,
         )
 
     # ── Public API ─────────────────────────────────────────────────────────
@@ -181,6 +199,10 @@ class GraphAssembler:
         """Return Cold Artifact row counts + training pair count."""
         counts = self.scribe.stats()
         counts["training_pairs"] = len(self._training_pairs)
+        counts["fts_fallback_fires"] = self._fts_fallback_fires
+        counts["fts_raw_hits"] = self._fts_raw_hits
+        counts["fts_selected"] = self._fts_selected
+        counts["fts_selected_cross_doc"] = self._fts_selected_cross_doc
         return counts
 
     def close(self) -> None:
@@ -198,11 +220,14 @@ class GraphAssembler:
     # ── Ingest internals ───────────────────────────────────────────────────
 
     def _ingest_one(self, hunk: Any) -> None:
+        # Step 0: Cache this hunk for FTS fallback resolution
+        self._occ_cache[hunk.occurrence_id] = hunk
+
         # Step 1: Embed if provider is available
         if self.embed_provider is not None:
             self._embed(hunk)
 
-        # Step 2: Upsert into Cold Artifact
+        # Step 2: Upsert into Cold Artifact (triggers FTS index update)
         self.scribe.upsert_hunk(hunk)
 
         # Step 3: Write inherent structural relations (pull, precedes only)
@@ -311,65 +336,214 @@ class GraphAssembler:
 
     def _candidate_hunks_for(self, hunk: Any) -> List[Any]:
         candidates: List[Any] = list(self._buffer)
-        if self.reference_candidate_limit <= 0:
+        if self.reference_candidate_limit <= 0 and self.fts_candidate_limit <= 0:
             return candidates
 
         seen = {candidate.occurrence_id for candidate in candidates}
-        token_order = self._anchor_query_tokens(hunk)
-        ranked: Dict[str, Dict[str, Any]] = {}
         current_origin = str(getattr(hunk, "origin_id", ""))
 
-        for token in token_order:
-            if token in self._disabled_anchor_terms:
-                continue
+        # ── Anchor-registry pass (unchanged) ──────────────────────────────
+        anchor_cross_doc_count = 0
+        targeted: List[Any] = []
 
-            token_count = self._anchor_term_counts.get(token, 0)
-            if token_count <= 0 or token_count > self.anchor_common_term_threshold:
-                continue
+        if self.reference_candidate_limit > 0:
+            token_order = self._anchor_query_tokens(hunk)
+            ranked: Dict[str, Dict[str, Any]] = {}
 
-            for record in reversed(self._anchor_registry.get(token, [])):
-                candidate = record.hunk
-                if candidate.occurrence_id in seen:
+            for token in token_order:
+                if token in self._disabled_anchor_terms:
                     continue
 
-                entry = ranked.setdefault(
-                    candidate.occurrence_id,
-                    {
-                        "hunk": candidate,
-                        "matched_tokens": set(),
-                        "best_weight": 0,
-                        "lowest_occurrence_count": token_count,
-                        "ingest_seq": record.ingest_seq,
-                        "cross_document": str(getattr(candidate, "origin_id", "")) != current_origin,
-                    },
-                )
-                entry["matched_tokens"].add(token)
-                entry["best_weight"] = max(entry["best_weight"], record.weight)
-                entry["lowest_occurrence_count"] = min(
-                    entry["lowest_occurrence_count"],
-                    token_count,
-                )
-                entry["ingest_seq"] = max(entry["ingest_seq"], record.ingest_seq)
+                token_count = self._anchor_term_counts.get(token, 0)
+                if token_count <= 0 or token_count > self.anchor_common_term_threshold:
+                    continue
 
-        ranked_candidates = sorted(
-            ranked.values(),
-            key=lambda item: (
-                -len(item["matched_tokens"]),
-                -(1 if item["cross_document"] else 0),
-                -item["best_weight"],
-                item["lowest_occurrence_count"],
-                -item["ingest_seq"],
-            ),
-        )
+                for record in reversed(self._anchor_registry.get(token, [])):
+                    candidate = record.hunk
+                    if candidate.occurrence_id in seen:
+                        continue
 
-        targeted = []
-        for entry in ranked_candidates[: self.reference_candidate_limit]:
-            candidate = entry["hunk"]
-            seen.add(candidate.occurrence_id)
-            targeted.append(candidate)
+                    entry = ranked.setdefault(
+                        candidate.occurrence_id,
+                        {
+                            "hunk": candidate,
+                            "matched_tokens": set(),
+                            "best_weight": 0,
+                            "lowest_occurrence_count": token_count,
+                            "ingest_seq": record.ingest_seq,
+                            "cross_document": str(getattr(candidate, "origin_id", "")) != current_origin,
+                        },
+                    )
+                    entry["matched_tokens"].add(token)
+                    entry["best_weight"] = max(entry["best_weight"], record.weight)
+                    entry["lowest_occurrence_count"] = min(
+                        entry["lowest_occurrence_count"],
+                        token_count,
+                    )
+                    entry["ingest_seq"] = max(entry["ingest_seq"], record.ingest_seq)
+
+            ranked_candidates = sorted(
+                ranked.values(),
+                key=lambda item: (
+                    -len(item["matched_tokens"]),
+                    -(1 if item["cross_document"] else 0),
+                    -item["best_weight"],
+                    item["lowest_occurrence_count"],
+                    -item["ingest_seq"],
+                ),
+            )
+
+            for entry in ranked_candidates[: self.reference_candidate_limit]:
+                candidate = entry["hunk"]
+                seen.add(candidate.occurrence_id)
+                targeted.append(candidate)
+                if entry["cross_document"]:
+                    anchor_cross_doc_count += 1
 
         candidates.extend(targeted)
+
+        # ── FTS fallback pass ─────────────────────────────────────────────
+        if (
+            self.fts_candidate_limit > 0
+            and anchor_cross_doc_count < self.fts_fallback_thin_threshold
+        ):
+            fts_candidates = self._fts_fallback_candidates(
+                hunk, seen, current_origin,
+            )
+            candidates.extend(fts_candidates)
+
         return candidates
+
+    # ── FTS fallback implementation ───────────────────────────────────────
+
+    def _fts_fallback_candidates(
+        self,
+        hunk: Any,
+        seen: set,
+        current_origin: str,
+    ) -> List[Any]:
+        """Query content_fts for additional long-range candidates.
+
+        Fires only when anchor recall is thin.  Returns at most
+        ``fts_candidate_limit`` cached HyperHunk objects, preferring
+        cross-document hits.
+        """
+        fts_query = self._build_fts_query(hunk)
+        if not fts_query:
+            return []
+
+        self._fts_fallback_fires += 1
+
+        # Query FTS — fetch more than we need so we can filter and rank
+        fetch_limit = self.fts_candidate_limit * 4 + 20
+        try:
+            hits = self.scribe.fts_hits(fts_query, top_k=fetch_limit)
+        except sqlite3.OperationalError as exc:
+            log.debug("FTS fallback query failed: %s (query=%r)", exc, fts_query)
+            return []
+
+        self._fts_raw_hits += len(hits)
+
+        # Filter: skip already-seen, skip self, resolve to cached hunks
+        cross_doc_hits: List[Any] = []
+        same_doc_hits: List[Any] = []
+
+        for hit in hits:
+            occ_id = hit.occurrence_id
+            if occ_id in seen:
+                continue
+            if occ_id == hunk.occurrence_id:
+                continue
+            cached = self._occ_cache.get(occ_id)
+            if cached is None:
+                continue  # Not in current ingest run — skip for v1
+            is_cross = str(hit.origin_id) != current_origin
+            if is_cross:
+                cross_doc_hits.append(cached)
+            else:
+                same_doc_hits.append(cached)
+
+        # Prefer cross-document, then same-document, up to limit
+        selected: List[Any] = []
+        for candidate in cross_doc_hits:
+            if len(selected) >= self.fts_candidate_limit:
+                break
+            seen.add(candidate.occurrence_id)
+            selected.append(candidate)
+
+        for candidate in same_doc_hits:
+            if len(selected) >= self.fts_candidate_limit:
+                break
+            seen.add(candidate.occurrence_id)
+            selected.append(candidate)
+
+        cross_doc_selected = sum(
+            1 for c in selected
+            if str(getattr(c, "origin_id", "")) != current_origin
+        )
+        self._fts_selected += len(selected)
+        self._fts_selected_cross_doc += cross_doc_selected
+
+        log.debug(
+            "FTS fallback: query=%r raw_hits=%d selected=%d cross_doc=%d",
+            fts_query, len(hits), len(selected), cross_doc_selected,
+        )
+        return selected
+
+    def _build_fts_query(self, hunk: Any) -> str:
+        """Build a small deterministic FTS5 query from the hunk's anchor signals.
+
+        Lexicalizes slug tokens (e.g. ``lexical_analysis`` → ``lexical analysis``)
+        so FTS5 can match against natural-language content.
+        """
+        terms: List[str] = []
+
+        # Normalized cross-refs → lexicalized
+        for ref in getattr(hunk, "normalized_cross_refs", []) or []:
+            lexicalized = self._lexicalize_slug(ref)
+            if lexicalized:
+                terms.append(lexicalized)
+
+        # Leaf heading from heading_trail → lexicalized
+        heading_trail = list(getattr(hunk, "heading_trail", []) or [])
+        if heading_trail:
+            lexicalized = self._lexicalize_slug(heading_trail[-1])
+            if lexicalized:
+                terms.append(lexicalized)
+
+        if not terms:
+            return ""
+
+        # Deduplicate while preserving order
+        seen_terms: set = set()
+        unique: List[str] = []
+        for t in terms:
+            low = t.lower()
+            if low not in seen_terms:
+                seen_terms.add(low)
+                unique.append(t)
+
+        # Join with OR for FTS5 — each term group is unquoted so FTS5
+        # matches any word within the term string
+        return " OR ".join(unique)
+
+    @staticmethod
+    def _lexicalize_slug(value: str) -> str:
+        """Convert a slug token like ``lexical_analysis`` into ``lexical analysis``.
+
+        Returns empty string for values that are too short to be useful.
+        """
+        if not value:
+            return ""
+        # Replace underscores and path separators with spaces
+        text = re.sub(r"[_/\\]+", " ", str(value).strip()).strip()
+        # Remove non-alphanumeric/space chars
+        text = re.sub(r"[^a-zA-Z0-9 ]", "", text).strip()
+        # Collapse whitespace
+        text = re.sub(r"\s+", " ", text)
+        if len(text) < 4:
+            return ""
+        return text
 
     def _index_hunk(self, hunk: Any) -> None:
         for record in self._anchor_records_for_registration(hunk):

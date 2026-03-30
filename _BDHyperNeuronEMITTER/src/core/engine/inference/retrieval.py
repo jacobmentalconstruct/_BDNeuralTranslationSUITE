@@ -29,6 +29,8 @@ import struct
 from pathlib import Path
 from typing import List, NamedTuple, Optional
 
+from ...content_fts import search_content_fts
+
 # ── Types ─────────────────────────────────────────────────────────────
 
 class AnchorResult(NamedTuple):
@@ -69,28 +71,16 @@ def fts_search(
     Returns up to ``top_k`` occurrence anchors ranked by BM25 relevance.
     Each unique hunk_id may appear multiple times (once per occurrence).
     """
-    rows = conn.execute(
-        """SELECT o.occurrence_id, o.hunk_id, fts.rank,
-                  o.origin_id, c.node_kind, c.content
-           FROM content_fts fts
-           JOIN content_nodes c ON c.rowid = fts.rowid
-           JOIN occurrence_nodes o ON o.hunk_id = c.hunk_id
-           WHERE content_fts MATCH ?
-           ORDER BY fts.rank
-           LIMIT ?""",
-        (query, top_k),
-    ).fetchall()
-
     return [
         AnchorResult(
-            occurrence_id=r[0],
-            hunk_id=r[1],
-            score=float(r[2]),
-            origin_id=r[3],
-            node_kind=r[4],
-            content_snippet=r[5][:120],
+            occurrence_id=hit.occurrence_id,
+            hunk_id=hit.hunk_id,
+            score=hit.score,
+            origin_id=hit.origin_id,
+            node_kind=hit.node_kind,
+            content_snippet=hit.content_snippet,
         )
-        for r in rows
+        for hit in search_content_fts(conn, query, top_k=top_k)
     ]
 
 

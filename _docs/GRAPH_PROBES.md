@@ -1044,6 +1044,72 @@ Interpretation:
 
 ---
 
+## Probe 014 — FTS Cheap-Fetch Fallback v1 (Cheap, But No Pull Lift)
+
+**Date:** 2026-03-30
+
+Profiles used:
+- Splitter:
+  - `_BDHyperNodeSPLITTER/_docs/signal_profiles/python_reference_list_index_v1.json`
+- Bootstrap:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_prose_tuning.json`
+
+Targeted change:
+- added a native ingest-time SQLite FTS fallback behind the anchor-registry path in `GraphAssembler`
+- fallback hits resolve back to cached HyperHunk objects and still go through the same Bootstrap Nucleus final gate
+- kept the same Phase 1 envelope:
+  - `window_size = 50`
+  - `reference_candidate_limit = 24`
+  - `fts_candidate_limit = 24`
+  - `fts_fallback_thin_threshold = 2`
+
+Artifacts:
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\cold_anatomy_reference_probe_014_fts_fallback_v1_run2.db`
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\training_pairs_reference_probe_014_fts_fallback_v1_run2.json`
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\bootstrap_profile_effective.json`
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\splitter_signal_profile_effective.json`
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\graph_probe_report_reference_probe_014_fts_fallback_v1_run2.json`
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\probe_run.log`
+- `E:\_UsefulRECORDS\projects\BDNeuralTranslationSUITE\probe_artifacts\reference_probe_014_fts_fallback_v1_run2\probe_meta.json`
+
+Top-line results:
+- `content_nodes = 1256`
+- `occurrence_nodes = 1275`
+- `relations = 17457`
+- `cross-document nucleus pull edges = 115`
+- `above-threshold training pairs = 16028`
+- `training pairs total = 63155`
+- `fts_fallback_fires = 1275`
+- `fts_raw_hits = 975`
+- `fts_selected = 572`
+- `fts_selected_cross_doc = 548`
+
+Comparison read:
+- relative to Probe 013:
+  - cross-document pull is unchanged at `115`
+  - relation volume rises only slightly (`17457` vs `17428`)
+  - above-threshold training pairs rise only slightly (`16028` vs `15999`)
+  - total pair volume stays almost flat (`63155` vs `62583`)
+- relative to Probe 011:
+  - cross-document pull is still far below the wide-window high-water mark (`1175`)
+  - pair volume remains far below the Probe 011 explosion (`63155` vs `234900`)
+
+Interpretation:
+- the v1 FTS lane is cheap enough to keep studying:
+  - it did not recreate the Probe 011 pair explosion
+  - it did recover and select real cross-document fallback candidates
+- but the current trigger/query/ranking shape is not converting that recall into actual new nucleus-pull lift
+- the fallback is too broad in one sense and too weak in another:
+  - it fired for every hunk on this footing
+  - yet the headline cross-document pull metric stayed flat
+- the next likely move is no longer "add FTS fallback"
+- the next likely move is to explain why FTS fallback v1 is not converting:
+  - tighten when it fires
+  - improve deterministic query lexicalization/ranking
+  - and check whether the scorer is rejecting the recovered pairs for predictable reasons
+
+---
+
 ## Query Experiment 001 — Anisotropic Blur Lens
 
 **Date:** 2026-03-30

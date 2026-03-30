@@ -516,6 +516,44 @@ Journal entry: pending mirror
   - but it did not lift the `115` cross-document plateau reached by Probes 010 and 012
   - this points to the next likely move being a deterministic cheap-fetch fallback, probably reusing SQLite FTS when anchor recall is too sparse
 
+## 2026-03-30 — Native FTS fallback v1 + Probe 014
+
+Journal entry: pending mirror
+
+- Added a native SQLite FTS cheap-fetch fallback behind the Emitter's anchor-registry path.
+- Kept it Phase-1-native rather than introducing a new subsystem:
+  - reused the existing SQLite FTS surface
+  - kept HyperHunk objects as the scorer contract
+  - resolved FTS hits back through an ingest-run occurrence cache
+  - kept Bootstrap Nucleus as the final gate
+- Added new emitter knobs:
+  - `emit --fts-candidate-limit <N>`
+  - `emit --fts-fallback-thin-threshold <N>`
+- Cleaned the boundary after the first patch:
+  - removed raw duplicated FTS SQL from `core.py`
+  - introduced a narrow shared FTS helper/seam for both assembler-side and retrieval-side lookup
+- Ran `reference_probe_014_fts_fallback_v1_run2` on the same Python-reference footing as Probe 013:
+  - Splitter profile: `python_reference_list_index_v1.json`
+  - Bootstrap profile: `python_reference_prose_tuning.json`
+  - `window_size = 50`
+  - `reference_candidate_limit = 24`
+  - `fts_candidate_limit = 24`
+  - `fts_fallback_thin_threshold = 2`
+- Probe 014 results:
+  - `relations = 17457`
+  - `cross-document nucleus pull edges = 115`
+  - `above-threshold training pairs = 16028`
+  - `training pairs total = 63155`
+  - `fts_fallback_fires = 1275`
+  - `fts_raw_hits = 975`
+  - `fts_selected = 572`
+  - `fts_selected_cross_doc = 548`
+- Current interpretation:
+  - the FTS fallback is cheap enough to keep studying
+  - but v1 did not improve the `115` cross-document plateau
+  - so the next problem is no longer "add cheap fetch"
+  - the next problem is "explain why cheap fetch is not converting into new pull edges"
+
 ## 2026-03-30 — Anisotropic blur experiment 001
 
 Journal entry: pending mirror

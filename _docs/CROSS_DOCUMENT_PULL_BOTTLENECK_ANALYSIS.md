@@ -6,12 +6,19 @@ _Last updated: 2026-03-30. This is the focused analysis note for the main unreso
 
 ## Executive Summary
 
-The current blocker is **not** that the graph lacks useful signal. The blocker is that the Emitter still lacks a cheap, high-recall way to bring the right distant candidates into comparison.
+The current blocker is **not** that the graph lacks useful signal. The blocker is now more specific than that.
+
+The Emitter needed a cheap, high-recall way to bring the right distant candidates into comparison.
+
+Probe 014 added that native cheap-fetch lane.
+
+But cheap-fetch v1 still did **not** improve the headline cross-document pull metric.
 
 In plain terms:
 - if the comparison window stays small, many good long-range pairs are never scored
 - if the comparison window gets widened too far, pair counts explode
 - current targeted recall works mechanically, but still does not recover enough of the wide-window gain
+- current native FTS fallback also works mechanically, but still does not convert recovered candidates into more cross-document pull
 
 So the project is now fighting a **long-range candidate recall problem under cost constraints**, not a vague “semantic weakness” problem.
 
@@ -92,6 +99,26 @@ Interpretation:
 - but anchor-only recall is still too narrow
 - it did not move the `115` plateau
 
+## Probe 014 — Native FTS Cheap-Fetch Fallback v1
+
+Key results:
+- `relations = 17457`
+- `cross-document pull = 115`
+- `training pairs total = 63155`
+- `above-threshold training pairs = 16028`
+- `fts_fallback_fires = 1275`
+- `fts_raw_hits = 975`
+- `fts_selected = 572`
+- `fts_selected_cross_doc = 548`
+
+Interpretation:
+- the native FTS lane is real and active
+- it stayed cheap relative to Probe 011
+- it recovered and selected many cross-document fallback candidates
+- but none of that changed the headline `115` cross-document pull plateau
+- so the bottleneck is no longer only "missing cheap fetch"
+- the bottleneck is now also "why cheap-fetch v1 is not converting into scored pull lift"
+
 ## What This Means
 
 Together, these probes prove:
@@ -99,6 +126,7 @@ Together, these probes prove:
 - the current default comparison scope misses too much of it
 - selective recall is possible
 - but current targeted recall is not yet broad enough
+- and cheap-fetch v1, while cheap, is not yet converting recovered breadth into actual pull improvement
 
 ---
 
@@ -121,7 +149,7 @@ These things are important, but they are **not** the primary blocker right now:
   - but it is diagnostic, not the missing retrieval fix
 
 So the main issue is narrower and more concrete than it might appear:
-the graph needs better **cheap long-range candidate recall**.
+the graph needs better **cheap long-range candidate recall that actually converts into scored cross-document relations**.
 
 ---
 
@@ -143,13 +171,41 @@ The current registry mainly exploits:
 
 That helps, but it does not cast a broad enough recall net for all useful long-range pairs.
 
-## 3. Pair explosion under brute force
+## 3. Cheap-fetch v1 is not converting
+
+Probe 014 changed the diagnosis.
+
+Before Probe 014, the likely next fix was:
+- add a deterministic cheap-fetch fallback
+
+After Probe 014, we know:
+- the fallback can be added natively
+- it can remain Phase-1-compatible
+- it can recover cross-document candidates
+- it can stay far below Probe 011 cost
+- and it still may fail to improve the graph if those recovered candidates are too weak, too noisy, too broad, or badly timed
+
+The sharpest warning signs from Probe 014 were:
+- `fts_fallback_fires = 1275`
+  - it fired for every hunk on this footing
+- `fts_selected_cross_doc = 548`
+  - it really did recover cross-document candidates
+- `cross-document pull = 115`
+  - the headline pull metric did not move at all
+
+That strongly suggests at least one of these is true:
+- the fallback trigger rule is too broad
+- the deterministic FTS query lexicalization is too weak or too noisy
+- the fallback ranking is not surfacing the right distant targets
+- the Bootstrap Nucleus is rejecting most recovered pairs for stable reasons
+
+## 4. Pair explosion under brute force
 
 Wide-window recovery proves the signal exists, but the pair count becomes too expensive.
 
 That means the stable solution must improve recall **without** approaching Probe 011 cost behavior.
 
-## 4. Dense local hubs can hijack softer field views
+## 5. Dense local hubs can hijack softer field views
 
 The blur experiment showed that dense local neighborhoods, especially index-heavy ones, can dominate soft spread.
 
@@ -169,18 +225,24 @@ That is why:
 - small windows underperform
 - large windows overpay
 - anchor-only recall plateaus
+- and cheap-fetch v1 still fails to convert candidate recovery into actual pull lift
 
 ---
 
 ## Likely Next Move
+
+The next likely experiment is **not** "add FTS fallback." That has now been done.
 
 The next likely experiment is:
 
 - keep the current sliding window
 - keep the heavy scorer as the final gate
 - keep the anchor-registry path
-- add a **deterministic cheap-fetch fallback** when anchor recall is thin
-- prefer reusing current SQLite / FTS infrastructure instead of inventing a large new subsystem
+- keep the native SQLite FTS fallback path
+- tighten when the fallback fires so it is not effectively universal on this corpus
+- improve deterministic query lexicalization and ranking
+- inspect scorer rejection patterns on recovered fallback pairs
+- keep reusing the current SQLite / FTS infrastructure instead of inventing a large new subsystem
 
 This is the most responsible next step because it targets the actual bottleneck while keeping the Phase 1 scaffold stable.
 
@@ -210,10 +272,16 @@ The next recall-focused tranche should be judged against these realities:
 2. **Pair cost must stay far below Probe 011**
 - otherwise we are just recreating the wide-window brute-force path
 
-3. **The bag should become more source-diverse and evidentially useful**
+3. **Cheap-fetch should not fire blindly on every hunk**
+- otherwise the fallback is too broad to be interpretable
+
+4. **Recovered fallback candidates must convert into actual scored wins**
+- otherwise recall breadth is being recovered but not operationalized
+
+5. **The bag should become more source-diverse and evidentially useful**
 - especially on the Python reference bottleneck case
 
-4. **The fix should remain Phase-1-compatible**
+6. **The fix should remain Phase-1-compatible**
 - deterministic
 - inspectable
 - measurable
@@ -223,8 +291,8 @@ The next recall-focused tranche should be judged against these realities:
 
 ## Read This With
 
-- [`WE_ARE_HERE_NOW.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\WE_ARE_HERE_NOW.md)
-- [`GRAPH_PROBES.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\GRAPH_PROBES.md)
-- [`QUERY_EXPERIMENTS.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\QUERY_EXPERIMENTS.md)
+- [`WE_ARE_HERE_NOW.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\WE_ARE_HERE_NOW.md)
+- [`GRAPH_PROBES.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\GRAPH_PROBES.md)
+- [`QUERY_EXPERIMENTS.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\QUERY_EXPERIMENTS.md)
 
 If a new conversation understands this file clearly, it should be able to discuss the current bottleneck accurately without immediately drifting into Phase 2 or abstract redesign.

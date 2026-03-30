@@ -8,9 +8,9 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 
 ## Fresh-thread start
 
-- If this is a brand new conversation, read [`ANY_NEW_CONVO_READ_THIS_FIRST.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\ANY_NEW_CONVO_READ_THIS_FIRST.md) before proposing new work.
+- If this is a brand new conversation, read [`ANY_NEW_CONVO_READ_THIS_FIRST.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\ANY_NEW_CONVO_READ_THIS_FIRST.md) before proposing new work.
 - Then use this file as the fast state checkpoint.
-- If the work is specifically about the cross-document recall bottleneck, also read [`CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md) immediately after.
+- If the work is specifically about the cross-document recall bottleneck, also read [`CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md) immediately after.
 
 ## Current footing
 
@@ -23,6 +23,7 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - We now have first non-Python pilot corpus baselines across text-heavy and mixed project material.
 - The Emitter now supports a parallel traditional embedder lane beside the deterministic semantic path.
 - A builder-side anisotropic blur lens now exists for query-neighborhood experiments over existing Cold Artifact DBs.
+- The Emitter now has a native SQLite FTS fallback lane for ingest-time candidate recall experiments.
 
 ## Broad tuning read
 
@@ -67,6 +68,10 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - upgraded the long-range candidate path into a deterministic occurrence-level anchor registry
   - proved anchor ranking/common-term suppression changes behavior
   - but did not improve the `115` cross-document pull plateau on the Python reference list/index footing
+- Probe 014:
+  - added a native SQLite FTS cheap-fetch fallback behind the anchor-registry path
+  - proved the fallback stays cheap on the Probe 013 footing (`63155` total pairs vs `62583`)
+  - but did not improve the `115` cross-document pull plateau even though it selected `548` cross-document fallback candidates
 - Query experiment 001:
   - proved a builder-side anisotropic blur lens can be run safely over existing graph probes
   - showed the blur lens exposes neighborhood/topology information that the bag does not
@@ -94,6 +99,7 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 - semantic comparison against a traditional embedder is not yet wired into the bag workflow
 - only one traditional sentence model has been compared so far (`sentence-transformers/all-MiniLM-L6-v2`)
 - long-range candidate recall is still unresolved beyond anchor-bearing hunks
+- long-range candidate recall is still unresolved even after anchor + FTS fallback v1
 - the blur lens is informative, but not yet a trustworthy runtime retrieval surface
 
 ### Practical meaning
@@ -277,6 +283,28 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
   - but it did **not** recover the Probe 011 wide-window gain
   - this means anchor-only recall is still too narrow for the next lift
   - the likely next step is a deterministic cheap-fetch fallback, probably by reusing SQLite FTS when anchor recall returns too little signal
+- Added a native SQLite FTS fallback lane to the Emitter:
+  - `emit --fts-candidate-limit <N>`
+  - `emit --fts-fallback-thin-threshold <N>`
+  - shared FTS lookup now goes through a narrow local seam instead of raw SQL duplication in the assembler
+- Ran `reference_probe_014_fts_fallback_v1_run2` against the same Python-reference footing:
+  - Splitter profile: `python_reference_list_index_v1.json`
+  - Bootstrap profile: `python_reference_prose_tuning.json`
+  - `window_size = 50`
+  - `reference_candidate_limit = 24`
+  - `fts_candidate_limit = 24`
+  - `fts_fallback_thin_threshold = 2`
+- Probe 014 results:
+  - `relations = 17457`
+  - `cross-document nucleus pull edges = 115`
+  - `above-threshold training pairs = 16028`
+  - `training pairs total = 63155`
+  - `fts_selected_cross_doc = 548`
+- Interpretation:
+  - the FTS fallback is cheap enough to keep studying
+  - but v1 did **not** convert selected fallback recall into actual new cross-document pull
+  - the next likely move is to explain why the fallback is not converting:
+    tighten trigger rules, improve deterministic FTS query lexicalization/ranking, and inspect scorer rejection patterns on recovered pairs
 - Added builder-side query experiment tool:
   - `.dev-tools/final-tools/tools/anisotropic_blur_probe.py`
 - Anisotropic blur experiment 001 on `reference_probe_013_anchor_registry_v1` with query `"lexical analysis"`:
@@ -295,7 +323,7 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 
 ## What to do next
 
-Next tranche: **semantic comparison refinement + bag contract refinement**
+Next tranche: **targeted recall refinement + bag contract refinement**
 
 1. Choose the next targeted change:
   - add a deterministic cheap-fetch fallback behind the new anchor registry and compare it against the current `115` plateau, or

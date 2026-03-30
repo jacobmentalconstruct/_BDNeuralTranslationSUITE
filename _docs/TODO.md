@@ -88,13 +88,23 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 - [x] Replace the simple long-range token index with a ranked occurrence-level anchor registry
 - [x] Add anchor-registry tests for stronger-anchor preference and common-term suppression
 - [x] Run Probe 013 against the same Python-reference list/index footing after the anchor-registry upgrade
-- [ ] Decide whether the next targeted recall move is:
-  - broaden anchor-query surfaces beyond heading/index hunks, or
-  - add a deterministic FTS cheap-fetch fallback when anchor recall returns too little signal
+- [x] Add a deterministic FTS cheap-fetch fallback when anchor recall returns too little signal
+- [x] Run Probe 014 against the same Python-reference list/index footing after the FTS fallback landed
+- [ ] Decide why Probe 014 stayed flat on the headline metric:
+  - `cross-document pull = 115` unchanged
+  - even though `fts_selected_cross_doc = 548`
 - [ ] Keep an eye on the new Probe 013 tradeoff:
   - `relations = 17428` vs Probe 012 `19602`
   - `cross-document pull = 115` unchanged
   - this means the anchor registry is more selective, but not yet more cross-document effective
+- [ ] Keep an eye on the new Probe 014 tradeoff:
+  - `relations = 17457` vs Probe 013 `17428`
+  - `training pairs = 63155` vs Probe 013 `62583`
+  - `cross-document pull = 115` unchanged
+  - this means cheap-fetch v1 stayed cheap, but did not convert into better pull
+- [ ] Decide whether the next targeted recall move is:
+  - tighten the FTS fallback trigger/query/ranking so it fires only on signal-bearing hunks and retrieves better targets, or
+  - broaden deterministic anchor/query surfaces beyond the current heading/index footing before fallback
 - [ ] Do not promote the list/index profile to the new baseline unless it can recover cross-document pull, not just local relation volume
 - [x] Expose a builder-side `artifact_root` for probe bundles so large `training_pairs_*.json` exports can be written to a larger storage drive
 - [x] Add a single user-set builder-artifact home policy via `.dev-tools/final-tools/builder_settings.local.json`
