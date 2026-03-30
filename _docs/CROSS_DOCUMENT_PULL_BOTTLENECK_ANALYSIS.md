@@ -1,0 +1,230 @@
+# Cross-Document Pull Bottleneck Analysis
+
+_Last updated: 2026-03-30. This is the focused analysis note for the main unresolved Phase 1 bottleneck._
+
+---
+
+## Executive Summary
+
+The current blocker is **not** that the graph lacks useful signal. The blocker is that the Emitter still lacks a cheap, high-recall way to bring the right distant candidates into comparison.
+
+In plain terms:
+- if the comparison window stays small, many good long-range pairs are never scored
+- if the comparison window gets widened too far, pair counts explode
+- current targeted recall works mechanically, but still does not recover enough of the wide-window gain
+
+So the project is now fighting a **long-range candidate recall problem under cost constraints**, not a vague “semantic weakness” problem.
+
+---
+
+## The Actual Issue
+
+During ingest, each new hunk is compared against:
+- a recent sliding buffer
+- plus any targeted long-range candidates surfaced by the current recall path
+
+If a useful cross-document target is too far back in the ingest stream and is **not** explicitly pulled into comparison, then:
+- no pair is scored
+- no edge is created
+- no cross-document pull is recorded
+
+This means the graph can contain enough information to support a good long-range relation in theory, while still failing to express that relation in practice because the pair was never evaluated.
+
+---
+
+## Why This Is A Problem
+
+This bottleneck matters for four reasons:
+
+1. **Graph quality**
+- the graph under-represents real long-range relationships
+- index-to-target, section-to-section, and cross-document evidence stays artificially weak
+
+2. **Bag quality**
+- the bag can only surface evidence that actually exists in the graph or local retrieval neighborhood
+- weaker cross-document pull means weaker evidence diversity
+
+3. **Probe interpretation**
+- without fixing recall, we risk misreading the system as signal-poor when it is actually comparison-poor
+
+4. **Phase 2 risk**
+- an FFN trained too early would learn from incomplete interaction data
+- that would teach around Phase 1 scaffold defects instead of learning a trustworthy relation substrate
+
+---
+
+## What The Probes Have Proven
+
+## Probe 011 — Wide Window Recovery
+
+Key result:
+- `cross-document pull = 1175`
+
+Interpretation:
+- the signal is there
+- wider comparison recovers it
+
+Cost:
+- `training pairs total = 234900`
+
+Meaning:
+- brute-force recall works
+- but the cost shape is too expensive to promote as the stable baseline
+
+## Probe 012 — Targeted Candidate Recall v1
+
+Key result:
+- `cross-document pull = 115`
+
+Interpretation:
+- targeted long-range comparison works mechanically
+- but recall v1 is far too weak to recover the Probe 011 gain
+
+## Probe 013 — Anchor Registry v1
+
+Key results:
+- `relations = 17428`
+- `cross-document pull = 115`
+- `training pairs total = 62583`
+
+Interpretation:
+- anchor ranking and common-term suppression made the long-range path more selective
+- but anchor-only recall is still too narrow
+- it did not move the `115` plateau
+
+## What This Means
+
+Together, these probes prove:
+- the system has real long-range signal
+- the current default comparison scope misses too much of it
+- selective recall is possible
+- but current targeted recall is not yet broad enough
+
+---
+
+## What Is Not The Main Problem
+
+These things are important, but they are **not** the primary blocker right now:
+
+- lack of any semantic lane at all
+  - deterministic semantics are running again
+  - and currently outperform the first traditional sentence embedder we tested
+
+- lack of explicit signal entirely
+  - list/index work proved a real explicit signal lane exists
+
+- lack of a usable evidence surface
+  - the rudimentary bag already works
+
+- lack of a builder-side neighborhood lens
+  - the anisotropic blur experiment exists
+  - but it is diagnostic, not the missing retrieval fix
+
+So the main issue is narrower and more concrete than it might appear:
+the graph needs better **cheap long-range candidate recall**.
+
+---
+
+## The Current Limiting Factors
+
+## 1. Sliding-window clipping
+
+The default comparison scope is still too local.
+
+Effect:
+- many distant but relevant hunks are never compared
+
+## 2. Anchor-only recall is too narrow
+
+The current registry mainly exploits:
+- heading-style anchors
+- normalized list/index targets
+- related explicit reference signals
+
+That helps, but it does not cast a broad enough recall net for all useful long-range pairs.
+
+## 3. Pair explosion under brute force
+
+Wide-window recovery proves the signal exists, but the pair count becomes too expensive.
+
+That means the stable solution must improve recall **without** approaching Probe 011 cost behavior.
+
+## 4. Dense local hubs can hijack softer field views
+
+The blur experiment showed that dense local neighborhoods, especially index-heavy ones, can dominate soft spread.
+
+Meaning:
+- softer field lenses can be informative
+- but they are not yet safe replacements for candidate selection
+
+---
+
+## The Best Current Read
+
+The problem is now best described like this:
+
+The system has crossed the threshold where better cross-document relations are possible, but it still lacks a robust low-cost mechanism for proposing the right distant candidates before the heavy scorer runs.
+
+That is why:
+- small windows underperform
+- large windows overpay
+- anchor-only recall plateaus
+
+---
+
+## Likely Next Move
+
+The next likely experiment is:
+
+- keep the current sliding window
+- keep the heavy scorer as the final gate
+- keep the anchor-registry path
+- add a **deterministic cheap-fetch fallback** when anchor recall is thin
+- prefer reusing current SQLite / FTS infrastructure instead of inventing a large new subsystem
+
+This is the most responsible next step because it targets the actual bottleneck while keeping the Phase 1 scaffold stable.
+
+---
+
+## What Not To Confuse With The Fix
+
+Do not treat these as the immediate solution:
+
+- FFN / Phase 2 work
+- runtime anisotropic blur integration
+- broad UI work
+- giant ontology rewrite
+- broad app-platform integration
+
+Those may matter later, but they do not directly solve the current comparison-recall bottleneck.
+
+---
+
+## Success Criteria For The Next Recall Experiment
+
+The next recall-focused tranche should be judged against these realities:
+
+1. **Cross-document pull must rise materially above `115`**
+- otherwise recall is still too weak
+
+2. **Pair cost must stay far below Probe 011**
+- otherwise we are just recreating the wide-window brute-force path
+
+3. **The bag should become more source-diverse and evidentially useful**
+- especially on the Python reference bottleneck case
+
+4. **The fix should remain Phase-1-compatible**
+- deterministic
+- inspectable
+- measurable
+- no major architecture rewrite
+
+---
+
+## Read This With
+
+- [`WE_ARE_HERE_NOW.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\WE_ARE_HERE_NOW.md)
+- [`GRAPH_PROBES.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\GRAPH_PROBES.md)
+- [`QUERY_EXPERIMENTS.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\QUERY_EXPERIMENTS.md)
+
+If a new conversation understands this file clearly, it should be able to discuss the current bottleneck accurately without immediately drifting into Phase 2 or abstract redesign.

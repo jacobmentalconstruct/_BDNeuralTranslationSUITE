@@ -1,0 +1,359 @@
+# WE_ARE_HERE_NOW
+
+_Overwrite this file at each small milestone. It is the fastest crash-recovery / cold-start note in the project._
+
+## Last updated
+
+2026-03-30
+
+## Fresh-thread start
+
+- If this is a brand new conversation, read [`ANY_NEW_CONVO_READ_THIS_FIRST.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\ANY_NEW_CONVO_READ_THIS_FIRST.md) before proposing new work.
+- Then use this file as the fast state checkpoint.
+- If the work is specifically about the cross-document recall bottleneck, also read [`CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md`](C:\Users\jacob\Documents\_UsefulAgenticBuilderSANDBOX\Claude-Code\_BDNeuralTranslationSUITE\_docs\CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md) immediately after.
+
+## Current footing
+
+- The repo root is now the active portable project root.
+- A root new-conversation onboarding guide now exists.
+- Phase 1 baseline is real and runnable.
+- Splitter and Emitter are both live enough to continue development.
+- Bootstrap Nucleus is the active scorer.
+- A rudimentary bag seam now exists through the Emitter CLI.
+- We now have first non-Python pilot corpus baselines across text-heavy and mixed project material.
+- The Emitter now supports a parallel traditional embedder lane beside the deterministic semantic path.
+- A builder-side anisotropic blur lens now exists for query-neighborhood experiments over existing Cold Artifact DBs.
+
+## Broad tuning read
+
+- We are past “does this idea work at all?” and into “which concrete constraints are still warping it?”
+- The tuning phase is productive because it is isolating real bottlenecks instead of generating vague theory.
+- The project is healthy:
+  - the Splitter is producing meaningful multi-surface units
+  - the Emitter is producing measurable graph behavior
+  - the probe loop is visible, repeatable, and durable
+- The most important shift is that we can now distinguish between:
+  - bad signal
+  - bad scorer math
+  - bad comparison scope
+  - and genuinely useful new signal lanes
+
+## What tuning has already taught us
+
+- Probe 001:
+  - architecture works loosely
+  - but graph behavior was grammar-collapsed
+- Probe 002:
+  - proved the collapse was a bootstrap-math problem
+- Probe 003/004:
+  - gave us a stable working Phase 1 baseline
+- Probe 007:
+  - showed sparse explicit refs alone were not enough
+- Probe 010:
+  - proved list/index representation creates a real new explicit signal lane
+- Probe 011:
+  - proved the Emitter comparison window was a major hidden limiter
+- Probe 012:
+  - proved targeted long-range comparison is viable
+  - but candidate-selection v1 is still too weak to replace the wider-window gain
+- Pilot corpus probe set 001:
+  - proved the current pipeline can ingest real local text/project slices beyond the Python-reference harness
+  - proved the rudimentary bag is already useful on both prose-heavy and mixed code/doc graphs
+- Embedder comparison baseline 001:
+  - proved the deterministic semantic lane is now runnable again
+  - proved a cached sentence-transformer lane can be compared on the same bag workflow
+  - on the current corpora, deterministic is outperforming the sentence model on cross-document pull and evidence usefulness
+- Probe 013:
+  - upgraded the long-range candidate path into a deterministic occurrence-level anchor registry
+  - proved anchor ranking/common-term suppression changes behavior
+  - but did not improve the `115` cross-document pull plateau on the Python reference list/index footing
+- Query experiment 001:
+  - proved a builder-side anisotropic blur lens can be run safely over existing graph probes
+  - showed the blur lens exposes neighborhood/topology information that the bag does not
+  - also showed the blur is currently easier to hijack by dense local hubs than the bag
+
+## Phase 2 readiness read
+
+We are approaching Phase 2 readiness structurally, but not yet behaviorally.
+
+### Structurally ready enough
+
+- pipeline exists
+- contracts exist
+- probe/report loop exists
+- builder-side visibility exists
+- docs and onboarding are now strong enough for cold restart
+
+### Not yet behaviorally ready enough
+
+- candidate selection / comparison scope is still unsettled
+- the current bootstrap is still doing too much compensating for unresolved Phase 1 constraints
+- we do not yet have a disciplined “training data we trust” checkpoint
+- semantic is still not fully alive as an active lane in the working probes
+- the bag exists only as a first CLI evidence surface, not yet as the full STM-facing membrane
+- semantic comparison against a traditional embedder is not yet wired into the bag workflow
+- only one traditional sentence model has been compared so far (`sentence-transformers/all-MiniLM-L6-v2`)
+- long-range candidate recall is still unresolved beyond anchor-bearing hunks
+- the blur lens is informative, but not yet a trustworthy runtime retrieval surface
+
+### Practical meaning
+
+- We should not jump to FFN yet.
+- One more tranche of scorer/comparison-path refinement is the responsible move.
+- If we moved to Phase 2 right now, we would risk teaching the FFN around unresolved scaffold defects instead of teaching it from a trustworthy interaction substrate.
+
+## What we just finished
+
+- Re-centered the project after the old `final/` move-up.
+- Verified the App Journal install and launcher path.
+- Cleaned major runtime seams in Splitter and Emitter.
+- Fixed Emitter UI lifecycle/thread handling so worker-thread UI updates are queued safely onto the main Tk thread.
+- Wrote root architecture and recovery docs so the project can survive interruption cleanly.
+- Started Splitter corpus hardening with the first recorded corpus baseline.
+- Fixed blank fallback provenance (`extraction_engine`) and taught PEG to claim structured reST-style `.txt` reference docs.
+- Fixed an NL parsing seam where indented literal blocks in `grammar.txt` were being mistaken for headings.
+- Ran the first full Splitter → Emitter probe on the Python reference corpus and confirmed the graph is reacting to the stronger NL path.
+- Turned the graph-probe pass into a repeatable measurement loop with a saved JSON report artifact and builder-side reporter tool.
+- Inspected the bootstrap nucleus and confirmed the prose-heavy `grammatical_dominant` skew comes from coarse prose node-kind matching plus fixed Phase 1 weights.
+- Ran Probe 002 after a first de-bias pass and confirmed the skew is reducible, but the first pass overcorrected and starved relation volume.
+- Shipped builder-facing bootstrap scaffold dials through the Emitter CLI plus JSON profile loading.
+- Added emitter-local tests for scaffold config validation and behavior.
+- Verified default-config regression against Probe 002 and saved effective bootstrap profiles beside probe artifacts.
+- Ran Probe 003 with the tracked starter profile and recovered graph volume substantially without returning to grammar collapse.
+- Added a builder-only probe monitor under `.dev-tools/final-tools/tools/probe_monitor.py`.
+- Verified the monitor writes live `probe_events.jsonl` and `probe_run.log` artifacts under `_docs/_analysis/<probe>/`.
+- Added an optional tiny builder monitor window while preserving machine-readable outputs and keeping the shipped app free of `.dev-tools` coupling.
+- Updated the final-tools smoke test and example jobs so the probe monitor is part of the validated builder toolbox.
+- Ran Probe 004 through the live builder monitor and confirmed it reproduces the Probe 003 footing exactly.
+- Fixed the monitor `hold_open` path by moving the tiny Tk viewer into its own helper process so it can stay open for review without crashing the probe runner.
+- Ran Probe 005 with a profile-only structural -> statistical shift and confirmed it hurts relation volume while also lowering cross-document pull.
+- Ran Probe 006 with a heading-specific grammatical boost and confirmed it does not improve cross-document pull over the Probe 003/004 footing.
+- Added a narrow explicit-reference structural dial to the Bootstrap Nucleus and ran Probe 007 against the same corpus through the live monitor.
+- Probe 007 added exactly one extra above-threshold relation, but it was an in-document fragment pair; cross-document pull remained flat at `169`.
+- That strongly suggests the current `cross_refs` signal in this corpus is too sparse or too weakly extracted to unlock the next gain by scorer-side boosting alone.
+- Added a Splitter-owned signal control layer with builder-facing JSON profiles and wired it through the Splitter CLI as `--signal-profile`.
+- Kept the runtime HyperHunk contract flat but facet-ready by adding optional fields for:
+  - `normalized_cross_refs`
+  - `reference_kinds`
+  - `list_role`
+  - `list_depth`
+  - `reference_confidence`
+- Added Splitter tests covering profile validation, deterministic reST-style reference normalization, list-item emission, and fragment inheritance behavior.
+- Taught the builder-side probe monitor to persist `splitter_signal_profile_effective.json` beside the existing bootstrap profile and graph artifacts.
+- Ran Probe 008 as the default-profile regression for the Splitter signal-control tranche and confirmed it matches the stable Probe 003/004 footing exactly.
+- Ran Probe 009 with `_BDHyperNodeSPLITTER/_docs/signal_profiles/python_reference_richer_refs_v1.json` through the live monitor.
+- Probe 009 did not change graph metrics over Probe 008:
+  - `relations = 13510`
+  - `cross-document nucleus pull edges = 169`
+  - `above-threshold training pairs = 12249`
+- Splitter-side signal inspection showed why:
+  - the Python reference text corpus still yields only `2` ref-bearing hunks
+  - only `1` unique normalized target is being extracted (`shortstring_longstring`)
+  - so the new control layer is working, but the active corpus export still lacks enough explicit reference material to move the cross-document metric
+- Added a list/index-focused Splitter signal profile at `_BDHyperNodeSPLITTER/_docs/signal_profiles/python_reference_list_index_v1.json`.
+- Taught list-item emission to infer section-like targets such as `lexical_analysis`, `execution_model`, and `line_structure` from navigational lists.
+- Probe 010 proved that this richer navigational lane is real:
+  - `1275` hunks
+  - `79` ref-bearing hunks
+  - `77` unique normalized targets
+- But Probe 010 also showed the current bootstrap turns that into stronger local structure more than better cross-document pull:
+  - `relations = 17392` (`+3882` vs Probe 009)
+  - `above-threshold training pairs = 15963`
+  - `cross-document nucleus pull edges = 115` (`-54` vs Probe 009)
+- So the new list/index lane is promising as extracted signal, but it is not yet the new behavioral baseline.
+- Exposed the Emitter comparison window as a builder dial (`--window-size`) and passed it through the builder probe monitor.
+- Probe 011 reran the same list/index profile with `window_size = 200`.
+- Probe 011 changed the picture dramatically:
+  - `relations = 22978`
+  - `cross-document nucleus pull edges = 1175`
+  - `above-threshold training pairs = 21549`
+- That means recency clipping was a major hidden limiter. The list/index lane was useful, but the default `window_size = 50` was preventing many index-to-target comparisons from ever occurring.
+- New tradeoff:
+  - the gain is real
+  - but training pairs exploded from `62475` in Probe 010 to `234900` in Probe 011
+  - so the next question is now about smarter candidate selection, not just richer extraction
+- Added a targeted reference-aware candidate-selection path in the Emitter so a new hunk can compare against older prior hunks when normalized refs / target hints line up, even if those hunks have fallen out of the local sliding window.
+- Probe 012 tested that path with the normal `window_size = 50` and `reference_candidate_limit = 24`.
+- Probe 012 proved the candidate path works mechanically:
+  - the concrete `index.txt li_4 -> lexical_analysis.txt h1_2_lexical_analysis` pair now lands above threshold without using `window_size = 200`
+- But Probe 012 did **not** recover the full Probe 011 corpus-wide gain:
+  - `relations = 19602`
+  - `cross-document nucleus pull edges = 115`
+  - `above-threshold training pairs = 18173`
+- So the pause-point truth is now:
+  - list/index signal is real
+  - window clipping was real
+- targeted candidates work on specific pairs
+- but candidate-selection v1 is not yet broad or well-ranked enough to replace the brute-force wider window
+- Builder-side probe artifact location is now configurable through `.dev-tools/final-tools/tools/probe_monitor.py` via `artifact_root`.
+- This matters operationally because full `training_pairs_*.json` exports can become multi-GB files and should live on a larger builder storage drive when needed.
+- The preferred policy is now one user-set builder-artifact home via `.dev-tools/final-tools/builder_settings.local.json`, with per-run `artifact_root` treated as an override rather than the normal workflow.
+- On this machine, the builder-artifact home is configured externally and `_docs/_analysis` is a junction into that external probe library, so legacy project paths still resolve while storage lives off the app drive.
+- Added the first rudimentary Bag of Evidence CLI seam via `_BDHyperNeuronEMITTER/src/app.py` command `bag`.
+- The current bag is intentionally narrow:
+  - ranked evidence items from the existing retrieval path
+  - grouping by `origin_id`, `node_kind`, or `structural_root`
+  - item / group / whole-bag summaries
+  - pullback-ready text for selected occurrence ids
+- This is enough for external-agent inspection and STM pullback experiments, but not yet the full bag membrane architecture.
+- Ran a first new-material pilot corpus set end to end:
+  - `_corpus_examples/tech_talks`
+  - `_corpus_examples/Paradigm`
+  - `_corpus_examples/_AppBuilderTOOLBOX`
+- Verified all three through the full builder probe pipeline with artifacts saved to the external records library and mirrored via `_docs/_analysis/`.
+- Recorded first bag artifacts on the new corpora:
+  - `tech_talks_probe_001/bag_query_memory_graph.json`
+  - `paradigm_probe_001/bag_query_identity.json`
+  - `appbuilder_toolbox_probe_001/bag_query_mcp_server.json`
+- New pilot results:
+  - `tech_talks_probe_001`
+    - `5106` occurrence nodes
+    - `160088` relations
+    - `1227` cross-document nucleus pull edges
+    - bag query `"memory graph"` surfaced useful evidence concentrated in `Another Crazy Convo.txt`
+  - `paradigm_probe_001`
+    - `177` occurrence nodes
+    - `3498` relations
+    - `2422` cross-document nucleus pull edges
+    - bag query `"identity"` surfaced evidence across four source files
+  - `appbuilder_toolbox_probe_001`
+    - `883` occurrence nodes
+    - `11687` relations
+    - `2269` cross-document nucleus pull edges
+    - bag query `"mcp server"` surfaced mixed code/doc evidence from `mcp_server.py`, `journal_store.py`, and `tool_pack.py`
+- Re-ran current automated validation after the new corpus passes:
+  - `python -m unittest discover _BDHyperNodeSPLITTER/tests -v`
+  - `python -m unittest discover _BDHyperNeuronEMITTER/tests -v`
+  - `python .dev-tools/final-tools/smoke_test.py`
+  - all passed
+- Fixed a real training seam in the deterministic semantic path:
+  - `compute_counts()` was returning a tuple while `cmd_train()` expected named fields
+  - the deterministic train command now handles the current return shape and produces usable artifacts again
+- Added parallel embedder controls:
+  - `emit --embedder auto|deterministic|sentence-transformers|none`
+  - `emit --sentence-model <model>`
+  - `bag --embedder-override ...`
+- Probe bundles now persist `embedding_provider_effective.json` so bag/query can infer the correct query embedder from the DB bundle itself.
+- Ran the first side-by-side embedder comparison on two corpora:
+  - `tech_talks_probe_002_det`
+    - `141879` relations
+    - `1670` cross-document nucleus pull edges
+    - bag query `"memory graph"` surfaced a broader evidence mix across `Another Crazy Convo.txt`, `master_spec_text.txt`, and `MicroserviceLIBRARY_...`
+  - `tech_talks_probe_003_st`
+    - `155790` relations
+    - `1372` cross-document nucleus pull edges
+    - bag query `"memory graph"` collapsed more heavily toward `master_spec_text.txt`
+  - `appbuilder_toolbox_probe_002_det`
+    - `23676` relations
+    - `4154` cross-document nucleus pull edges
+    - strong `multi_surface` and `semantic_resonance` presence
+    - bag query `"mcp server"` surfaced a broader mixed evidence set across `README.md`, `journal_store.py`, `tool_pack.py`, `mcp_server.py`, and `scaffolds.py`
+  - `appbuilder_toolbox_probe_003_st`
+    - `14836` relations
+    - `3232` cross-document nucleus pull edges
+    - bag query `"mcp server"` still worked, but with a narrower and more code-heavy evidence mix
+- Current read from comparison baseline 001:
+  - the sentence-transformer lane is integrated and usable
+  - but the deterministic lane is currently stronger on both corpora we tested
+  - this means our own five-surface/deterministic geometry is carrying more of the retrieval burden than a default off-the-shelf sentence model in the current prototype shape
+- Replaced the simple in-memory reference-token index in `GraphAssembler` with a ranked occurrence-level anchor registry:
+  - headings register as stronger anchors than generic cross-refs
+  - list/index targets remain the mid-weight anchor lane
+  - overly common anchor terms are now suppressed instead of continuing to flood long-range recall
+- Added emitter tests proving:
+  - a heading anchor beats a weaker list-ref-only match when the long-range candidate budget is capped
+  - overly common anchor terms are suppressed once they exceed the configured threshold
+- Ran `reference_probe_013_anchor_registry_v1` against the same Python reference footing as Probe 012:
+  - Splitter profile: `python_reference_list_index_v1.json`
+  - Bootstrap profile: `python_reference_prose_tuning.json`
+  - `window_size = 50`
+  - `reference_candidate_limit = 24`
+- Probe 013 results:
+  - `relations = 17428`
+  - `cross-document nucleus pull edges = 115`
+  - `above-threshold training pairs = 15999`
+- Interpretation:
+  - the anchor registry made the targeted long-range path more selective
+  - but it did **not** recover the Probe 011 wide-window gain
+  - this means anchor-only recall is still too narrow for the next lift
+  - the likely next step is a deterministic cheap-fetch fallback, probably by reusing SQLite FTS when anchor recall returns too little signal
+- Added builder-side query experiment tool:
+  - `.dev-tools/final-tools/tools/anisotropic_blur_probe.py`
+- Anisotropic blur experiment 001 on `reference_probe_013_anchor_registry_v1` with query `"lexical analysis"`:
+  - seeds were sensible and cross-document (`index.txt`, `lexical_analysis.txt`, `introduction.txt`, `expressions.txt`)
+  - but the blur collapsed into dense `index.txt` list-item neighborhoods
+  - top-cross-document count in the blur top set was `0`
+  - the current bag remained more source-diverse and more evidentially useful on the same query
+- Anisotropic blur experiment 001 on `appbuilder_toolbox_probe_002_det` with query `"mcp server"`:
+  - the blur surfaced a strong procedural neighborhood around `smoke_test.py` and several `src/tools/*.py` functions
+  - top-cross-document count in the blur top set was `4`
+  - the current bag remained more directly relevant to the external-agent use case (`README.md`, `tool_pack.py`, `mcp_server.py`, `journal_store.py`)
+- Current read from the blur line:
+  - it is useful as a builder-side neighborhood/field diagnostic
+  - it is not yet better than the bag as a relevance/evidence surface
+  - it should stay out of runtime for now
+
+## What to do next
+
+Next tranche: **semantic comparison refinement + bag contract refinement**
+
+1. Choose the next targeted change:
+  - add a deterministic cheap-fetch fallback behind the new anchor registry and compare it against the current `115` plateau, or
+  - compare at least one more traditional model or query strategy against the current deterministic footing, or
+  - tighten the bag contract using what the first comparison baseline just taught us
+2. Keep blur work diagnostic only unless a later pass can prove:
+   - less hub collapse
+   - better cross-document spread
+   - and better evidence usefulness than the bag
+3. Keep bag work narrow and agent-facing:
+   - evidence list
+   - summary lenses
+   - pullback into STM
+4. Do not widen into UI or full bag orchestration until the CLI bag payload feels useful.
+5. When disk pressure matters, run probes with the external builder artifact home instead of writing raw exports on the app drive.
+
+## One-line read
+
+The graph is real, the bag is validated on fresh local corpora, and the first traditional embedder comparison is in. Right now, deterministic is winning.
+
+## Do not drift into yet
+
+- FFN Nucleus
+- full bag orchestration / UI buildout
+- big retrieval redesign
+- broad polishing passes
+
+## Read in this order if resuming cold
+
+1. `_docs/WE_ARE_HERE_NOW.md`
+2. `_docs/ARCHITECTURE.md`
+3. `_docs/TODO.md`
+4. `_docs/DEV_LOG.md`
+5. `_docs/SPLITTER_CORPUS_BASELINES.md`
+6. `_docs/GRAPH_PROBES.md`
+7. `_docs/FACET_READY_SURFACE_DESIGN.md`
+8. `_docs/QUERY_EXPERIMENTS.md`
+9. `_docs/NL_NarrativeDESC.md`
+10. `_docs/PARKING_LOT_QUESTIONS.md`
+11. `.dev-tools/final-tools/jobs/examples/probe_monitor.json`
+12. App Journal entries:
+   - `journal_resume_checkpoint_20260327`
+   - `journal_splitter_corpus_baseline_001`
+   - `journal_backlog_001`
+   - `journal_pilot_corpus_probe_set_001_20260330`
+   - `journal_embedder_comparison_baseline_001_20260330`
+   - `journal_anisotropic_blur_experiment_001_20260330`
+   - `journal_3e9561e03e68`
+
+## Quick sanity checks
+
+```powershell
+python _BDHyperNodeSPLITTER/src/app.py --help
+python _BDHyperNeuronEMITTER/src/app.py --help
+python .dev-tools/_app-journal/tools/journal_manifest.py run --input-json "{\"project_root\":\"C:/Users/jacob/Documents/_UsefulAgenticBuilderSANDBOX/Claude-Code/_BDNeuralTranslationSUITE\"}"
+```
+
+## Known truth about the docs
+
+- `_docs/ARCHITECTURE.md` is the root doctrine.
+- `_docs/_BagOfEVIDENCE.md` is legacy context, not active architecture truth.

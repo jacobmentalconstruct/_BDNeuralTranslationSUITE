@@ -1,0 +1,7 @@
+# _BDHyperNodeSPLITTER v2 dependencies
+tree-sitter>=0.22.0
+tree-sitter-python>=0.23.0
+tree-sitter-javascript>=0.23.0
+
+# Add more language grammars as the TreeSitter engine grows.
+# PEG and fallback paths use the Python standard library only.

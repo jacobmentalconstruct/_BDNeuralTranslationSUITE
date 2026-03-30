@@ -1,0 +1,138 @@
+# =========================================================
+# BDNeuralTranslationSUITE — .gitignore
+# Security-biased local/builder defaults
+# =========================================================
+
+# -------------------------
+# Local assistant / builder state
+# -------------------------
+/.claude/
+/.dev-tools/
+
+# -------------------------
+# Builder-generated records
+# -------------------------
+/_docs/_analysis/
+/_logs/
+**/_logs/
+*.log
+*.out
+*.err
+*.pid
+
+# Journal runtime / local memory surfaces
+/_docs/_journalDB/
+/_docs/_AppJOURNAL/
+
+# -------------------------
+# Large local reference material
+# -------------------------
+/_corpus_examples/
+/_parts/
+
+# -------------------------
+# Python bytecode / caches
+# -------------------------
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.cache/
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# -------------------------
+# Virtual environments
+# -------------------------
+.venv/
+**/.venv/
+venv/
+**/venv/
+env/
+**/env/
+ENV/
+**/ENV/
+
+# Conda / Python env markers
+.conda/
+conda-meta/
+.python-version
+
+# -------------------------
+# Build / packaging
+# -------------------------
+build/
+dist/
+site/
+.eggs/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
+
+# -------------------------
+# Installer / local temp
+# -------------------------
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# -------------------------
+# Generated runtime / analysis artifacts
+# -------------------------
+artifacts/
+**/artifacts/
+*.db
+*.sqlite
+*.sqlite3
+*.npy
+*.npz
+*.jsonl
+
+# -------------------------
+# Local secrets / machine config
+# -------------------------
+.env
+.env.*
+*.secret
+secrets/
+
+# final-tools local machine storage config
+/.dev-tools/final-tools/builder_settings.local.json
+
+# -------------------------
+# Jupyter / notebook noise
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# IDE / editor
+# -------------------------
+.vscode/
+.idea/
+*.code-workspace
+
+# -------------------------
+# OS junk
+# -------------------------
+.DS_Store
+Thumbs.db
+desktop.ini

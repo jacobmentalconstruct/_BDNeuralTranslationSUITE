@@ -1,0 +1,23 @@
+{
+  "created_on": "2026-03-28",
+  "purpose": "Large-agent onboarding package for option analysis on the next prototype step",
+  "recommended_read_order": [
+    "WE_ARE_HERE_NOW.md",
+    "ARCHITECTURE.md",
+    "TODO.md",
+    "GRAPH_PROBES.md",
+    "NL_NarrativeDESC.md",
+    "builder_constraint_contract.md",
+    "journal_selected_entries.json",
+    "PROMPT_FOR_LARGE_AGENT.md"
+  ],
+  "baseline_probes": [
+    "reference_probe_003",
+    "reference_probe_004"
+  ],
+  "negative_experiments": [
+    "reference_probe_005",
+    "reference_probe_006"
+  ],
+  "key_question": "What is the best next measurable step to improve cross-document pull without reintroducing grammar collapse or jumping prematurely to FFN/bag work?"
+}
