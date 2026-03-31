@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "codexes": [
+    {
+      "codex_id": "living_graph_math_codex_001",
+      "title": "Living Graph Math Codex Creation",
+      "status": "north_star",
+      "maturity": "future_doctrine",
+      "active_runtime_truth": false,
+      "source_artifact": "_docs/_research/_codexes/2026-03-30_living_graph_math_codex_creation.md",
+      "metadata_record": "_docs/_research/_codexes/2026-03-30_living_graph_math_codex_creation.metadata.json",
+      "current_phase_relevance": "later_query_math",
+      "current_use": "reference_only",
+      "imported_at": "2026-03-30"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 
 ## Last updated
 
-2026-03-30
+2026-03-31
 
 ## Fresh-thread start
 
@@ -38,6 +38,13 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - bad scorer math
   - bad comparison scope
   - and genuinely useful new signal lanes
+- The next doctrinal shift is also clearer:
+  - the bag should be treated as a bounded observer-centered slice, not a whole-manifold activation
+  - the project is missing a cleaner later retrieval control layer:
+    - `scope root`
+    - `resolution grammar`
+    - `direction of spread`
+    - `stop-unwinding`
 
 ## What tuning has already taught us
 
@@ -72,6 +79,16 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - added a native SQLite FTS cheap-fetch fallback behind the anchor-registry path
   - proved the fallback stays cheap on the Probe 013 footing (`63155` total pairs vs `62583`)
   - but did not improve the `115` cross-document pull plateau even though it selected `548` cross-document fallback candidates
+- Probe 015/015b/015c:
+  - landed contradiction v1 as a real inspectable anti-signal seam
+  - proved naive contradiction pressure can suppress useful navigational traffic
+  - proved the cleaned contradiction seam is safe but not the main bottleneck mover
+- Probe 016:
+  - falsified the idea that one FTS origin monopolizing the fallback lane is the main reason for the plateau
+  - preserved the `115` plateau even after de-monopolizing the fallback lane
+- Conversion diagnostics:
+  - proved the current cross-document losers are mostly not near-threshold misses
+  - showed the main loser population is structurally plausible cross-document pairs that still fail badly at conversion time
 - Query experiment 001:
   - proved a builder-side anisotropic blur lens can be run safely over existing graph probes
   - showed the blur lens exposes neighborhood/topology information that the bag does not
@@ -101,12 +118,15 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 - long-range candidate recall is still unresolved beyond anchor-bearing hunks
 - long-range candidate recall is still unresolved even after anchor + FTS fallback v1
 - the blur lens is informative, but not yet a trustworthy runtime retrieval surface
+- the bag exists only as a first CLI slice/evidence seam, not yet as the full observer-centered STM membrane
+- the later bag/walker doctrine is getting clearer, but it is not yet runtime behavior
 
 ### Practical meaning
 
 - We should not jump to FFN yet.
 - One more tranche of scorer/comparison-path refinement is the responsible move.
 - If we moved to Phase 2 right now, we would risk teaching the FFN around unresolved scaffold defects instead of teaching it from a trustworthy interaction substrate.
+- The immediate live blocker is still structural candidate conversion, not lack of theory.
 
 ## What we just finished
 
@@ -320,6 +340,21 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
   - it is useful as a builder-side neighborhood/field diagnostic
   - it is not yet better than the bag as a relevance/evidence surface
   - it should stay out of runtime for now
+- Added contradiction v1 as a narrow explicit anti-signal seam in the Bootstrap Nucleus and export path.
+- Ran Probe 015 control plus contradiction variants and confirmed:
+  - contradiction is now inspectable and safe to keep in-tree
+  - but it is not the main bottleneck mover on the Python reference footing
+- Added hub/source concentration reporting and an FTS per-origin cap, then ran Probe 016.
+- Confirmed Probe 016 does not change the `115` plateau even though the fallback lane becomes less monopolized by any one origin.
+- Upgraded the builder-side conversion reporting so winner/loser cross-document patterns can be compared directly.
+- Confirmed the sharper current read:
+  - the graph is finding long-range candidates
+  - the scorer is still under-converting structurally plausible cross-document bridges
+- Clarified the future bag/walker doctrine:
+  - bag as bounded observer-centered slice
+  - current node as anchor
+  - later retrieval needs `scope root`, `resolution grammar`, `direction of spread`, and `stop-unwinding`
+  - this is planning truth, not current runtime implementation
 
 ## What to do next
 

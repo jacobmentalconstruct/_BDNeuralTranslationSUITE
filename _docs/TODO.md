@@ -93,6 +93,10 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 - [ ] Decide why Probe 014 stayed flat on the headline metric:
   - `cross-document pull = 115` unchanged
   - even though `fts_selected_cross_doc = 548`
+- [ ] Inspect structural losers versus grammatical winners directly:
+  - use the conversion reports to compare winner/loser routing patterns
+  - determine why structurally plausible cross-document pairs stay far below threshold
+- [ ] Test scorer-side promotion of structurally plausible cross-document bridges without broad architecture changes
 - [ ] Keep an eye on the new Probe 013 tradeoff:
   - `relations = 17428` vs Probe 012 `19602`
   - `cross-document pull = 115` unchanged
@@ -150,6 +154,25 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 - [ ] Verify routing profiles and edge reasons are useful to a human/agent inspector
 - [ ] Tighten schema/versioning/query seams only where real corpus behavior demands it
 - [ ] Promote the rudimentary bag from CLI proof to a stable query contract if it holds up on real graph use
+- [ ] Define the missing control layer for later retrieval:
+  - scope-root types
+  - resolution grammar by scope type
+  - direction-of-spread categories
+  - stop-unwinding logic
+- [ ] Define the bag as a bounded slice rather than a generic retrieval list:
+  - observer-side anchor
+  - source-side anchor
+  - bag as join boundary
+  - response anchor as answer-shape constraint
+- [ ] Define contradiction math for query-time graph use:
+  - model contradiction first as explicit anti-signal pressure / penalty, not as missing similarity
+  - separate positive support from negative pressure in scorer/query outputs
+  - decide which contradiction signals are candidate-local, relation-local, or graph-neighborhood-local
+  - keep v1 storage positive-edge-compatible unless a real anti-edge need is proven
+- [ ] Prove contradiction handling is inspectable:
+  - a human/agent should be able to see why something was down-ranked, blocked, or pressure-bent
+  - contradiction math must not collapse into invisible threshold behavior
+- [ ] Keep SPO / proposition-role refinement as a later retrieval/query upgrade, not the immediate bottleneck fix
 
 ### Tranche 12 — FFN Training Data Discipline
 - [ ] Define training-record quality checks

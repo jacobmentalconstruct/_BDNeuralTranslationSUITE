@@ -38,6 +38,11 @@ Known remaining gaps are Phase 2 / stub work, not basic runtime wiring:
 - FFN Nucleus remains deferred; Bootstrap Nucleus is the active scorer.
 - The shared `contract/` folder is still the design surface and sync point for contract evolution.
 
+Current state is tracked in the project docs, not in this README. For the fastest pickup, read:
+- [`ANY_NEW_CONVO_READ_THIS_FIRST.md`](/C:/Users/jacob/Documents/_AppDesign/_LivePROJECTS/BDNeuralTranslationSUITE/ANY_NEW_CONVO_READ_THIS_FIRST.md)
+- [`WE_ARE_HERE_NOW.md`](/C:/Users/jacob/Documents/_AppDesign/_LivePROJECTS/BDNeuralTranslationSUITE/_docs/WE_ARE_HERE_NOW.md)
+- [`TODO.md`](/C:/Users/jacob/Documents/_AppDesign/_LivePROJECTS/BDNeuralTranslationSUITE/_docs/TODO.md)
+
 ## Start here after interruption
 
 - `_docs/WE_ARE_HERE_NOW.md` is the fastest recovery note.

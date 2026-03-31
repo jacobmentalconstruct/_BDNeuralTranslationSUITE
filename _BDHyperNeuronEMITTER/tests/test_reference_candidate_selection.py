@@ -21,6 +21,10 @@ class RecordingNucleus:
         self.pairs.append((a.occurrence_id, b.occurrence_id))
         return SimpleNamespace(
             connection_strength=0.0,
+            positive_support=0.0,
+            anti_signal_total=0.0,
+            anti_signal_reasons=[],
+            blocked=False,
             routing_profile={
                 "grammatical": 0.0,
                 "structural": 0.0,
@@ -30,6 +34,27 @@ class RecordingNucleus:
             },
             interaction_type="multi_surface",
             interaction_vector=[0.0, 0.0, 0.0, 0.0, 0.0],
+            above_threshold=False,
+        )
+
+
+class BlockingNucleus:
+    def evaluate(self, a, b):
+        return SimpleNamespace(
+            connection_strength=0.0,
+            positive_support=0.42,
+            anti_signal_total=0.42,
+            anti_signal_reasons=["mutually_exclusive_refs"],
+            blocked=True,
+            routing_profile={
+                "grammatical": 0.6,
+                "structural": 0.2,
+                "statistical": 0.1,
+                "semantic": 0.0,
+                "verbatim": 0.1,
+            },
+            interaction_type="grammatical_dominant",
+            interaction_vector=[0.6, 0.2, 0.1, 0.0, 0.1],
             above_threshold=False,
         )
 
@@ -454,6 +479,113 @@ class FTSFallbackTests(unittest.TestCase):
                 pairs,
                 "FTS should prefer the cross-document hit",
             )
+
+    def test_fts_fallback_caps_single_origin_contribution(self):
+        """FTS fallback should not let one origin monopolize the fallback budget."""
+        same_origin_a = _make_hunk(
+            content="Execution model overview and runtime behavior",
+            origin_id="memory://index.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_reference/p1",
+        )
+        same_origin_b = _make_hunk(
+            content="Execution model details and frame evaluation",
+            origin_id="memory://index.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_reference/p2",
+        )
+        cross_doc = _make_hunk(
+            content="Execution model explains frames and code blocks.",
+            origin_id="memory://executionmodel.txt",
+            node_kind="md_heading",
+            structural_path="doc/h1_execution_model",
+            heading_trail=["Execution model"],
+        )
+        filler_one = _make_hunk(
+            content="filler one unrelated material",
+            origin_id="memory://filler1.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p1",
+        )
+        filler_two = _make_hunk(
+            content="filler two unrelated material",
+            origin_id="memory://filler2.txt",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_misc/p2",
+        )
+        query_hunk = _make_hunk(
+            content="* Execution model",
+            origin_id="memory://query.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_5",
+            normalized_cross_refs=["execution_model"],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            nucleus = RecordingNucleus()
+            with GraphAssembler(
+                db_path,
+                nucleus,
+                window_size=2,
+                reference_candidate_limit=0,
+                fts_candidate_limit=2,
+                fts_fallback_thin_threshold=99,
+                fts_origin_cap=1,
+            ) as assembler:
+                for hunk in [same_origin_a, same_origin_b, cross_doc, filler_one, filler_two, query_hunk]:
+                    assembler.ingest_one(hunk)
+                stats = assembler.stats()
+
+            pairs = set(nucleus.pairs)
+            self.assertIn((cross_doc.occurrence_id, query_hunk.occurrence_id), pairs)
+            same_origin_pairs = {
+                (same_origin_a.occurrence_id, query_hunk.occurrence_id),
+                (same_origin_b.occurrence_id, query_hunk.occurrence_id),
+            }
+            self.assertEqual(len(pairs & same_origin_pairs), 1)
+            self.assertGreater(stats["fts_origin_cap_skips"], 0)
+
+
+class ContradictionExportTests(unittest.TestCase):
+    def test_blocked_pair_is_not_written_but_is_exported_with_penalty_fields(self):
+        a = _make_hunk(
+            content="* Lexical analysis",
+            origin_id="memory://index.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_1",
+            normalized_cross_refs=["lexical_analysis"],
+        )
+        b = _make_hunk(
+            content="* Execution model",
+            origin_id="memory://index.txt",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_2",
+            normalized_cross_refs=["execution_model"],
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            with GraphAssembler(
+                db_path,
+                BlockingNucleus(),
+                window_size=10,
+            ) as assembler:
+                assembler.ingest_one(a)
+                assembler.ingest_one(b)
+                stats = assembler.stats()
+                training_pairs = assembler.export_training_pairs()
+
+            self.assertEqual(stats["relations"], 0)
+            self.assertEqual(stats["contradiction_penalty_pairs"], 1)
+            self.assertEqual(stats["contradiction_blocked_pairs"], 1)
+            self.assertEqual(len(training_pairs), 1)
+            pair = training_pairs[0]
+            self.assertEqual(pair["positive_support"], 0.42)
+            self.assertEqual(pair["anti_signal_total"], 0.42)
+            self.assertEqual(pair["anti_signal_reasons"], ["mutually_exclusive_refs"])
+            self.assertTrue(pair["blocked"])
+            self.assertFalse(pair["above_threshold"])
 
 
 if __name__ == "__main__":

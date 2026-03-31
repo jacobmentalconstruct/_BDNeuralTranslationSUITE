@@ -4,8 +4,10 @@ Ownership: core/nucleus/bootstrap.py
 
 The Bootstrap Nucleus evaluates a pair of HyperHunks and computes:
 
-  RoutingProfile     — per-surface contribution weights {surface: float}, sums to 1.0
-  ConnectionStrength — scalar Σ(W_i · S_i) ∈ [0, ∞)
+  RoutingProfile     — per-surface positive-support weights {surface: float}, sums to 1.0
+  PositiveSupport    — scalar Σ(W_i · S_i) ∈ [0, ∞)
+  AntiSignalTotal    — explicit contradiction / penalty pressure ≥ 0
+  ConnectionStrength — max(0, PositiveSupport - AntiSignalTotal)
   InteractionType    — dominant mode label + raw similarity vector
 
 This is Phase 1 — deterministic, no learned weights. The scaffold is now
@@ -30,6 +32,11 @@ _SURFACE_SET = set(_SURFACE_ORDER)
 _STRUCTURED_PROSE_KINDS = {
     "md_code_block",
     "md_table",
+}
+
+_NAVIGATIONAL_REFERENCE_KINDS = {
+    "md_list",
+    "md_list_item",
 }
 
 _INTERACTION_LABELS: Dict[str, str] = {
@@ -80,6 +87,50 @@ class ExplicitReferenceProfile:
         return {
             "overlap_weight": self.overlap_weight,
             "target_hint_bonus": self.target_hint_bonus,
+        }
+
+
+@dataclass
+class ContradictionProfile:
+    """Builder-tunable anti-signal rules for contradiction pressure."""
+
+    reference_miss_penalty: float = 0.0
+    block_mutually_exclusive_refs: bool = False
+
+    @classmethod
+    def from_dict(
+        cls,
+        payload: Dict[str, Any],
+        *,
+        strict: bool = True,
+        base: Optional["ContradictionProfile"] = None,
+    ) -> "ContradictionProfile":
+        allowed = {"reference_miss_penalty", "block_mutually_exclusive_refs"}
+        unknown = set(payload) - allowed
+        if unknown:
+            raise ValueError(f"Unknown contradiction_profile keys: {sorted(unknown)}")
+        if strict and set(payload) != allowed:
+            missing = sorted(allowed - set(payload))
+            raise ValueError(f"Missing contradiction_profile keys: {missing}")
+
+        merged = (base.to_dict() if base is not None else cls().to_dict())
+        merged.update(payload)
+        profile = cls(**merged)
+        profile.validate()
+        return profile
+
+    def validate(self) -> None:
+        if not isinstance(self.block_mutually_exclusive_refs, bool):
+            raise ValueError("block_mutually_exclusive_refs must be a boolean")
+        if not isinstance(self.reference_miss_penalty, (int, float)):
+            raise ValueError("reference_miss_penalty must be numeric")
+        if self.reference_miss_penalty < 0.0 or self.reference_miss_penalty > 1.0:
+            raise ValueError("reference_miss_penalty must be between 0.0 and 1.0")
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "reference_miss_penalty": self.reference_miss_penalty,
+            "block_mutually_exclusive_refs": self.block_mutually_exclusive_refs,
         }
 
 
@@ -166,6 +217,9 @@ class BootstrapConfig:
     explicit_reference_profile: ExplicitReferenceProfile = field(
         default_factory=ExplicitReferenceProfile
     )
+    contradiction_profile: ContradictionProfile = field(
+        default_factory=ContradictionProfile
+    )
     semantic_absent_threshold_scale: float = 1.0
 
     @classmethod
@@ -182,6 +236,7 @@ class BootstrapConfig:
             "surface_fractions",
             "grammatical_match_profile",
             "explicit_reference_profile",
+            "contradiction_profile",
             "semantic_absent_threshold_scale",
         }
         unknown = set(payload) - allowed
@@ -201,6 +256,9 @@ class BootstrapConfig:
         explicit_reference_profile = payload["explicit_reference_profile"]
         if not isinstance(explicit_reference_profile, dict):
             raise ValueError("explicit_reference_profile must be an object")
+        contradiction_profile = payload["contradiction_profile"]
+        if not isinstance(contradiction_profile, dict):
+            raise ValueError("contradiction_profile must be an object")
 
         config = cls(
             edge_threshold=float(payload["edge_threshold"]),
@@ -209,6 +267,10 @@ class BootstrapConfig:
             grammatical_match_profile=GrammaticalMatchProfile.from_dict(match_profile, strict=True),
             explicit_reference_profile=ExplicitReferenceProfile.from_dict(
                 explicit_reference_profile,
+                strict=True,
+            ),
+            contradiction_profile=ContradictionProfile.from_dict(
+                contradiction_profile,
                 strict=True,
             ),
             semantic_absent_threshold_scale=float(payload["semantic_absent_threshold_scale"]),
@@ -223,6 +285,7 @@ class BootstrapConfig:
             "surface_fractions",
             "grammatical_match_profile",
             "explicit_reference_profile",
+            "contradiction_profile",
             "semantic_absent_threshold_scale",
         }
         unknown = set(overrides) - allowed
@@ -268,6 +331,15 @@ class BootstrapConfig:
                 strict=False,
                 base=self.explicit_reference_profile,
             ).to_dict()
+        if "contradiction_profile" in overrides:
+            contradiction_patch = overrides["contradiction_profile"]
+            if not isinstance(contradiction_patch, dict):
+                raise ValueError("contradiction_profile override must be an object")
+            payload["contradiction_profile"] = ContradictionProfile.from_dict(
+                contradiction_patch,
+                strict=False,
+                base=self.contradiction_profile,
+            ).to_dict()
 
         return BootstrapConfig.from_dict(payload)
 
@@ -304,6 +376,7 @@ class BootstrapConfig:
 
         self.grammatical_match_profile.validate()
         self.explicit_reference_profile.validate()
+        self.contradiction_profile.validate()
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -312,6 +385,7 @@ class BootstrapConfig:
             "surface_fractions": dict(self.surface_fractions),
             "grammatical_match_profile": self.grammatical_match_profile.to_dict(),
             "explicit_reference_profile": self.explicit_reference_profile.to_dict(),
+            "contradiction_profile": self.contradiction_profile.to_dict(),
             "semantic_absent_threshold_scale": self.semantic_absent_threshold_scale,
         }
 
@@ -324,10 +398,23 @@ class NucleusResult:
     """Outputs of a single Nucleus evaluation over a hunk pair."""
 
     connection_strength: float
+    positive_support: float
+    anti_signal_total: float
+    anti_signal_reasons: List[str]
+    blocked: bool
     routing_profile: Dict[str, float]
     interaction_type: str
     interaction_vector: List[float]
     above_threshold: bool
+
+
+@dataclass
+class ContradictionSignal:
+    """Explicit anti-signal pressure emitted by contradiction checks."""
+
+    total_penalty: float = 0.0
+    reasons: List[str] = field(default_factory=list)
+    blocked: bool = False
 
 
 def _jaccard(set_a: set, set_b: set) -> float:
@@ -349,6 +436,13 @@ def _is_fragment_kind(node_kind: str) -> bool:
 
 def _is_heading_kind(node_kind: str) -> bool:
     return node_kind == "md_heading"
+
+
+def _is_navigational_reference_kind(node_kind: str) -> bool:
+    return (
+        node_kind in _NAVIGATIONAL_REFERENCE_KINDS
+        or node_kind.startswith("fragment_of_md_list")
+    )
 
 
 def _is_structured_prose_kind(node_kind: str, is_subtype_fn: Any) -> bool:
@@ -444,6 +538,12 @@ def _normalize_reference_tokens(values: List[str]) -> set[str]:
     return tokens
 
 
+def _explicit_reference_tokens(hunk: Any) -> set[str]:
+    raw_refs = list(getattr(hunk, "cross_refs", []) or [])
+    norm_refs = list(getattr(hunk, "normalized_cross_refs", []) or [])
+    return _normalize_reference_tokens(raw_refs + norm_refs)
+
+
 def _target_hint_tokens(hunk: Any) -> set[str]:
     tokens: set[str] = set()
     origin_text = str(getattr(hunk, "origin_id", "")).lower().replace("\\", "/")
@@ -478,12 +578,8 @@ def _explicit_reference_signal(
     if profile.overlap_weight <= 0.0 and profile.target_hint_bonus <= 0.0:
         return 0.0
 
-    a_raw_refs = list(getattr(a, "cross_refs", []) or [])
-    b_raw_refs = list(getattr(b, "cross_refs", []) or [])
-    a_norm_refs = list(getattr(a, "normalized_cross_refs", []) or [])
-    b_norm_refs = list(getattr(b, "normalized_cross_refs", []) or [])
-    a_refs = _normalize_reference_tokens(a_raw_refs + a_norm_refs)
-    b_refs = _normalize_reference_tokens(b_raw_refs + b_norm_refs)
+    a_refs = _explicit_reference_tokens(a)
+    b_refs = _explicit_reference_tokens(b)
     overlap = _jaccard(a_refs, b_refs)
 
     hit = 0.0
@@ -496,6 +592,55 @@ def _explicit_reference_signal(
     return min(
         1.0,
         profile.overlap_weight * overlap + profile.target_hint_bonus * hit,
+    )
+
+
+def _contradiction_signal(
+    a: Any,
+    b: Any,
+    profile: ContradictionProfile,
+) -> ContradictionSignal:
+    if (
+        profile.reference_miss_penalty <= 0.0
+        and not profile.block_mutually_exclusive_refs
+    ):
+        return ContradictionSignal()
+
+    a_refs = _explicit_reference_tokens(a)
+    b_refs = _explicit_reference_tokens(b)
+    a_targets = _target_hint_tokens(a)
+    b_targets = _target_hint_tokens(b)
+
+    reasons: List[str] = []
+    total_penalty = 0.0
+    blocked = False
+
+    if profile.reference_miss_penalty > 0.0:
+        if (
+            a_refs
+            and b_targets
+            and not _is_navigational_reference_kind(getattr(a, "node_kind", ""))
+            and a_refs.isdisjoint(b_targets)
+        ):
+            total_penalty += profile.reference_miss_penalty
+            reasons.append("a_ref_miss_b_target")
+        if (
+            b_refs
+            and a_targets
+            and not _is_navigational_reference_kind(getattr(b, "node_kind", ""))
+            and b_refs.isdisjoint(a_targets)
+        ):
+            total_penalty += profile.reference_miss_penalty
+            reasons.append("b_ref_miss_a_target")
+
+    if profile.block_mutually_exclusive_refs and a_refs and b_refs and a_refs.isdisjoint(b_refs):
+        blocked = True
+        reasons.append("mutually_exclusive_refs")
+
+    return ContradictionSignal(
+        total_penalty=total_penalty,
+        reasons=reasons,
+        blocked=blocked,
     )
 
 
@@ -602,11 +747,17 @@ class BootstrapNucleus:
             surface: w_base * self.config.surface_fractions[surface] * sims[surface]
             for surface in _SURFACE_ORDER
         }
-        connection_strength = sum(contributions.values())
+        positive_support = sum(contributions.values())
+        contradiction = _contradiction_signal(
+            a,
+            b,
+            self.config.contradiction_profile,
+        )
+        connection_strength = max(0.0, positive_support - contradiction.total_penalty)
 
-        if connection_strength > 0.0:
+        if positive_support > 0.0:
             routing_profile = {
-                surface: round(contributions[surface] / connection_strength, 4)
+                surface: round(contributions[surface] / positive_support, 4)
                 for surface in _SURFACE_ORDER
             }
         else:
@@ -624,10 +775,17 @@ class BootstrapNucleus:
 
         return NucleusResult(
             connection_strength=connection_strength,
+            positive_support=positive_support,
+            anti_signal_total=contradiction.total_penalty,
+            anti_signal_reasons=list(contradiction.reasons),
+            blocked=contradiction.blocked,
             routing_profile=routing_profile,
             interaction_type=interaction_type,
             interaction_vector=interaction_vector,
-            above_threshold=connection_strength >= effective_threshold,
+            above_threshold=(
+                not contradiction.blocked
+                and connection_strength >= effective_threshold
+            ),
         )
 
     def batch_evaluate(

@@ -1,5 +1,12 @@
 # NL Narrative Description
 
+_Reference note: keep for orientation, but do not treat this as the primary active truth surface._
+
+For current architecture and next-step truth, prefer:
+- `_docs/ARCHITECTURE.md`
+- `_docs/WE_ARE_HERE_NOW.md`
+- `_docs/TODO.md`
+
 _Last updated: 2026-03-27. This is a plain-language orientation note for reviewers who need the idea of the system before they inspect the code._
 
 ## What this project is

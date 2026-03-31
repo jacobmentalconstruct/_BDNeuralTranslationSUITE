@@ -1,3 +1,16 @@
+# Legacy Note
+
+This document is historical context from an older bag-of-evidence line.
+
+It is **not** the active architecture truth for the current project.
+Use these as the live truth surfaces first:
+- `_docs/ARCHITECTURE.md`
+- `_docs/WE_ARE_HERE_NOW.md`
+- `_docs/TODO.md`
+- `_docs/_research/2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md`
+
+Read this file as legacy/reference material only.
+
 # Executive Summary
 
 The *bag-of-evidence interrogation stack* is a layered pipeline that transforms a user query into a structured context drawn from a codebase or knowledge base. It combines two main phases: (A) **evidence bag assembly** and (B) **context interrogation formatting**. In phase (A), relevant information (“nodes”) from a stored repository is **retrieved, scored, expanded, and composed** into an *EvidenceBag* under a fixed character budget. In phase (B), this bag’s contents are further processed to produce a detailed, human-readable context for answering the query. This involves classifying the query’s intent (e.g. “identity” vs “explanation”), extracting structured records from each evidence item, applying grounding rules, and finally formatting the evidence into a prompt block. 

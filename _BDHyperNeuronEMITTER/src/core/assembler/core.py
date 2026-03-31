@@ -51,7 +51,8 @@ Training data
 Every Nucleus result (above and below threshold) can be exported as training
 tuples via export_training_pairs().  The Assembler stores above-threshold
 results only in the Cold Artifact; all pairs are available for Phase 2 FFN
-training via the accumulated _training_pairs list.
+training via the accumulated _training_pairs list, including contradiction
+pressure when the scorer exposes it.
 
 No v1 counterpart — original for the v2 Relational Field Engine.
 """
@@ -126,6 +127,7 @@ class GraphAssembler:
         anchor_common_term_threshold: int = _DEFAULT_ANCHOR_COMMON_TERM_THRESHOLD,
         fts_candidate_limit: int = 0,
         fts_fallback_thin_threshold: int = 2,
+        fts_origin_cap: int = 2,
     ) -> None:
         from .sqlite_scribe import SqliteScribe
         self.scribe = SqliteScribe(db_path)
@@ -136,6 +138,7 @@ class GraphAssembler:
         self.anchor_common_term_threshold = max(1, int(anchor_common_term_threshold))
         self.fts_candidate_limit = max(0, int(fts_candidate_limit))
         self.fts_fallback_thin_threshold = max(0, int(fts_fallback_thin_threshold))
+        self.fts_origin_cap = max(1, int(fts_origin_cap))
 
         # Sliding buffer: list of ingested HyperHunks (most recent last)
         self._buffer: List[Any] = []
@@ -155,16 +158,19 @@ class GraphAssembler:
         self._fts_raw_hits: int = 0
         self._fts_selected: int = 0
         self._fts_selected_cross_doc: int = 0
+        self._fts_origin_cap_skips: int = 0
 
         log.info(
             "GraphAssembler ready — db=%s window=%d reference_candidate_limit=%d "
-            "anchor_common_term_threshold=%d fts_candidate_limit=%d fts_fallback_thin_threshold=%d",
+            "anchor_common_term_threshold=%d fts_candidate_limit=%d "
+            "fts_fallback_thin_threshold=%d fts_origin_cap=%d",
             db_path,
             window_size,
             self.reference_candidate_limit,
             self.anchor_common_term_threshold,
             self.fts_candidate_limit,
             self.fts_fallback_thin_threshold,
+            self.fts_origin_cap,
         )
 
     # ── Public API ─────────────────────────────────────────────────────────
@@ -190,12 +196,13 @@ class GraphAssembler:
 
         Each dict has keys:
             source_occ_id, target_occ_id,
-            connection_strength, routing_profile,
+            connection_strength, positive_support, anti_signal_total,
+            anti_signal_reasons, blocked, routing_profile,
             interaction_type, interaction_vector, above_threshold
         """
         return list(self._training_pairs)
 
-    def stats(self) -> Dict[str, int]:
+    def stats(self) -> Dict[str, float]:
         """Return Cold Artifact row counts + training pair count."""
         counts = self.scribe.stats()
         counts["training_pairs"] = len(self._training_pairs)
@@ -203,6 +210,13 @@ class GraphAssembler:
         counts["fts_raw_hits"] = self._fts_raw_hits
         counts["fts_selected"] = self._fts_selected
         counts["fts_selected_cross_doc"] = self._fts_selected_cross_doc
+        counts["fts_origin_cap_skips"] = self._fts_origin_cap_skips
+        counts["contradiction_penalty_pairs"] = sum(
+            1 for pair in self._training_pairs if float(pair.get("anti_signal_total", 0.0)) > 0.0
+        )
+        counts["contradiction_blocked_pairs"] = sum(
+            1 for pair in self._training_pairs if bool(pair.get("blocked", False))
+        )
         return counts
 
     def close(self) -> None:
@@ -308,12 +322,20 @@ class GraphAssembler:
     def _evaluate_pair(self, a: Any, b: Any) -> None:
         """Run Nucleus on a pair and write the edge if above threshold."""
         result = self.nucleus.evaluate(a, b)
+        positive_support = getattr(result, "positive_support", result.connection_strength)
+        anti_signal_total = getattr(result, "anti_signal_total", 0.0)
+        anti_signal_reasons = list(getattr(result, "anti_signal_reasons", []) or [])
+        blocked = bool(getattr(result, "blocked", False))
 
         # Accumulate for Phase 2 training regardless of threshold
         self._training_pairs.append({
             "source_occ_id":    a.occurrence_id,
             "target_occ_id":    b.occurrence_id,
             "connection_strength": result.connection_strength,
+            "positive_support": positive_support,
+            "anti_signal_total": anti_signal_total,
+            "anti_signal_reasons": anti_signal_reasons,
+            "blocked": blocked,
             "routing_profile":  result.routing_profile,
             "interaction_type": result.interaction_type,
             "interaction_vector": result.interaction_vector,
@@ -465,17 +487,27 @@ class GraphAssembler:
 
         # Prefer cross-document, then same-document, up to limit
         selected: List[Any] = []
+        selected_by_origin: Dict[str, int] = defaultdict(int)
+
+        def maybe_select(candidate: Any) -> bool:
+            origin = str(getattr(candidate, "origin_id", "") or "")
+            if selected_by_origin[origin] >= self.fts_origin_cap:
+                self._fts_origin_cap_skips += 1
+                return False
+            seen.add(candidate.occurrence_id)
+            selected.append(candidate)
+            selected_by_origin[origin] += 1
+            return True
+
         for candidate in cross_doc_hits:
             if len(selected) >= self.fts_candidate_limit:
                 break
-            seen.add(candidate.occurrence_id)
-            selected.append(candidate)
+            maybe_select(candidate)
 
         for candidate in same_doc_hits:
             if len(selected) >= self.fts_candidate_limit:
                 break
-            seen.add(candidate.occurrence_id)
-            selected.append(candidate)
+            maybe_select(candidate)
 
         cross_doc_selected = sum(
             1 for c in selected

@@ -14,6 +14,10 @@ Probe 014 added that native cheap-fetch lane.
 
 But cheap-fetch v1 still did **not** improve the headline cross-document pull metric.
 
+The next diagnostic pass made the picture sharper still:
+- the missed cross-document pairs are **not** mostly hovering just below threshold
+- and the losers are dominated by a different interaction mix than the winners
+
 In plain terms:
 - if the comparison window stays small, many good long-range pairs are never scored
 - if the comparison window gets widened too far, pair counts explode
@@ -199,13 +203,60 @@ That strongly suggests at least one of these is true:
 - the fallback ranking is not surfacing the right distant targets
 - the Bootstrap Nucleus is rejecting most recovered pairs for stable reasons
 
-## 4. Pair explosion under brute force
+## 4. Conversion diagnostics: most losers are not near-threshold
+
+The new builder-side conversion reports are:
+- `_docs/_analysis/reference_probe_015_contradiction_control/graph_probe_report_015_conversion.json`
+- `_docs/_analysis/reference_probe_016_fts_origin_cap1/graph_probe_report_016_conversion.json`
+
+These reports answer the next important question:
+
+Are the missed cross-document candidates failing by a hair, or are they being soundly out-competed?
+
+The answer on the current control footing is:
+- `cross_document_winners = 147`
+- `cross_document_losers = 12313`
+- `edge_threshold = 0.24`
+- only `17` cross-document losers are within `20%` of threshold
+- mean loser margin to threshold is `0.1522`
+- median loser margin to threshold is `0.1545`
+
+That is a very important result.
+
+It means the current plateau is **not** mainly a "lower the threshold a little" problem. Most missed cross-document pairs are far enough below threshold that a small threshold relaxation would not create the phase shift we want.
+
+The interaction mix is also sharply split:
+- cross-document winners are mostly `grammatical_dominant` (`106`) plus a smaller `statistical_echo` lane (`32`)
+- cross-document losers are overwhelmingly `structural_bridge` (`8992`), then `statistical_echo` (`1870`) and `multi_surface` (`1440`)
+
+So the current scorer is doing something very specific:
+- it is willing to let a narrow grammar-heavy lane win across documents
+- while most structurally recovered long-range candidates still fail to accumulate enough support to cross threshold
+
+That makes the bottleneck much more concrete than before:
+- we are not just "missing distant candidates"
+- we are also under-converting structurally plausible long-range candidates once they are found
+
+## 5. FTS per-origin cap did not change the conversion geometry
+
+Probe 016 plus its conversion report sharpened a second point:
+- `cross-document pull` stayed at `115`
+- `fts_selected_cross_doc` dropped from `548` to `179`
+- the loser-margin picture stayed almost unchanged
+- the winner/loser interaction split also stayed almost unchanged
+
+Meaning:
+- the FTS fallback lane was successfully de-monopolized
+- but one-origin crowding was not the hidden cause of the plateau
+- the real problem remains downstream conversion
+
+## 6. Pair explosion under brute force
 
 Wide-window recovery proves the signal exists, but the pair count becomes too expensive.
 
 That means the stable solution must improve recall **without** approaching Probe 011 cost behavior.
 
-## 5. Dense local hubs can hijack softer field views
+## 7. Dense local hubs can hijack softer field views
 
 The blur experiment showed that dense local neighborhoods, especially index-heavy ones, can dominate soft spread.
 
@@ -226,6 +277,7 @@ That is why:
 - large windows overpay
 - anchor-only recall plateaus
 - and cheap-fetch v1 still fails to convert candidate recovery into actual pull lift
+- and the newest conversion reports show that most misses are true out-competition failures, not near-threshold misses
 
 ---
 
@@ -239,9 +291,11 @@ The next likely experiment is:
 - keep the heavy scorer as the final gate
 - keep the anchor-registry path
 - keep the native SQLite FTS fallback path
+- keep the new conversion reports in the loop
+- inspect why structurally recovered cross-document pairs stay far below threshold
+- compare winner vs loser routing / interaction patterns rather than only counting candidate recall
 - tighten when the fallback fires so it is not effectively universal on this corpus
 - improve deterministic query lexicalization and ranking
-- inspect scorer rejection patterns on recovered fallback pairs
 - keep reusing the current SQLite / FTS infrastructure instead of inventing a large new subsystem
 
 This is the most responsible next step because it targets the actual bottleneck while keeping the Phase 1 scaffold stable.

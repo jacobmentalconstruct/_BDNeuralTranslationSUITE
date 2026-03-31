@@ -348,6 +348,7 @@ def cmd_emit(args: argparse.Namespace) -> int:
         reference_candidate_limit=args.reference_candidate_limit,
         fts_candidate_limit=args.fts_candidate_limit,
         fts_fallback_thin_threshold=args.fts_fallback_thin_threshold,
+        fts_origin_cap=args.fts_origin_cap,
     ) as assembler:
         for record in _iter_ndjson(source):
             try:
@@ -493,6 +494,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="FTS fallback candidates when anchor recall is thin (default: 0 = disabled).")
     e.add_argument("--fts-fallback-thin-threshold", type=int, default=2, metavar="N",
                    help="Fire FTS fallback only when cross-doc anchor candidates < this (default: 2).")
+    e.add_argument("--fts-origin-cap", type=int, default=2, metavar="N",
+                   help="Maximum FTS fallback candidates contributed by a single origin per hunk (default: 2).")
     e.add_argument("--embedder", default="auto", choices=["auto", "deterministic", "sentence-transformers", "none"],
                    help="Embedding provider for occurrence vectors (default: auto).")
     e.add_argument("--sentence-model", default=_DEFAULT_SENTENCE_MODEL, metavar="MODEL",

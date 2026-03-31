@@ -592,6 +592,12 @@ class MainWindow(tk.Tk):
 
         sec = self._add_card(self._nucleus_results_frame, "Nucleus Result")
         self._add_kv(sec, "strength",      f"{result.connection_strength:.4f}")
+        if hasattr(result, "positive_support"):
+            self._add_kv(sec, "positive support", f"{result.positive_support:.4f}")
+        if hasattr(result, "anti_signal_total"):
+            self._add_kv(sec, "anti-signal", f"{result.anti_signal_total:.4f}")
+        if hasattr(result, "blocked"):
+            self._add_kv(sec, "blocked", str(result.blocked))
         self._add_kv(sec, "above threshold", str(result.above_threshold))
         self._add_kv(sec, "interaction",   result.interaction_type)
 
@@ -624,6 +630,7 @@ class MainWindow(tk.Tk):
 
         self._set_status(
             f"Nucleus: strength={result.connection_strength:.4f}  "
+            f"anti={getattr(result, 'anti_signal_total', 0.0):.4f}  "
             f"type={result.interaction_type}  "
             f"edge={'YES' if result.above_threshold else 'NO'}"
         )

@@ -2,6 +2,21 @@
 
 _Last updated: 2026-03-30. This file records builder-side query/retrieval experiments that are informative, but not yet promoted into the app runtime doctrine._
 
+Long-horizon query doctrine artifacts and north-star codexes live under `_docs/_research/_codexes/`. They are reference surfaces, not active runtime truth.
+
+The current retrieval-doctrine synthesis for later bag/walker work now also lives here:
+- `_docs/_research/2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md`
+
+That note captures:
+- bag as a bounded observer-centered slice
+- two-sided anchoring
+- scope root
+- resolution grammar
+- direction of spread
+- stop-unwinding logic
+
+It is planning/doctrine truth only, not a claim that runtime retrieval already behaves that way.
+
 ---
 
 ## Experiment 001 — Anisotropic Blur Lens

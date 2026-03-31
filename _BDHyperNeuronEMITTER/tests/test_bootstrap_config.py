@@ -66,6 +66,12 @@ class BootstrapConfigTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             BootstrapConfig.from_dict(payload)
 
+    def test_invalid_contradiction_profile_rejected(self):
+        payload = BootstrapConfig.default().to_dict()
+        payload["contradiction_profile"]["reference_miss_penalty"] = -0.1
+        with self.assertRaises(ValueError):
+            BootstrapConfig.from_dict(payload)
+
     def test_surface_fractions_must_sum_to_one(self):
         payload = BootstrapConfig.default().to_dict()
         payload["surface_fractions"]["grammatical"] = 0.99
@@ -241,6 +247,112 @@ class BootstrapBehaviorTests(unittest.TestCase):
         baseline_structural = baseline.evaluate(a, b).interaction_vector[1]
         tuned_structural = tuned.evaluate(a, b).interaction_vector[1]
         self.assertGreater(tuned_structural, baseline_structural)
+
+    def test_default_contradiction_profile_is_inert(self):
+        nucleus = BootstrapNucleus()
+        a = _make_hunk(
+            content="See lexical analysis.",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_1",
+            cross_refs=["lexical_analysis"],
+        )
+        b = _make_hunk(
+            content="Execution model",
+            node_kind="md_heading",
+            structural_path="doc/h1_execution_model",
+            heading_trail=["Execution model"],
+        )
+
+        result = nucleus.evaluate(a, b)
+        self.assertEqual(result.anti_signal_total, 0.0)
+        self.assertEqual(result.anti_signal_reasons, [])
+        self.assertFalse(result.blocked)
+        self.assertEqual(result.connection_strength, result.positive_support)
+
+    def test_contradiction_penalty_down_ranks_explicit_reference_miss(self):
+        baseline = BootstrapNucleus()
+        tuned = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "contradiction_profile": {
+                    "reference_miss_penalty": 0.2,
+                    "block_mutually_exclusive_refs": False,
+                }
+            })
+        )
+        a = _make_hunk(
+            content="See lexical analysis.",
+            node_kind="md_paragraph",
+            structural_path="doc/h1_reference/p_1",
+            cross_refs=["lexical_analysis"],
+        )
+        b = _make_hunk(
+            content="Execution model",
+            node_kind="md_heading",
+            structural_path="doc/h1_execution_model",
+            heading_trail=["Execution model"],
+        )
+
+        baseline_result = baseline.evaluate(a, b)
+        tuned_result = tuned.evaluate(a, b)
+
+        self.assertGreater(baseline_result.connection_strength, tuned_result.connection_strength)
+        self.assertGreater(tuned_result.anti_signal_total, 0.0)
+        self.assertIn("a_ref_miss_b_target", tuned_result.anti_signal_reasons)
+        self.assertFalse(tuned_result.blocked)
+
+    def test_navigational_list_item_refs_do_not_emit_reference_miss_penalty(self):
+        nucleus = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "contradiction_profile": {
+                    "reference_miss_penalty": 0.2,
+                    "block_mutually_exclusive_refs": False,
+                }
+            })
+        )
+        a = _make_hunk(
+            content="See lexical analysis.",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_1",
+            cross_refs=["lexical_analysis"],
+        )
+        b = _make_hunk(
+            content="Execution model",
+            node_kind="md_heading",
+            structural_path="doc/h1_execution_model",
+            heading_trail=["Execution model"],
+        )
+
+        result = nucleus.evaluate(a, b)
+        self.assertEqual(result.anti_signal_total, 0.0)
+        self.assertEqual(result.anti_signal_reasons, [])
+        self.assertFalse(result.blocked)
+
+    def test_contradiction_profile_can_block_mutually_exclusive_refs(self):
+        nucleus = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "contradiction_profile": {
+                    "reference_miss_penalty": 0.0,
+                    "block_mutually_exclusive_refs": True,
+                }
+            })
+        )
+        a = _make_hunk(
+            content="* Lexical analysis",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_1",
+            cross_refs=["lexical_analysis"],
+        )
+        b = _make_hunk(
+            content="* Execution model",
+            node_kind="md_list_item",
+            structural_path="doc/h1_reference/li_2",
+            cross_refs=["execution_model"],
+        )
+
+        result = nucleus.evaluate(a, b)
+        self.assertTrue(result.blocked)
+        self.assertFalse(result.above_threshold)
+        self.assertIn("mutually_exclusive_refs", result.anti_signal_reasons)
 
 
 if __name__ == "__main__":

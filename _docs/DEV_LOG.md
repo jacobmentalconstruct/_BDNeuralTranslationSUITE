@@ -1,8 +1,44 @@
 # BDNeuralTranslationSUITE — Dev Log
 
-_Last updated: 2026-03-30. Journal mirror lives in `_docs/_journalDB/app_journal.sqlite3`._
+_Last updated: 2026-03-31. Journal mirror lives in `_docs/_journalDB/app_journal.sqlite3`._
 
 ---
+
+## 2026-03-31 — Park-state freeze, conversion diagnostics, and doctrine consolidation
+
+Journal entry: pending mirror
+
+- Updated the root onboarding and parked-state docs so they reflect the real current footing instead of the older “next move = add cheap-fetch fallback” state.
+- Clarified the real current blocker:
+  - cheap-fetch fallback already exists
+  - long-range candidates are being recovered
+  - the scorer is still under-converting structurally plausible cross-document pairs
+- Landed contradiction v1 as a narrow explicit anti-signal seam and recorded the first probe reads:
+  - Probe 015 control replay
+  - Probe 015b naive contradiction pass
+  - Probe 015c cleaned contradiction pass
+- The contradiction read is now sharper:
+  - contradiction v1 is real and inspectable
+  - contradiction v1 is safe to keep in-tree
+  - contradiction v1 is **not** yet the main bottleneck mover
+- Added hub/source concentration diagnostics and tested FTS per-origin capping through Probe 016.
+- Falsified two tempting explanations:
+  - cheap-fetch alone does not solve the plateau
+  - FTS origin monopoly is not the main cause of the plateau
+- Upgraded builder-side conversion reporting so winner/loser cross-document patterns can be compared directly.
+- The new conversion reports established a stronger read:
+  - most cross-document losers are not near-threshold misses
+  - the dominant loser population is structural/statistical bridge-like pairs
+  - the current scorer still prefers a narrower grammatical winner lane
+- Consolidated the newer bag doctrine:
+  - bag as a bounded observer-centered slice
+  - current node as anchor
+  - observer-side anchor plus source-side anchor
+  - bag as the join boundary
+  - later retrieval will need `scope root`, `resolution grammar`, `direction of spread`, and `stop-unwinding`
+- Explicitly kept weather/chaos framing in the north-star bucket:
+  - useful as a nested-resolution / complexity-control analogy
+  - not current runtime nucleus math
 
 ## 2026-03-30 — Root onboarding guide for fresh threads
 
