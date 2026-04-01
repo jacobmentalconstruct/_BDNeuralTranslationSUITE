@@ -47,6 +47,10 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - sentence-transformers control/high: `3380 -> 3943`
   - current read: semantic behaves more like a long-range attraction field than a primary support beam
   - current warning: this is graph-strong, but still needs bag-side QC before becoming a default
+ - That bag-side QC has now started to come in:
+  - deterministic control and deterministic high both preserve the same strong human-facing top shelf on the reference query set
+  - both sentence-transformer variants lag behind on the same shelf
+  - current read: the deterministic lane is not only graph-strong, it is also the better evidence-facing lane on this footing
 
 ## Broad tuning read
 

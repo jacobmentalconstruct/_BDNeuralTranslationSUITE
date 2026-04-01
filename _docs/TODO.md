@@ -129,6 +129,10 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
   - sentence-transformers control
   - sentence-transformers high gravity
   - compare evidence usefulness, not just graph size
+- [ ] Decide whether deterministic high semantic gravity should become the next promoted experiment lane:
+  - graph result is stronger
+  - current bag QC did not degrade the top shelf
+  - still inspect broader/stubborn query families before promoting it as a default
 - [ ] Decide whether semantic should now be treated as a bounded overlay field:
   - current read: attraction field yes
   - primary support beam no

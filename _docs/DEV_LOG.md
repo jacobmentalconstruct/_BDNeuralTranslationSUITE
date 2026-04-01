@@ -118,6 +118,34 @@ Journal entry: pending mirror
   - the deterministic semantic lane is dramatically stronger on this footing
   - next job is quality-control through the bag before promoting any semantic-gravity profile as a default
 
+## 2026-04-01 — Bag QC for semantic-gravity comparison
+
+Journal entry: pending mirror
+
+- Compared four bag states on the same human-facing reference query shelf (`top_k = 5`, `hop_limit = 1`):
+  - deterministic control
+  - deterministic high gravity
+  - sentence-transformers control
+  - sentence-transformers high gravity
+- Aggregate top-item read:
+  - deterministic control: `heading=5`, `locator=5`, `paragraph=1`, `fragment=0`, `qc_total=79`
+  - deterministic high: `heading=5`, `locator=5`, `paragraph=1`, `fragment=0`, `qc_total=79`
+  - sentence-transformers control: `heading=3`, `locator=6`, `paragraph=1`, `fragment=1`, `qc_total=66`
+  - sentence-transformers high: `heading=3`, `locator=6`, `paragraph=1`, `fragment=1`, `qc_total=66`
+- The most important qualitative differences:
+  - `lambda expressions`:
+    - deterministic variants surface the clean section locator `* 6.14.`
+    - sentence-transformer variants surface fragment-heavy noise
+  - `eval input` and `interactive input`:
+    - deterministic variants surface the actual headings `9.4. Expression input` and `9.3. Interactive input`
+    - sentence-transformer variants fall back to index locators
+- Current read:
+  - the deterministic semantic lane is not only graph-strong, it is also the stronger human-facing bag lane on this footing
+  - high deterministic semantic gravity did not degrade the top shelf relative to deterministic control
+- Artifacts:
+  - `_docs/_analysis/bag_semantic_qc_2026-04-01/bag_semantic_qc_2026-04-01.md`
+  - `_docs/_analysis/bag_semantic_qc_2026-04-01/bag_semantic_qc_2026-04-01.json`
+
 ## 2026-03-31 — Origin-aware cross-document scorer v1
 
 Journal entry: pending mirror
