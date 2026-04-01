@@ -1375,3 +1375,69 @@ Artifacts:
 - summary:
   - `_docs/_analysis/reference_probe_033_origin_aware_threshold_030/threshold_sweep_017_033_summary.md`
   - `_docs/_analysis/reference_probe_033_origin_aware_threshold_030/threshold_sweep_017_033_summary.json`
+
+---
+
+## Probe 065-072 — Semantic Gravity Overlay Comparison
+
+**Date:** 2026-04-01
+
+Purpose:
+- test whether semantic should behave like a bounded attraction overlay instead of a primary support beam
+- compare the deterministic semantic lane against the first sentence-transformer lane on the same scaffold
+
+Top-line comparison:
+
+| Probe family | Provider | Control | High | Read |
+|---|---|---:|---:|---|
+| 065-068 | deterministic | `10955` | `12133` | strong overlay effect |
+| 069-072 | sentence-transformers | `3380` | `3943` | real but much weaker |
+
+Interpretation:
+1. Semantic gravity is a real phenomenon in both lanes.
+2. The deterministic semantic lane is dramatically stronger on this footing.
+3. Semantic currently reads more like a long-range attraction field than a primary support beam.
+
+Artifacts:
+- `_docs/_analysis/bag_semantic_qc_2026-04-01/bag_semantic_qc_2026-04-01.md`
+
+---
+
+## Probe 073-076 — Semantic Shape Sweep + Monitor Typed-Event Smoke
+
+**Date:** 2026-04-01
+
+Purpose:
+- determine whether the deterministic semantic field has a better **shape** than the first `high` overlay
+- validate the upgraded live monitor path
+
+Top-line deterministic shape sweep:
+
+| Probe | Shape | Cross-doc pull | Read |
+|---|---|---:|---|
+| 073 | steep | `12067` | safest balanced candidate |
+| 074 | softplus | `12106` | strongest practical compromise |
+| 068 | high | `12133` | near-saturation |
+| 075 | xhigh | `12159` | marginal gain, likely over-pull ceiling |
+| 076 | monitor smoke (`steep`) | `12067` | typed-event path validated |
+
+Bag-facing shelf QC:
+- deterministic control
+- deterministic steep
+- deterministic softplus
+- deterministic high
+- deterministic xhigh
+
+Result:
+- all preserved the same top shelf on the current 11-query human-facing validation set
+
+Interpretation:
+1. The graph gains are now saturating rather than opening a wholly new regime.
+2. `xhigh` is useful as a stress point, not an obvious default.
+3. The current close choice is `steep` versus `softplus`.
+4. The live monitor is now good enough to act as a real observer surface during tuning.
+
+Artifacts:
+- `_docs/SESSION_CLOSE_REPORT_2026-04-01.md`
+- `_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.md`
+- `_docs/_analysis/reference_probe_076_monitor_typed_event_smoke`

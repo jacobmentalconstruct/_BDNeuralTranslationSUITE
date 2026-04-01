@@ -47,10 +47,22 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - sentence-transformers control/high: `3380 -> 3943`
   - current read: semantic behaves more like a long-range attraction field than a primary support beam
   - current warning: this is graph-strong, but still needs bag-side QC before becoming a default
- - That bag-side QC has now started to come in:
+- That bag-side QC has now started to come in:
   - deterministic control and deterministic high both preserve the same strong human-facing top shelf on the reference query set
   - both sentence-transformer variants lag behind on the same shelf
   - current read: the deterministic lane is not only graph-strong, it is also the better evidence-facing lane on this footing
+- We now also have a compact deterministic semantic-gravity shape sweep:
+  - `steep`, `softplus`, `high`, and `xhigh` all preserve the same human-facing top shelf on the current 11-query validation set
+  - graph gains are now saturating rather than opening a wholly new regime
+  - current read:
+    - `steep` is the safest balanced candidate
+    - `softplus` is the strongest practical compromise
+    - `xhigh` is a useful stress point, not an obvious default
+- The probe monitor is now a more useful observer surface too:
+  - live metric cards
+  - summary and sample tabs in the same window
+  - five-surface color cues
+  - typed `report_summary` / `report_snapshot` events behind the viewer
 
 ## Broad tuning read
 
@@ -89,6 +101,9 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - Rotation testing clarified something important too:
   - keeping the same weight pattern but rotating it around the five surfaces does not preserve the lift
   - the field cares about orientation, not just numeric shape
+- Semantic-shape testing clarified something important too:
+  - once the deterministic semantic field is active, the next question is shape/saturation rather than raw existence
+  - the bag shelf is stable across the tested deterministic semantic shapes, so the next choice is about preserving useful winner geometry rather than preventing obvious shelf breakage
 
 ## What tuning has already taught us
 

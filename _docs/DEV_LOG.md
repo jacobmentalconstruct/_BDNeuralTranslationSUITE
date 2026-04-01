@@ -4,6 +4,78 @@ _Last updated: 2026-04-01. Journal mirror lives in `_docs/_journalDB/app_journal
 
 ---
 
+## 2026-04-01 — Monitor hardening + semantic-gravity shape QC
+
+Journal entry: pending mirror
+
+- Upgraded the builder probe monitor UI:
+  - clearer live metric cards
+  - summary and sample tabs in the same window
+  - five-surface color cues
+  - the window now shows both the headline numbers and example source/target evidence
+- Hardened the monitor event path:
+  - `probe_monitor.py` now emits typed `report_summary` and `report_snapshot` events
+  - `probe_monitor_viewer.py` can refresh the in-window summary/sample panels from those typed events
+  - the old file-backed event stream is still the underlying transport, but the UI is no longer depending only on re-reading the saved report
+- Fixed the reference probe launcher so deterministic monitor runs resolve the correct artifacts directory:
+  - `_parts/_BDHyperNeuronEMITTER/artifacts` when present
+- Validation:
+  - emitter suite:
+    - `python -m unittest discover _BDHyperNeuronEMITTER/tests -v`
+    - `46/46` passing
+  - monitor smoke:
+    - `reference_probe_076_monitor_typed_event_smoke`
+    - completed cleanly with typed report events and full probe bundle output
+
+- Ran a compact deterministic semantic-gravity shape sweep on top of the active anchor lens:
+  - Probe 073 `steep`
+  - Probe 074 `softplus`
+  - Probe 075 `xhigh`
+- Combined with the earlier deterministic ladder:
+  - control: `10955`
+  - low: `11697`
+  - mid: `12052`
+  - steep: `12067`
+  - softplus: `12106`
+  - high: `12133`
+  - xhigh: `12159`
+- Read:
+  - graph gains are now saturating rather than revealing a new regime
+  - `xhigh` adds only marginal gain over `high`
+  - `steep` preserves more `multi_surface` / `structural_bridge` winner geometry
+  - `softplus` looks like the strongest practical compromise
+
+- Ran a compact bag validation shelf across:
+  - deterministic control
+  - deterministic steep
+  - deterministic softplus
+  - deterministic high
+  - deterministic xhigh
+- Query shelf:
+  - `lexical analysis`
+  - `encoding declarations`
+  - `yield expressions`
+  - `operator precedence`
+  - `assignment expressions`
+  - `lambda expressions`
+  - `function definitions`
+  - `import statements`
+  - `resolution of names`
+  - `eval input`
+  - `interactive input`
+- Result:
+  - all four semantic-shape variants preserved the same top shelf as deterministic control on `11/11` queries
+  - current conclusion:
+    - the choice is now about preserving useful winner geometry, not about preventing obvious bag breakage
+
+Artifacts:
+- `_docs/SESSION_CLOSE_REPORT_2026-04-01.md`
+- `_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.md`
+- `_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.json`
+- `_docs/_analysis/reference_probe_076_monitor_typed_event_smoke`
+
+---
+
 ## 2026-04-01 — Five-vertex shock-load sweep on the `0.58` footing
 
 Journal entry: pending mirror

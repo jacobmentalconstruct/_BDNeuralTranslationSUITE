@@ -123,20 +123,33 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
   - keep bag checks on `hop_limit = 1`
   - prefer profiles that improve human-facing top-item quality on representative queries
   - current leading bag-first default candidate: `0.58`
-- [ ] Quality-control the semantic-gravity overlay family through the bag:
+- [x] Quality-control the first semantic-gravity overlay family through the bag:
   - deterministic control
-  - deterministic mid/high gravity
+  - deterministic high gravity
   - sentence-transformers control
   - sentence-transformers high gravity
-  - compare evidence usefulness, not just graph size
+  - read: deterministic remains stronger on both graph shape and current human-facing shelf
+- [x] Run a compact deterministic semantic-gravity shape QC on the same human-facing shelf:
+  - `steep`
+  - `softplus`
+  - `high`
+  - `xhigh`
+  - read: all preserve the same top shelf on the 11-query validation set
 - [ ] Decide whether deterministic high semantic gravity should become the next promoted experiment lane:
   - graph result is stronger
   - current bag QC did not degrade the top shelf
   - still inspect broader/stubborn query families before promoting it as a default
+- [ ] Decide whether `steep` or `softplus` should be the promoted deterministic semantic-gravity default:
+  - `steep` currently looks safer for preserving more non-semantic winner geometry
+  - `softplus` currently looks like the strongest practical compromise
+  - `xhigh` is a useful ceiling point, not an obvious default
 - [ ] Decide whether semantic should now be treated as a bounded overlay field:
   - current read: attraction field yes
   - primary support beam no
   - only promote if bag-side quality supports the graph-side lift
+- [ ] Keep the live probe monitor evolving as a first-class observer surface:
+  - current state now includes live metric cards, summary/sample tabs, and five-surface color cues
+  - next likely UI seam is a richer same-window message/update model for panel-specific refresh
 - [ ] Record explicit Phase 1 exit criteria around five-surface functional integration:
   - each surface mapped in context
   - each surface measurably useful somewhere meaningful

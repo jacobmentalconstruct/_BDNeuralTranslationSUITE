@@ -25,6 +25,8 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
 - We now also have first evidence that semantic works better as an **overlay attraction field** than as a primary support surface:
   - bounded semantic-gravity overlays improve cross-document pull in both semantic lanes
   - the deterministic lane is currently far stronger than the sentence-transformer lane on this footing
+  - a later deterministic shape sweep (`steep` / `softplus` / `high` / `xhigh`) shows the graph gains are now saturating rather than revealing a wholly new regime
+  - on the current 11-query human-facing shelf, all those deterministic shape variants preserved the same top-item set as deterministic control
 - The main unresolved bottleneck is still **cross-document pull**, but the current read is now sharper:
   - cheap-fetch fallback exists
   - origin-aware cross-document scoring v1 has now materially improved conversion
@@ -122,6 +124,19 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
     - semantic gravity is a real phenomenon in both lanes
     - the deterministic semantic lane is much stronger on this footing
     - semantic currently looks more like a long-range attraction field than a primary support beam
+- **Probe 073-076** refined and validated that semantic-gravity seam:
+  - `steep`, `softplus`, and `xhigh` all sit very close to the earlier `high` point on graph metrics
+  - current read:
+    - `xhigh` adds only marginal gain over `high`
+    - `steep` preserves more `multi_surface` / `structural_bridge` winner geometry
+    - `softplus` is a strong compromise point
+  - the current semantic-shape QC artifact is:
+    - [`_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\bag_semantic_shape_qc_2026-04-01\bag_semantic_shape_qc_2026-04-01.md)
+  - the live monitor was also upgraded in this stretch:
+    - clearer metric cards
+    - summary and sample tabs
+    - five-surface color cues
+    - typed `report_summary` / `report_snapshot` events
 
 ## What Works Right Now
 
@@ -137,6 +152,7 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
 - rudimentary bag query workflow
 - side-by-side deterministic vs traditional embedder testing
 - bounded semantic-gravity overlays behind profile control
+- a richer live probe monitor that can show both numbers and example evidence in the same window
 
 ## The Current Bottleneck
 
@@ -161,6 +177,7 @@ The parked next step is:
 - keep the current sliding window and current SQLite/FTS reuse path
 - keep the origin-aware cross-document branch in the active scorer experiment lane
 - keep the Hot Engine direction fix as current runtime truth
+- keep the upgraded live monitor as the normal probe-observer surface
 - refine the scorer now that the branch has proved useful:
   - keep the stronger alternate cross-document lens
   - treat cross-document threshold scaling as the main near-term gain lever
@@ -178,6 +195,10 @@ The parked next step is:
 - if current bag quality stalls, the next likely bag seams are:
   - targeted lexicalization / alias refinement for stubborn queries
   - then, if needed, decoupling anchor budget from final bag size
+- on the active semantic-gravity lane, the next close choice is now:
+  - `steep` vs `softplus`
+  - not “whether semantic gravity is real at all”
+  - not “whether to promote xhigh just because it is numerically largest”
 
 Phase 2 remains the goal, but it is **not** unlocked yet.
 
@@ -209,7 +230,8 @@ Do **not** jump to these yet unless the docs explicitly justify it:
 6. [`_docs/DEV_LOG.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\DEV_LOG.md)
 7. [`_docs/ARCHITECTURE.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\ARCHITECTURE.md)
 8. Current session wrap-up: [`_docs/SESSION_ORIENTATION_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\SESSION_ORIENTATION_2026-04-01.md)
-9. Optional doctrine follow-up: [`_docs/_research/2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_research\2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md)
+9. Session close freeze: [`_docs/SESSION_CLOSE_REPORT_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\SESSION_CLOSE_REPORT_2026-04-01.md)
+10. Optional doctrine follow-up: [`_docs/_research/2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_research\2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md)
 
 ## If You Are Picking Up Work Immediately
 

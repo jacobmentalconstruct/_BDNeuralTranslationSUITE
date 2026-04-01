@@ -80,6 +80,43 @@ Current read:
 - the deterministic semantic lane is much stronger on this footing
 - semantic currently looks more like a **long-range attraction field** than a primary support beam
 
+### 7. The semantic field has a shape question, not just a strength question
+
+We then ran a compact deterministic semantic-gravity shape sweep:
+
+- `steep`
+- `softplus`
+- `high`
+- `xhigh`
+
+Top-line read:
+
+- the graph gains are now saturating
+- stronger semantic gravity still helps slightly
+- but the gains are marginal once we pass the current `mid/high` band
+- on the 11-query human-facing shelf, all deterministic variants preserved the same top item set as deterministic control
+
+Current recommendation:
+
+- do not promote `xhigh` just because it is numerically largest
+- `steep` looks like the safest balanced candidate
+- `softplus` looks like the pragmatic strong compromise
+- `high/xhigh` are useful ceiling points, not obvious defaults
+
+### 8. The monitor is now a real observer surface
+
+The probe monitor now has:
+
+- clearer live metric cards
+- summary and sample tabs in the same window
+- five-surface color cues
+- explicit typed `report_summary` / `report_snapshot` events
+
+That matters because the monitor can now show both:
+
+- the headline numbers
+- and the actual source/target evidence those numbers relate to
+
 ## What The Current Picture Seems To Be
 
 - `structural` gives the lattice shape
@@ -92,25 +129,19 @@ This means the project is no longer just tuning one score. It is starting to map
 
 ## Immediate Next Steps
 
-1. Quality-control the new semantic-gravity runs through the bag:
-   - deterministic control
-   - deterministic mid/high gravity
-   - sentence-transformers control
-   - sentence-transformers high gravity
+1. Decide whether `steep` or `softplus` should become the current promoted deterministic semantic-gravity overlay.
 
-2. Decide whether the deterministic semantic-gravity lane is:
-   - genuinely better for evidence quality
-   - or merely producing bigger graph numbers
-
-3. Continue the Phase 1 five-vertex mapping program:
+2. Continue the Phase 1 five-vertex mapping program:
    - semantic in active conditions
    - verbatim/commonality behavior
    - contradiction / anti-signal as a real shaping field
 
-4. Formalize Phase 1 exit criteria around:
+3. Formalize Phase 1 exit criteria around:
    - all five surfaces mapped in context
    - bag trustworthy enough for human/agent use
    - training data disciplined enough for FFN comparison work
+
+4. Keep the monitor and reviewer bundle in sync with the current evidence surfaces so outside review can track real code and real recorded results
 
 ## Path To Phase 2
 
