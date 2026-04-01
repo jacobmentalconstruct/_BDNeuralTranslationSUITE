@@ -312,3 +312,51 @@ In short:
 
 **We are no longer fighting to prove cross-document lift exists. We are now learning how to control it well.**
 
+---
+
+## Bag Follow-Through
+
+One more important thing happened after the scorer breakthrough:
+
+the bag finally started reflecting the better graph, but only after a real engine fix.
+
+### What Was Wrong
+
+The Hot Engine was propagating activation backward relative to stored edge direction.
+
+That means the bag could still look awkward even when the graph underneath had improved, because activation was not flowing through the graph the way the stored relations claimed it should.
+
+### What Changed
+
+After fixing the propagation orientation:
+- `hop_limit = 1` remained the best human-facing mode
+- `hop_limit = 2` and `3` still became noisy
+- wider seed budgets still did not help much
+- but the stronger origin-aware graph bands now showed up clearly in the bag
+
+### Human Read
+
+Before the fix:
+- some graph improvements were real, but the bag was partially hiding them
+
+After the fix:
+- `lexical analysis` moved from a stray `introduction.txt` result into `lexical_analysis.txt`
+- `encoding declarations` stopped surfacing a bad `datamodel.txt` item on the better bands
+- `operator precedence` moved from `index.txt` into `expressions.txt` on the better bands
+
+That means the project is now in a better place than the raw graph numbers alone suggested:
+
+- the graph breakthrough was real
+- the bag bug was real
+- once the bug was fixed, the bag started showing the value of the better lens bands
+
+### Current Bag-First Read
+
+Right now:
+- `0.58` looks like the leading default candidate
+- `0.55` is close behind
+- `0.60` is safer-looking on paper but less useful on several important bag queries
+
+So the control problem is now:
+
+**pick the strongest graph/bag band that still feels trustworthy to a human reader.**

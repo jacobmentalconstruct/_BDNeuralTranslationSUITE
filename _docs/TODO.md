@@ -116,9 +116,22 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
   - current likely band: `0.50`–`0.65`
   - keep pair count stable while choosing a trustworthy default
   - inspect weakest admitted winners, not just top-line pull count
+- [ ] Promote bag usefulness to a co-equal acceptance surface during trust-band selection:
+  - keep bag checks on `hop_limit = 1`
+  - prefer profiles that improve human-facing top-item quality on representative queries
+  - current leading bag-first default candidate: `0.58`
 - [ ] Record the trust boundary explicitly in the active defaults:
   - do not promote `0.40` or lower as the default without stronger quality evidence
   - keep the sweep summaries attached to the chosen default so later agents can see why
+- [ ] Keep bag-side quality checks attached to the chosen default:
+  - `lexical analysis`
+  - `encoding declarations`
+  - `operator precedence`
+  - `yield expressions`
+  - `eval input`
+  - `function definitions`
+  - `lambda expressions`
+  - `assignment expressions`
 - [ ] Decide whether the Splitter contract needs a richer shared-target neighborhood for cross-document scoring:
   - current hunks already carry partial outbound-reference signal
   - triadic/shared-anchor scoring may still need stronger normalized target extraction
@@ -155,6 +168,18 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 - [ ] Keep the external records library organized as future builder artifacts accumulate
 - [x] Add a rudimentary agent-facing `bag` CLI seam over the existing retrieval path
 - [x] Validate the `bag` command on real text/project graphs and record baseline bag artifacts/examples
+- [x] Fix the Hot Engine bag propagation direction so activation follows stored `source_occ_id -> target_occ_id`
+- [x] Add focused emitter tests proving the Hot Engine now propagates forward and does not back-propagate from seeded targets
+- [ ] Decide whether bag query should decouple anchor budget from final returned item count:
+  - current `provider.query()` still ties both to `top_k`
+  - diagnostics so far say wider anchor counts alone do not improve the awkward reference queries
+  - keep this as the next bag-shaping seam if the current default-band work stalls
+- [ ] Tighten bag lexicalization / alias handling for stubborn human-facing queries:
+  - current conservative lexical variants already help `eval input`
+  - variant-aware bag rerank now also helps `function definitions` on the better trust-band DBs
+  - remaining awkward cases look more like corpus-query wording mismatch than graph-direction failure
+  - current clearest stubborn cases: `assignment expressions` and `lambda expressions`
+  - keep this query-side / bag-side and do not mutate durable graph scoring for it
 - [x] Prepare side-by-side deterministic-vs-traditional embedder comparison using the same bag/query workflow
 - [x] Choose the first traditional embedder lane for comparison and define artifact/eval parity rules
 - [x] Run a first side-by-side bag comparison on one text corpus and one mixed project corpus
@@ -191,6 +216,7 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 - [ ] Verify routing profiles and edge reasons are useful to a human/agent inspector
 - [ ] Tighten schema/versioning/query seams only where real corpus behavior demands it
 - [ ] Promote the rudimentary bag from CLI proof to a stable query contract if it holds up on real graph use
+- [ ] Record the Hot Engine direction fix and post-fix bag behavior as part of the stable bag contract if it survives another broader query pass
 - [ ] Define the missing control layer for later retrieval:
   - scope-root types
   - resolution grammar by scope type

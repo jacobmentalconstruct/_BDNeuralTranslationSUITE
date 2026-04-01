@@ -11,6 +11,7 @@ if str(EMITTER_SRC) not in sys.path:
 
 from core.engine.inference.provider import (
     EmbeddingProviderSpec,
+    _lexical_anchor_queries,
     load_embedding_provider_spec,
     query,
     save_embedding_provider_spec,
@@ -55,6 +56,16 @@ class _FakeHotEngine:
 
 
 class EmbeddingProviderTests(unittest.TestCase):
+    def test_lexical_anchor_queries_adds_safe_variants(self):
+        self.assertEqual(
+            _lexical_anchor_queries("eval input"),
+            ["eval input", "expression input", "eval_input"],
+        )
+        self.assertEqual(
+            _lexical_anchor_queries("lambda expressions"),
+            ["lambda expressions", "lambdas", "lambda_expressions", "lambda expression"],
+        )
+
     def test_provider_spec_round_trip(self):
         with tempfile.TemporaryDirectory() as tmp:
             output_dir = Path(tmp)
@@ -116,6 +127,44 @@ class EmbeddingProviderTests(unittest.TestCase):
             self.assertEqual(results[0].occurrence_id, "occ-1")
             create_provider.assert_called_once()
             ann_search.assert_called_once()
+
+    def test_query_runs_fts_over_lexical_variants(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            db_path.touch()
+
+            calls = []
+
+            def _fake_fts(conn, query_text, top_k=10):
+                calls.append(query_text)
+                if query_text == "expression input":
+                    return [
+                        AnchorResult(
+                            occurrence_id="occ-variant",
+                            hunk_id="h-variant",
+                            score=0.91,
+                            origin_id="memory://toplevel_components.txt",
+                            node_kind="md_heading",
+                            content_snippet="9.4. Expression input",
+                        )
+                    ]
+                return []
+
+            with patch(
+                "core.engine.inference.retrieval.fts_search",
+                side_effect=_fake_fts,
+            ), patch(
+                "core.engine.inference.retrieval.load_subgraph",
+                return_value={"nodes": {}, "edges": [], "inhibit_occ_pairs": []},
+            ), patch(
+                "core.engine.inference.hot_engine.HotEngine",
+                _FakeHotEngine,
+            ):
+                results = query("eval input", db_path=db_path, top_k=5)
+
+            self.assertEqual(calls[:3], ["eval input", "expression input", "eval_input"])
+            self.assertEqual(len(results), 1)
+            self.assertEqual(results[0].occurrence_id, "occ-variant")
 
 
 if __name__ == "__main__":

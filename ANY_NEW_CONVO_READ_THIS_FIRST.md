@@ -13,6 +13,14 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
 - We are still in **Phase 1**, not Phase 2.
 - The active scorer is still the **Bootstrap Nucleus**.
 - The **bag CLI exists** and is useful enough to inspect evidence on real corpora.
+- The bag path now also has a confirmed Hot Engine direction fix:
+  - activation had been propagating backward relative to stored `source_occ_id -> target_occ_id` relations
+  - that bug is now fixed
+  - post-fix bag behavior is materially more trustworthy on the reference footing
+- The bag path now also has a first conservative lexicalization/rerank layer:
+  - lexical query variants shape lexical anchors
+  - corroborated origins can receive a small bag-only support bonus
+  - this already improves `eval input`
 - The **deterministic semantic lane currently outperforms** the first traditional sentence embedder we tested.
 - The main unresolved bottleneck is still **cross-document pull**, but the current read is now sharper:
   - cheap-fetch fallback exists
@@ -28,6 +36,7 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
   - a single generic scorer lens was part of the plateau
   - the old cross-document threshold gate was much too strict
   - the promising current trust band looks closer to `0.50`–`0.65` than the first accepted `0.92` profile
+  - the most useful current bag-facing sub-band looks closer to `0.55`–`0.58`, with `0.58` as the current leading default candidate
 
 ## The Important Probe Story
 
@@ -115,6 +124,8 @@ The sharper problem now is:
 - threshold scaling proves the old cross-document gate was too strict
 - the new practical problem is choosing a trustworthy default band that recovers the latent bridge layer without admitting too many fragment-heavy wins
 - current partial shared-anchor / shared-target support still looks secondary to threshold behavior on this footing
+- bag usefulness now also matters as a first-class acceptance surface
+- after the Hot Engine fix, bag behavior is finally reflecting the stronger graph instead of partially hiding it
 
 ## Next Best Move
 
@@ -122,6 +133,7 @@ The parked next step is:
 
 - keep the current sliding window and current SQLite/FTS reuse path
 - keep the origin-aware cross-document branch in the active scorer experiment lane
+- keep the Hot Engine direction fix as current runtime truth
 - refine the scorer now that the branch has proved useful:
   - keep the stronger alternate cross-document lens
   - treat cross-document threshold scaling as the main near-term gain lever
@@ -134,6 +146,11 @@ The parked next step is:
   - `direction of spread`
   - `stop-unwinding`
 - treat bag/walker slice doctrine as future retrieval guidance, not current runtime truth
+- keep bag checks on `hop_limit = 1` for human-facing evaluation
+- treat `0.58` as the current leading bag-first default candidate unless broader checks disprove it
+- if current bag quality stalls, the next likely bag seams are:
+  - targeted lexicalization / alias refinement for stubborn queries
+  - then, if needed, decoupling anchor budget from final bag size
 
 Phase 2 remains the goal, but it is **not** unlocked yet.
 
@@ -172,6 +189,6 @@ Start by restating these three things plainly:
 
 - we are in Phase 1
 - the bag exists and is usable
-- cheap-fetch fallback already exists, and origin-aware threshold sweeps proved the old cross-document gate was far too strict while revealing a likely trust band around `0.50`–`0.65`
+- cheap-fetch fallback already exists, and origin-aware threshold sweeps proved the old cross-document gate was far too strict while revealing a likely trust band around `0.50`–`0.65`, with `0.58` currently leading the bag-first default race
 
 If you say anything that contradicts those three points, you probably have not finished onboarding yet.

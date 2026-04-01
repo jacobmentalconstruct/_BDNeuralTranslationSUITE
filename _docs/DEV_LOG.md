@@ -104,6 +104,150 @@ Journal entry: pending mirror
   - `_docs/BREAKTHROUGH_REPORT_2026-03-31.md`
   - this report explains the progression, the control ladder, and the human-readable meaning of the new lens behavior
 
+## 2026-03-31 — Bag hotfix, post-fix bag read, and leading default candidate
+
+Journal entry: pending mirror
+
+- Shifted from graph-only evaluation into bag-first usefulness checks because the active user goal is now to make the bag useful to an observer/agent first.
+- Confirmed a real bag/runtime bug in `_BDHyperNeuronEMITTER/src/core/engine/inference/hot_engine.py`:
+  - stored relations are directional (`source_occ_id -> target_occ_id`)
+  - the Hot Engine had been propagating activation backward relative to that direction
+  - tiny proof:
+    - edge `A -> B`
+    - seed `A` only kept `A`
+    - seed `B` incorrectly activated `A`
+- Fixed the propagation orientation in the Hot Engine for both numpy and GraphBLAS paths.
+- Added focused emitter tests in:
+  - `_BDHyperNeuronEMITTER/tests/test_hot_engine.py`
+  - proving forward propagation and no back-propagation from a seeded target
+- Verified the full emitter suite after the fix:
+  - `38 / 38` passing
+
+- Ran post-fix bag sanity passes on the reference probe DBs.
+- Strongest bag read after the fix:
+  - `hop_limit = 1` remains the right human-facing regime
+  - `hop_limit = 2` and `3` still drift badly into index-heavy noise
+  - widening anchor budget alone still does not materially improve the awkward cases
+  - dropping `index.txt` list-item anchors also does not materially change the good-footing outputs
+- That means the current bag bottleneck is not:
+  - too few lexical seeds
+  - or simple index-anchor monopoly
+- It is more about:
+  - propagation/ranking behavior
+  - and the underlying graph quality now that propagation is flowing the right way
+
+- Post-fix query quality improved in ways that finally reflect the graph breakthrough:
+  - `lexical analysis`
+    - control still lands in `introduction.txt`
+    - `0.58 / 0.55` land in `lexical_analysis.txt`
+  - `encoding declarations`
+    - control and `0.60` still surface a bad `datamodel.txt` item
+    - `0.58 / 0.55` surface `lexical_analysis.txt -> 2.1.4. Encoding declarations`
+  - `operator precedence`
+    - control and `0.60` stay on `index.txt`
+    - `0.58 / 0.55` move into `expressions.txt`
+
+- Current bag-first default read:
+  - `0.58` and `0.55` both beat `0.60` on the most interesting bag queries
+  - `0.58` currently looks like the safer strong default candidate
+  - `0.55` remains close behind and should stay in the experiment lane
+
+- New bag artifacts from this pass:
+  - `_docs/_analysis/bag_post_hotfix_compare_2026-03-31/`
+  - `_docs/_analysis/bag_hop_post_hotfix_2026-03-31/`
+  - `_docs/_analysis/bag_anchor_filter_sanity_2026-03-31/`
+  - `_docs/_analysis/bag_band_compare_post_hotfix_2026-03-31/`
+  - `_docs/_analysis/bag_055_vs_058_detail_2026-03-31/`
+
+- Updated read:
+  - the graph breakthrough was real
+  - the bag bug was also real
+  - after fixing the bag engine, the origin-aware graph improvements finally show up in human-facing evidence
+  - current next move is not “more random tuning”; it is:
+    - document the fix
+    - keep bag checks attached to trust-band selection
+    - and likely treat `0.58` as the leading default candidate until broader bag checks prove otherwise
+
+- Kept pushing on bag usefulness after the engine fix:
+  - added a light human-facing rerank in `_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py`
+  - when items are close, the bag now prefers:
+    - exact query-phrase matches
+    - exact heading/section anchors
+    - anchor items over nearby non-anchor relays
+    - cleaner non-fragment evidence over noisy fragment/code-block spill
+  - bag items now also expose:
+    - `rank_score`
+    - `rank_signals`
+- Fixed a readability seam in bag summaries:
+  - short section labels like `2. Lexical analysis` or `6.2.9. Yield expressions` no longer collapse to snippets like `2.` or `6.2.9.`
+- Added focused bag-view coverage proving:
+  - an exact heading can outrank a slightly hotter but less helpful paragraph when building the human-facing bag
+- New runtime read:
+  - the graph chooses the substrate
+  - the bag view now does a small amount of observer-helpful ordering on top of that substrate
+  - this makes the bag more useful to a human/agent without pretending retrieval or graph construction changed
+
+## 2026-04-01 — Bag lexicalization and refined origin-support rerank
+
+Journal entry: pending mirror
+
+- Kept working on the bag layer rather than the durable graph because the current goal is still “make the bag useful to a reader/agent first.”
+- Added conservative lexical query variants in `_BDHyperNeuronEMITTER/src/core/engine/inference/provider.py`:
+  - variants are used only for lexical anchor search
+  - ANN/query embedding still uses the original query text
+  - initial safe variants include:
+    - underscore/space alternates
+    - simple singularization
+    - a tiny hand-curated alias seam such as:
+      - `eval input -> expression input, eval_input`
+      - `lambda expressions -> lambdas`
+- Added tests proving lexical variants are generated conservatively and are actually used in the FTS anchor loop.
+
+- Extended `_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py` again:
+  - bag rerank now sees lexical anchors produced by those conservative variants
+  - a small origin-support bonus can now help when multiple lexical variants independently point into the same source origin
+  - kept this bag-only and human-facing:
+    - no graph mutation
+    - no retrieval contract expansion
+    - no durable-score changes
+- Added bag tests proving origin-support can break close calls in favor of the more corroborated origin.
+
+- Ran stubborn-query diagnostics across the current `0.60`, `0.58`, and `0.55` reference-probe DBs.
+- Strongest positive result:
+  - `eval input` is now clearly better:
+    - top item becomes the `toplevel_components.txt` paragraph describing expression input
+    - followed by the heading `9.4. Expression input`
+    - then the `eval_input ::= ...` code block
+- Strongest negative / cautionary read:
+  - raw origin-anchor count was too blunt and could over-reward broad origins
+  - refined the bonus so it depends on corroboration across lexical query variants rather than sheer anchor volume
+- Current bag read after that refinement:
+  - the graph/Hot Engine side of this problem is mostly no longer the blocker for the stubborn cases
+  - the remaining awkward cases (`function definitions`, `lambda expressions`, `assignment expressions`, `operator precedence`) now look more like corpus-query wording mismatch / lexicalization problems than propagation failures
+  - this means the next likely bag seam is targeted lexicalization/alias refinement, not another graph-direction fix
+
+- Follow-up rerank refinement:
+  - taught the bag rerank to notice safe lexical-variant exact matches, not only the original query string
+  - softened the penalty on short exact section locators when they are clearly acting like useful human-facing anchors
+- Post-refinement stubborn-query read on the current trust-band DBs:
+  - `eval input` improved again and now surfaces the `9.4. Expression input` heading first
+  - `function definitions` improved on the better bands (`0.58` / `0.55`) and now surfaces the section locator `* 8.7.` first
+  - `operator precedence` remains clean
+  - `assignment expressions` remains poor
+  - `lambda expressions` remains poor, which is useful evidence that variant-aware rerank is not a universal rescue and that this case likely needs better lexical targeting or a different bag strategy
+- Current sharper bag read:
+  - graph-direction and propagation are no longer the main mystery
+  - the next bag bottleneck is mostly query-to-corpus wording alignment on a small set of stubborn topics
+
+- Validation after this pass:
+  - full emitter suite is now `43 / 43` passing
+
+- New artifacts from this bag tranche:
+  - `_docs/_analysis/bag_stubborn_queries_origin_support_2026-04-01/`
+  - `_docs/_analysis/bag_stubborn_queries_origin_support_refined_2026-04-01/`
+  - `_docs/_analysis/bag_query_rewrite_effect_post_patch_2026-04-01/`
+  - `_docs/_analysis/bag_stubborn_queries_variant_rerank_2026-04-01/`
+
 ## 2026-03-31 — Park-state freeze, conversion diagnostics, and doctrine consolidation
 
 Journal entry: pending mirror

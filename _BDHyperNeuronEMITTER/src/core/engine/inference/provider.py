@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -38,6 +39,10 @@ from typing import Any, Dict, List, Optional, Tuple
 log = logging.getLogger(__name__)
 EMBEDDING_PROVIDER_FILENAME = "embedding_provider_effective.json"
 DEFAULT_SENTENCE_TRANSFORMER_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+_QUERY_VARIANT_ALIASES = {
+    "eval input": ["expression input", "eval_input"],
+    "lambda expressions": ["lambdas"],
+}
 
 
 # ── Result type ──────────────────────────────────────────────────────
@@ -349,6 +354,43 @@ def create_embed_provider(spec: EmbeddingProviderSpec) -> Optional[Any]:
     raise ValueError(f"Unsupported embedding provider: {spec.provider}")
 
 
+def _lexical_anchor_queries(text: str) -> List[str]:
+    normalized = " ".join(text.split()).strip()
+    if not normalized:
+        return []
+
+    variants: List[str] = [normalized]
+    lowered = normalized.lower()
+
+    alias_variants = _QUERY_VARIANT_ALIASES.get(lowered, [])
+    variants.extend(alias_variants)
+
+    if " " in normalized and "_" not in normalized:
+        variants.append(normalized.replace(" ", "_"))
+    if "_" in normalized:
+        variants.append(normalized.replace("_", " "))
+
+    words = normalized.split()
+    if words:
+        last = words[-1]
+        if len(last) > 3 and re.fullmatch(r"[A-Za-z_]+s", last):
+            singular_words = words[:-1] + [last[:-1]]
+            variants.append(" ".join(singular_words))
+
+    deduped: List[str] = []
+    seen: set[str] = set()
+    for variant in variants:
+        compact = " ".join(str(variant).split()).strip()
+        if not compact:
+            continue
+        lowered_variant = compact.lower()
+        if lowered_variant in seen:
+            continue
+        seen.add(lowered_variant)
+        deduped.append(compact)
+    return deduped
+
+
 # ── Hot Query API — coordinates Retrieval + HotEngine ────────────────
 
 def query(
@@ -409,8 +451,15 @@ def query(
     conn = sqlite3.connect(str(db_path))
     try:
         # ── FTS anchors — always attempted ───────────────────────────────
-        fts_anchors = fts_search(conn, text, top_k=top_k)
-        log.debug("query(): fts_anchors=%d", len(fts_anchors))
+        lexical_queries = _lexical_anchor_queries(text)
+        fts_anchors = []
+        for lexical_query in lexical_queries:
+            fts_anchors.extend(fts_search(conn, lexical_query, top_k=top_k))
+        log.debug(
+            "query(): fts_anchors=%d lexical_queries=%s",
+            len(fts_anchors),
+            lexical_queries,
+        )
 
         # ── ANN anchors — opportunistic, requires embedding artifacts ────
         ann_anchors = []

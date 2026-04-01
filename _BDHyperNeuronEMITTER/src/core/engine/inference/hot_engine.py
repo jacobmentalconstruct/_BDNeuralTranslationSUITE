@@ -190,9 +190,14 @@ class HotEngine:
         for si in seed_indices:
             mask[si] = True
 
-        # Update loop: h_{t+1} = α·h_t + A·h_t - H·h_t
+        # Update loop: h_{t+1} = α·h_t + A^T·h_t - H·h_t
+        #
+        # Relations are stored as source_occ_id -> target_occ_id.  To propagate
+        # activation forward from seeded source nodes into their targets, the
+        # matrix-vector multiply must consume incoming edge weight at each target.
+        # With rows indexed by source and columns by target, that is A^T·h.
         for _ in range(self.hop_limit):
-            Ah = A.mxv(h)
+            Ah = A.T.mxv(h)
             Hh = H.mxv(h)
             h_decay = h.dup()
             h_decay(mask, replace=True) << h_decay  # keep seed values decayed only
@@ -253,9 +258,9 @@ class HotEngine:
         for si in seed_indices:
             mask[si] = True
 
-        # Update loop: h_{t+1} = α·h + A·h - H·h  (masked)
+        # Update loop: h_{t+1} = α·h + A^T·h - H·h  (masked)
         for _ in range(self.hop_limit):
-            h_next = self.decay * h + A @ h - H @ h
+            h_next = self.decay * h + A.T @ h - H @ h
             # Restore seeds to decay-only (no back-prop energy)
             h_next[mask] = self.decay * h[mask]
             # Clip to [0, 1]

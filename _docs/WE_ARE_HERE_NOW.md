@@ -4,7 +4,7 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 
 ## Last updated
 
-2026-03-31
+2026-04-01
 
 ## Fresh-thread start
 
@@ -26,6 +26,17 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - The Emitter now has a native SQLite FTS fallback lane for ingest-time candidate recall experiments.
 - The Bootstrap Nucleus now also has an optional origin-aware cross-document scoring branch behind profile control.
 - We now have a real cross-document threshold control ladder on that branch, with a likely trust band around `0.50`–`0.65`.
+- The Hot Engine bag propagation direction bug is now fixed.
+- Post-fix bag checks make `0.58` look like the leading bag-first default candidate, with `0.55` close behind.
+- The bag view now also applies a light human-facing rerank:
+  - prefers exact section/heading anchors when activations are close
+  - exposes `rank_score` / `rank_signals` for inspection
+  - keeps short section labels intact instead of collapsing them to snippets like `2.`
+- The bag now also uses conservative lexical query variants for lexical anchor shaping.
+- The bag rerank now has a refined origin-support seam:
+  - small bonus only when multiple lexical variants independently point into the same origin
+  - clearest current win: `eval input`
+  - current remaining misses look more lexicalization-bound than graph-direction-bound
 
 ## Broad tuning read
 
@@ -50,6 +61,14 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
     - `resolution grammar`
     - `direction of spread`
     - `stop-unwinding`
+- The next practical bag shift is also clearer:
+  - bag usefulness is now constrained more by query/ranking behavior than by missing graph signal
+  - `hop_limit = 1` is still the right human-facing regime
+  - widening lexical seed count alone does not materially improve the current awkward cases
+  - the remaining awkward cases now separate into:
+    - ranking misses
+    - lexicalization / alias misses
+    - and cases where the best item is still not entering the candidate set cleanly
 
 ## What tuning has already taught us
 
@@ -116,6 +135,22 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - proved a builder-side anisotropic blur lens can be run safely over existing graph probes
   - showed the blur lens exposes neighborhood/topology information that the bag does not
   - also showed the blur is currently easier to hijack by dense local hubs than the bag
+- Bag diagnostics post-origin-aware sweep:
+  - confirmed the bag did not automatically improve just because graph pull improved
+  - isolated a real Hot Engine bug: activation was propagating backward relative to stored edge direction
+  - fixed that bug and added focused emitter tests
+  - post-fix bag checks now show the graph improvements on human-facing queries such as:
+    - `lexical analysis`
+    - `encoding declarations`
+    - `operator precedence`
+  - current read:
+    - `0.58` and `0.55` both beat `0.60` on the most interesting bag queries
+    - `0.58` is currently the safer strong default candidate
+    - `hop_limit = 2` and `3` still drift badly into index-heavy noise
+    - dropping `index.txt` list-item anchors does not materially change the good-footing bag results
+    - the bag view can now surface cleaner top items without mutating the graph itself
+    - conservative query lexicalization plus refined origin-support reranking can now rescue `eval input`
+    - but the remaining stubborn misses (`function definitions`, `lambda expressions`, `assignment expressions`, `operator precedence`) still look more like corpus-query wording mismatch than graph propagation failure
 
 ## Phase 2 readiness read
 
@@ -154,7 +189,9 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 - If we moved to Phase 2 right now, we would risk teaching the FFN around unresolved scaffold defects instead of teaching it from a trustworthy interaction substrate.
 - The immediate live blocker is now narrower:
   - the graph has moved far past the `115` plateau under origin-aware scoring
-  - the remaining question is where to set the cross-document trust boundary, not whether the layer exists
+  - the remaining questions are:
+    - where to set the cross-document trust boundary
+    - and how to keep the bag human-usable on top of that stronger graph
 - The next likely scorer experiment is now sharper:
   - keep the origin-aware cross-document branch
   - keep the stronger alternate cross-document fractions
@@ -219,6 +256,8 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 - Current next step:
   - fine-sweep and inspect weakest winners inside `0.50`–`0.65`
   - keep shared-anchor refinement secondary unless that band stalls
+  - keep bag evaluation at `hop_limit = 1`
+  - if `0.58` continues to hold its current bag quality, promote it as the first bag-first default candidate
 
 - Re-centered the project after the old `final/` move-up.
 - Verified the App Journal install and launcher path.

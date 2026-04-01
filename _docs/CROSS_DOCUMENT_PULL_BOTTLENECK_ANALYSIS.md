@@ -36,6 +36,11 @@ In plain terms:
 
 So the project is now fighting a **long-range recall-and-conversion problem under cost constraints**, not a vague “semantic weakness” problem.
 
+One follow-through matters here:
+- graph-level lift is now real
+- but bag usefulness also depends on retrieval propagation behaving correctly
+- the Hot Engine direction fix on 2026-03-31 means bag evaluation is now a trustworthy secondary acceptance surface for the better graph bands
+
 ---
 
 ## The Actual Issue
@@ -225,6 +230,10 @@ Together, these probes prove:
 - the old cross-document threshold gate was suppressing a very large structural/statistical layer
 - current partial shared-anchor support is still not the main lever compared with threshold behavior
 - the current problem is no longer raw inability to recover long-range pull; it is choosing the trustworthy control band for that recovery
+- bag-side consequence after the Hot Engine fix:
+  - the better graph bands (`0.58 / 0.55`) now also produce better human-facing evidence on several representative queries
+  - this makes trust-band selection more meaningful, because we are no longer choosing on graph numbers alone
+  - current leading bag-first default candidate: `0.58`
 
 ---
 
