@@ -1,0 +1,46 @@
+{
+  "edge_threshold": 0.24,
+  "dominance_threshold": 0.43,
+  "surface_fractions": {
+    "grammatical": 0.3,
+    "structural": 0.3,
+    "statistical": 0.2,
+    "semantic": 0.15,
+    "verbatim": 0.05
+  },
+  "grammatical_match_profile": {
+    "exact_code_kind": 1.0,
+    "exact_heading_kind": 0.74,
+    "exact_structured_prose_kind": 0.44,
+    "exact_generic_prose_kind": 0.2,
+    "exact_fragment_kind": 0.16,
+    "family_code_kind": 0.5,
+    "family_prose_kind": 0.12,
+    "family_fragment_kind": 0.05
+  },
+  "explicit_reference_profile": {
+    "overlap_weight": 0.0,
+    "target_hint_bonus": 0.0
+  },
+  "contradiction_profile": {
+    "reference_miss_penalty": 0.0,
+    "block_mutually_exclusive_refs": false
+  },
+  "semantic_absent_threshold_scale": 0.9,
+  "cross_document_profile": {
+    "enabled": true,
+    "edge_threshold_scale": 0.92,
+    "surface_fractions": {
+      "grammatical": 0.18,
+      "structural": 0.42,
+      "statistical": 0.25,
+      "semantic": 0.1,
+      "verbatim": 0.05
+    },
+    "shared_anchor_profile": {
+      "reference_overlap_weight": 0.18,
+      "target_hint_bonus": 0.12,
+      "import_context_overlap_weight": 0.15
+    }
+  }
+}

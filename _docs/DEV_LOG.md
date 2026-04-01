@@ -4,6 +4,106 @@ _Last updated: 2026-03-31. Journal mirror lives in `_docs/_journalDB/app_journal
 
 ---
 
+## 2026-03-31 — Origin-aware cross-document scorer v1
+
+Journal entry: pending mirror
+
+- Implemented a narrow scorer-only Phase 1 experiment in `_BDHyperNeuronEMITTER/src/core/nucleus/bootstrap.py`:
+  - added optional `cross_document_profile` support to `BootstrapConfig`
+  - kept the same-document path close to the existing footing
+  - added cross-document-only surface fractions, threshold scaling, and shared-anchor structural support
+- Kept the tranche contract-tight:
+  - no Splitter contract expansion
+  - no intent-aware scoring
+  - no FFN work
+  - no broad retrieval redesign
+- Shared-anchor support is intentionally v1 only:
+  - uses current `cross_refs`, `normalized_cross_refs`, `import_context`, and target hints
+  - does **not** claim full triadic closure or a full shared-target neighborhood
+- Added emitter test coverage proving:
+  - old config payloads still load without `cross_document_profile`
+  - disabled branch behavior is inert
+  - same-document evaluations remain unchanged when the branch is enabled
+  - shared-anchor bonuses only appear when current fields support them
+- Added tracked profile:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_origin_aware_crossdoc_v1.json`
+- Ran post-change control replay on the current Python-reference list/index footing:
+  - `relations = 17457`
+  - `cross-document nucleus pull edges = 115`
+  - `training pairs total = 62896`
+  - `above-threshold training pairs = 16028`
+- Ran Probe 018 with the origin-aware branch enabled on the same footing:
+  - `relations = 17592`
+  - `cross-document nucleus pull edges = 234`
+  - `training pairs total = 62896`
+  - `above-threshold training pairs = 16163`
+- This tranche cleared the acceptance bar:
+  - `cross-document pull >= 140` yes (`234`)
+  - `training pairs <= 70000` yes (`62896`)
+  - no relation collapse; relation volume rose slightly instead
+- The conversion geometry changed in exactly the direction we wanted:
+  - control cross-document winners:
+    - `grammatical_dominant = 106`
+    - `structural_bridge = 2`
+    - `multi_surface = 7`
+  - origin-aware experiment winners:
+    - `structural_bridge = 153`
+    - `multi_surface = 69`
+    - `grammatical_dominant = 12`
+- The new read is sharper:
+  - a single generic scorer lens was part of the `115` plateau
+  - Phase 1 really does need different static evaluation profiles for different pair classes
+  - origin-aware conversion helps materially
+  - but it still recovers only part of the Probe 011 wide-window continent (`234` vs `1175`)
+- Current next question:
+  - refine the origin-aware cross-document profile further, or
+  - decide whether the current partial outbound-reference seam is too weak and needs a later richer shared-target neighborhood
+
+## 2026-03-31 — Origin-aware control gradient and threshold sweep
+
+Journal entry: pending mirror
+
+- Turned the new origin-aware scorer into a real control surface instead of a one-profile anecdote.
+- Ran the first ablation gradient after Probe 018:
+  - fractions only -> `cross-document pull = 150`
+  - fractions + threshold scaling -> `228`
+  - fractions + shared-anchor bonus -> `155`
+- That clarified the leverage order:
+  - the alternate cross-document lens matters
+  - threshold scaling carries most of the next lift
+  - the current shared-anchor seam is still secondary on this footing
+
+- Then ran a fixed-budget threshold sweep on the same footing (`training pairs total = 62896` throughout):
+  - `0.95 -> 206`
+  - `0.90 -> 255`
+  - `0.85 -> 368`
+  - `0.80 -> 588`
+  - `0.75 -> 912`
+  - `0.70 -> 1406`
+  - `0.65 -> 1975`
+  - `0.60 -> 2480`
+  - `0.50 -> 3876`
+  - `0.40 -> 6312`
+  - `0.30 -> 8458`
+
+- The strongest new read from this sweep:
+  - the old cross-document threshold gate was much too strict
+  - the graph can now match and exceed the old Probe 011 wide-window pull count without pair growth
+  - the winner field stays dominated by `structural_bridge` / `statistical_echo` much deeper into the sweep than expected
+
+- The sweep also created a new guardrail:
+  - `0.50`–`0.65` looks like the most promising trust band so far
+  - `0.40` is the first warning zone where weakest winners begin to look shaky
+  - `0.30` is too permissive and admits fragment-heavy bridge fabric
+
+- That changes the next-step logic:
+  - the next job is no longer "prove the origin-aware branch helps"
+  - the next job is "choose the trustworthy default band"
+  - richer shared-target extraction should stay deferred until the current threshold/fraction line stops paying off
+- Added a dedicated narrative capture for this turning point:
+  - `_docs/BREAKTHROUGH_REPORT_2026-03-31.md`
+  - this report explains the progression, the control ladder, and the human-readable meaning of the new lens behavior
+
 ## 2026-03-31 — Park-state freeze, conversion diagnostics, and doctrine consolidation
 
 Journal entry: pending mirror
@@ -39,6 +139,11 @@ Journal entry: pending mirror
 - Explicitly kept weather/chaos framing in the north-star bucket:
   - useful as a nested-resolution / complexity-control analogy
   - not current runtime nucleus math
+- Captured the next scorer-side hypothesis for the next pickup:
+  - the current candidate-selection path is already origin-aware
+  - the current Bootstrap Nucleus is still origin-agnostic
+  - the next likely Phase 1 experiment is an origin-aware cross-document scoring branch
+  - current HyperHunks already expose `cross_refs`, `normalized_cross_refs`, and `import_context`, but not yet a fully normalized shared-target neighborhood
 
 ## 2026-03-30 — Root onboarding guide for fresh threads
 

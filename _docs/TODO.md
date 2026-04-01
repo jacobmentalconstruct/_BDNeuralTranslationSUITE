@@ -1,6 +1,6 @@
 # BDNeuralTranslationSUITE — Project Backlog
 
-_Last updated: 2026-03-30. Mirrored in journal as entry `journal_backlog_001`. Use `_docs/WE_ARE_HERE_NOW.md` as the fastest pickup note after interruption._
+_Last updated: 2026-03-31. Mirrored in journal as entry `journal_backlog_001`. Use `_docs/WE_ARE_HERE_NOW.md` as the fastest pickup note after interruption._
 
 ---
 
@@ -90,13 +90,39 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 - [x] Run Probe 013 against the same Python-reference list/index footing after the anchor-registry upgrade
 - [x] Add a deterministic FTS cheap-fetch fallback when anchor recall returns too little signal
 - [x] Run Probe 014 against the same Python-reference list/index footing after the FTS fallback landed
-- [ ] Decide why Probe 014 stayed flat on the headline metric:
+- [x] Decide why Probe 014 stayed flat on the headline metric:
   - `cross-document pull = 115` unchanged
   - even though `fts_selected_cross_doc = 548`
-- [ ] Inspect structural losers versus grammatical winners directly:
-  - use the conversion reports to compare winner/loser routing patterns
-  - determine why structurally plausible cross-document pairs stay far below threshold
-- [ ] Test scorer-side promotion of structurally plausible cross-document bridges without broad architecture changes
+  - current read: the one-lens Bootstrap scorer was part of the plateau
+- [x] Inspect structural losers versus grammatical winners directly:
+  - used the conversion reports to compare winner/loser routing patterns
+  - confirmed structurally plausible cross-document pairs were losing badly under the generic lens
+- [x] Test scorer-side promotion of structurally plausible cross-document bridges without broad architecture changes
+- [x] Test an origin-aware Bootstrap branch for cross-document pairs:
+  - kept the same-document path close to the current footing
+  - reduced cross-document dependence on grammatical / verbatim similarity
+  - rewarded shared-anchor / shared-dependency structure before any intent-aware logic
+  - used current `cross_refs`, `normalized_cross_refs`, and `import_context` as the first v1 signal seam
+- [x] Turn the origin-aware branch into a rudimentary ablation gradient:
+  - fractions only -> `150`
+  - fractions + threshold scaling -> `228`
+  - fractions + shared-anchor bonus -> `155`
+  - current read: threshold scaling is the strongest near-term lever
+- [x] Run a threshold sweep on the origin-aware branch at fixed pair cost:
+  - current ladder now spans `0.95 -> 206` through `0.30 -> 8458`
+  - current read: the old cross-document gate was far too strict
+  - current read: `0.40` is the first warning zone and `0.30` is too permissive
+- [ ] Refine the origin-aware cross-document profile inside the promising trust band:
+  - current likely band: `0.50`–`0.65`
+  - keep pair count stable while choosing a trustworthy default
+  - inspect weakest admitted winners, not just top-line pull count
+- [ ] Record the trust boundary explicitly in the active defaults:
+  - do not promote `0.40` or lower as the default without stronger quality evidence
+  - keep the sweep summaries attached to the chosen default so later agents can see why
+- [ ] Decide whether the Splitter contract needs a richer shared-target neighborhood for cross-document scoring:
+  - current hunks already carry partial outbound-reference signal
+  - triadic/shared-anchor scoring may still need stronger normalized target extraction
+  - only do this after the `0.50`–`0.65` band stops paying off
 - [ ] Keep an eye on the new Probe 013 tradeoff:
   - `relations = 17428` vs Probe 012 `19602`
   - `cross-document pull = 115` unchanged
@@ -106,7 +132,18 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
   - `training pairs = 63155` vs Probe 013 `62583`
   - `cross-document pull = 115` unchanged
   - this means cheap-fetch v1 stayed cheap, but did not convert into better pull
+- [ ] Keep an eye on the new Probe 018 tradeoff:
+  - `relations = 17592` vs control `17457`
+  - `training pairs = 62896` vs control `62896`
+  - `cross-document pull = 234` vs control `115`
+  - this means origin-aware scoring materially improves conversion, but still recovers only part of Probe 011 `1175`
+- [ ] Keep an eye on the new threshold-sweep tradeoff:
+  - `0.65 -> 1975`, `0.60 -> 2480`, `0.50 -> 3876`
+  - `0.40 -> 6312` is the first warning zone
+  - `0.30 -> 8458` is too permissive on weakest-winner inspection
+  - the next job is now trust-band selection, not raw metric escalation
 - [ ] Decide whether the next targeted recall move is:
+  - refine the origin-aware cross-document profile first, or
   - tighten the FTS fallback trigger/query/ranking so it fires only on signal-bearing hunks and retrieves better targets, or
   - broaden deterministic anchor/query surfaces beyond the current heading/index footing before fallback
 - [ ] Do not promote the list/index profile to the new baseline unless it can recover cross-document pull, not just local relation volume

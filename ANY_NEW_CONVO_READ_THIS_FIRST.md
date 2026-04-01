@@ -14,17 +14,20 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
 - The active scorer is still the **Bootstrap Nucleus**.
 - The **bag CLI exists** and is useful enough to inspect evidence on real corpora.
 - The **deterministic semantic lane currently outperforms** the first traditional sentence embedder we tested.
-- The main unresolved bottleneck is still **cross-document pull**, but the live failure mode is now more specific:
+- The main unresolved bottleneck is still **cross-document pull**, but the current read is now sharper:
   - cheap-fetch fallback exists
-  - long-range candidates are being recovered
-  - too many structurally plausible cross-document pairs still fail to convert into winning edges
+  - origin-aware cross-document scoring v1 has now materially improved conversion
+  - threshold sweeps on that branch can now match and exceed the old Probe 011 wide-window pull count at fixed pair cost
+  - but very soft cross-document thresholds become too permissive, so the trustworthy default band is still being chosen
 - The focused breakdown of that bottleneck lives here:
   - [`_docs/CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\CROSS_DOCUMENT_PULL_BOTTLENECK_ANALYSIS.md)
 - The current best explanation is:
   - the graph has real long-range signal
   - widening the window works, but pair counts explode
   - anchor + native FTS cheap-fetch recover candidates cheaply
-  - the current scorer still under-converts many structural long-range candidates
+  - a single generic scorer lens was part of the plateau
+  - the old cross-document threshold gate was much too strict
+  - the promising current trust band looks closer to `0.50`–`0.65` than the first accepted `0.92` profile
 
 ## The Important Probe Story
 
@@ -48,6 +51,42 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
   - contradiction v1 is real but not the main bottleneck mover
   - FTS origin monopoly is not the main cause
   - current losers are mostly structural/statistical cross-document pairs that stay far below threshold
+- **Probe 017/018** tested an origin-aware Bootstrap branch:
+  - control replay held the current headline plateau:
+    - `relations = 17457`
+    - `cross-document pull = 115`
+    - `training pairs total = 62896`
+  - origin-aware cross-document scorer v1 lifted the same footing to:
+    - `relations = 17592`
+    - `cross-document pull = 234`
+    - `training pairs total = 62896`
+  - winner geometry shifted strongly away from grammar-heavy cross-document wins toward `structural_bridge` and `multi_surface`
+- **Probe 019/020/021** turned that branch into a rudimentary control gradient:
+  - alternate cross-document fractions alone lifted the footing to `150`
+  - fractions + shared-anchor bonus lifted it to `155`
+  - fractions + cross-document threshold scaling lifted it to `228`
+  - full profile reached `234`
+  - current read:
+    - the alternate cross-document lens matters
+    - cross-document threshold scaling carries most of the extra lift
+    - the current shared-anchor seam is real but still weak on this footing
+- **Probe 022-033** turned threshold scaling into a true control ladder on the same fixed pair budget (`62896`):
+  - `0.95 -> 206`
+  - `0.90 -> 255`
+  - `0.85 -> 368`
+  - `0.80 -> 588`
+  - `0.75 -> 912`
+  - `0.70 -> 1406`
+  - `0.65 -> 1975`
+  - `0.60 -> 2480`
+  - `0.50 -> 3876`
+  - `0.40 -> 6312`
+  - `0.30 -> 8458`
+  - current read:
+    - the old cross-document gate was suppressing a very large structural/statistical layer
+    - the winner field stays mostly `structural_bridge` / `statistical_echo` deep into the sweep
+    - `0.40` is the first warning zone where weakest winners begin to look shaky
+    - `0.30` is too permissive and lets fragment-heavy bridge fabric through
 
 ## What Works Right Now
 
@@ -71,15 +110,24 @@ The sharper problem now is:
 - too-small window = missed long-range pairs
 - too-large window = pair explosion
 - anchor-only recall = not broad enough yet
-- cheap-fetch fallback = real, but too many recovered structural cross-document candidates still lose at conversion time
+- cheap-fetch fallback = real
+- origin-aware scoring = materially better than the one-lens baseline
+- threshold scaling proves the old cross-document gate was too strict
+- the new practical problem is choosing a trustworthy default band that recovers the latent bridge layer without admitting too many fragment-heavy wins
+- current partial shared-anchor / shared-target support still looks secondary to threshold behavior on this footing
 
 ## Next Best Move
 
 The parked next step is:
 
-- inspect structural losers versus grammatical winners
 - keep the current sliding window and current SQLite/FTS reuse path
-- focus the next scorer work on promotion of structurally plausible cross-document bridges
+- keep the origin-aware cross-document branch in the active scorer experiment lane
+- refine the scorer now that the branch has proved useful:
+  - keep the stronger alternate cross-document lens
+  - treat cross-document threshold scaling as the main near-term gain lever
+  - fine-sweep the `0.50`–`0.65` range and inspect weakest admitted winners there
+  - do not promote `0.40` or lower as a default without stronger quality proof
+  - keep the current shared-anchor seam in play, but do not widen the contract yet unless threshold/fraction refinement stalls
 - define the missing control layer for later retrieval work:
   - `scope root`
   - `resolution grammar`
@@ -124,6 +172,6 @@ Start by restating these three things plainly:
 
 - we are in Phase 1
 - the bag exists and is usable
-- cheap-fetch fallback already exists, and the next likely move is scorer-side conversion work on structural losers
+- cheap-fetch fallback already exists, and origin-aware threshold sweeps proved the old cross-document gate was far too strict while revealing a likely trust band around `0.50`–`0.65`
 
 If you say anything that contradicts those three points, you probably have not finished onboarding yet.

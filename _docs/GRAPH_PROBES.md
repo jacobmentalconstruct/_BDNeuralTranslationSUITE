@@ -1,6 +1,6 @@
 # Graph Probes
 
-_Last updated: 2026-03-30. This file records representative Splitter → Emitter probe runs and what they reveal about graph behavior._
+_Last updated: 2026-03-31. This file records representative Splitter → Emitter probe runs and what they reveal about graph behavior._
 
 ---
 
@@ -1195,3 +1195,183 @@ Read:
 - the blur is exposing topological/procedural neighborhood
 - the bag is exposing more directly relevant evidence
 - so the blur appears additive as a diagnostic lens, not superior as retrieval
+
+---
+
+## Probe 017 / 018 — Origin-Aware Cross-Document Scorer v1
+
+**Date:** 2026-03-31
+
+Purpose:
+- test whether the current plateau is partly caused by scoring cross-document pairs too much like same-document pairs
+- keep the tranche scorer-only:
+  - no Splitter contract changes
+  - no intent-aware scoring
+  - no FFN work
+
+Profiles used:
+- Splitter:
+  - `_BDHyperNodeSPLITTER/_docs/signal_profiles/python_reference_list_index_v1.json`
+- Bootstrap control:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_prose_tuning.json`
+- Bootstrap experiment:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_origin_aware_crossdoc_v1.json`
+
+Shared footing:
+- `window_size = 50`
+- `reference_candidate_limit = 24`
+- `fts_candidate_limit = 24`
+- `fts_fallback_thin_threshold = 2`
+- `fts_origin_cap = 2`
+- `embedder = none`
+
+Artifacts:
+- control:
+  - `_docs/_analysis/reference_probe_017_origin_aware_control/cold_anatomy_reference_probe_017_origin_aware_control.db`
+  - `_docs/_analysis/reference_probe_017_origin_aware_control/training_pairs_reference_probe_017_origin_aware_control.json`
+  - `_docs/_analysis/reference_probe_017_origin_aware_control/bootstrap_profile_effective.json`
+  - `_docs/_analysis/reference_probe_017_origin_aware_control/splitter_signal_profile_effective.json`
+  - `_docs/_analysis/reference_probe_017_origin_aware_control/graph_probe_report_017_origin_aware_control.json`
+- experiment:
+  - `_docs/_analysis/reference_probe_018_origin_aware_crossdoc_v1/cold_anatomy_reference_probe_018_origin_aware_crossdoc_v1.db`
+  - `_docs/_analysis/reference_probe_018_origin_aware_crossdoc_v1/training_pairs_reference_probe_018_origin_aware_crossdoc_v1.json`
+  - `_docs/_analysis/reference_probe_018_origin_aware_crossdoc_v1/bootstrap_profile_effective.json`
+  - `_docs/_analysis/reference_probe_018_origin_aware_crossdoc_v1/splitter_signal_profile_effective.json`
+  - `_docs/_analysis/reference_probe_018_origin_aware_crossdoc_v1/graph_probe_report_018_origin_aware_crossdoc_v1.json`
+
+Top-line result:
+
+| Metric | Probe 017 control | Probe 018 experiment | Delta |
+|---|---:|---:|---:|
+| relations | `17457` | `17592` | `+135` |
+| cross-document nucleus pull edges | `115` | `234` | `+119` |
+| above-threshold training pairs | `16028` | `16163` | `+135` |
+| training pairs total | `62896` | `62896` | `0` |
+
+Acceptance read:
+- `cross-document pull >= 140`:
+  - yes (`234`)
+- `training pairs <= 70000`:
+  - yes (`62896`)
+- relation collapse:
+  - no; relation volume rose slightly
+
+Cross-document winner geometry changed sharply:
+
+| Interaction type | Control | Experiment |
+|---|---:|---:|
+| `grammatical_dominant` | `106` | `12` |
+| `structural_bridge` | `2` | `153` |
+| `statistical_echo` | `32` | `48` |
+| `multi_surface` | `7` | `69` |
+
+Interpretation:
+1. The old `115` plateau was partly a scorer-lens problem.
+   - The post-change control still held at `115`.
+   - The origin-aware branch moved the same footing to `234` without pair growth.
+
+2. Cross-document pairs should not be scored exactly like same-document pairs.
+   - The origin-aware branch finally let structural and mixed-surface cross-document winners compete successfully.
+
+3. The lift is real, but not final.
+   - Probe 018 is materially better than the old plateau.
+   - But it still recovers only part of the Probe 011 wide-window high-water mark (`1175`).
+
+4. The next scorer work is now narrower:
+   - refine the origin-aware profile
+   - inspect which part of the lift came from threshold scaling vs shared-anchor support
+   - decide whether the current `cross_refs` / `normalized_cross_refs` / `import_context` seam is enough or whether a later richer shared-target neighborhood is justified
+
+---
+
+## Probe 019 / 020 / 021 — Origin-Aware Ablation Gradient
+
+**Date:** 2026-03-31
+
+Purpose:
+- turn the Probe 018 win into a control gradient instead of a single lucky profile
+- separate the effects of:
+  - alternate cross-document fractions
+  - threshold scaling
+  - shared-anchor bonus
+
+Profiles used:
+- fractions only:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_origin_aware_crossdoc_v1_fractions_only.json`
+- fractions + threshold:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_origin_aware_crossdoc_v1_fractions_threshold.json`
+- fractions + shared-anchor:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_origin_aware_crossdoc_v1_fractions_anchor.json`
+
+Shared footing:
+- same Python-reference list/index corpus
+- same pair budget: `62896`
+
+Top-line result:
+
+| Probe | Profile | Relations | Cross-doc pull | Above-threshold |
+|---|---|---:|---:|---:|
+| 017 | control | `17457` | `115` | `16028` |
+| 019 | fractions only | `17499` | `150` | `16070` |
+| 020 | fractions + threshold | `17586` | `228` | `16157` |
+| 021 | fractions + shared-anchor | `17504` | `155` | `16075` |
+| 018 | full v1 | `17592` | `234` | `16163` |
+
+Interpretation:
+1. The alternate cross-document lens matters even without any threshold change.
+2. Threshold scaling carries most of the extra lift.
+3. The current shared-anchor seam is real but still weak on this footing.
+
+---
+
+## Probe 022-033 — Cross-Document Threshold Sweep
+
+**Date:** 2026-03-31
+
+Purpose:
+- map the cross-document threshold-control surface on the origin-aware branch
+- keep everything else fixed so the change is attributable to the gate itself
+
+Shared footing:
+- same Python-reference list/index corpus
+- same fixed pair budget: `62896`
+- same origin-aware fractions and current shared-anchor profile
+- only `cross_document_profile.edge_threshold_scale` moved
+
+Top-line ladder:
+
+| Probe | Threshold scale | Relations | Cross-doc pull | Cross-doc winners | Read |
+|---|---:|---:|---:|---:|---|
+| 024 | `0.95` | `17558` | `206` | `248` | softer than v1, still conservative |
+| 023 | `0.90` | `17666` | `255` | `356` | steady lift |
+| 022 | `0.88` | `17705` | `283` | `395` | steady lift |
+| 025 | `0.85` | `17844` | `368` | `534` | strong lift |
+| 026 | `0.80` | `18209` | `588` | `899` | still disciplined |
+| 029 | `0.75` | `18728` | `912` | `1418` | smooth continuation |
+| 027 | `0.70` | `19296` | `1406` | `1986` | exceeds old Probe 011 pull |
+| 030 | `0.65` | `19898` | `1975` | `2588` | large lift without grammar collapse |
+| 028 | `0.60` | `20424` | `2480` | `3114` | still structural/statistical-led |
+| 031 | `0.50` | `22015` | `3876` | `4705` | weakest winners still mostly defensible |
+| 032 | `0.40` | `25672` | `6312` | `8362` | first warning zone |
+| 033 | `0.30` | `27818` | `8458` | `10508` | too permissive / fragment-heavy |
+
+Persistent pattern:
+- winner field stays heavily:
+  - `structural_bridge`
+  - `statistical_echo`
+- `grammatical_dominant` stays tiny through the sweep
+
+Interpretation:
+1. The old cross-document gate was much too strict.
+2. Matching and exceeding the old Probe 011 wide-window pull count is now possible at fixed pair cost.
+3. The new problem is no longer "can we recover the bridge layer at all?"
+4. The new problem is "where is the trustworthy operating band?"
+5. Current read:
+   - promising band: `0.50`–`0.65`
+   - first warning zone: `0.40`
+   - too permissive: `0.30`
+
+Artifacts:
+- summary:
+  - `_docs/_analysis/reference_probe_033_origin_aware_threshold_030/threshold_sweep_017_033_summary.md`
+  - `_docs/_analysis/reference_probe_033_origin_aware_threshold_030/threshold_sweep_017_033_summary.json`

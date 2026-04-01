@@ -91,6 +91,179 @@ class ExplicitReferenceProfile:
 
 
 @dataclass
+class SharedAnchorProfile:
+    """Cross-document structural boosts derived from local outbound anchor hints."""
+
+    reference_overlap_weight: float = 0.0
+    target_hint_bonus: float = 0.0
+    import_context_overlap_weight: float = 0.0
+
+    @classmethod
+    def from_dict(
+        cls,
+        payload: Dict[str, Any],
+        *,
+        strict: bool = True,
+        base: Optional["SharedAnchorProfile"] = None,
+    ) -> "SharedAnchorProfile":
+        allowed = {
+            "reference_overlap_weight",
+            "target_hint_bonus",
+            "import_context_overlap_weight",
+        }
+        unknown = set(payload) - allowed
+        if unknown:
+            raise ValueError(f"Unknown shared_anchor_profile keys: {sorted(unknown)}")
+        if strict and set(payload) != allowed:
+            missing = sorted(allowed - set(payload))
+            raise ValueError(f"Missing shared_anchor_profile keys: {missing}")
+
+        merged = (base.to_dict() if base is not None else cls().to_dict())
+        merged.update(payload)
+        profile = cls(**merged)
+        profile.validate()
+        return profile
+
+    def validate(self) -> None:
+        for name, value in self.to_dict().items():
+            if not isinstance(value, (int, float)):
+                raise ValueError(f"{name} must be numeric")
+            if value < 0.0 or value > 1.0:
+                raise ValueError(f"{name} must be between 0.0 and 1.0")
+
+    def to_dict(self) -> Dict[str, float]:
+        return {
+            "reference_overlap_weight": self.reference_overlap_weight,
+            "target_hint_bonus": self.target_hint_bonus,
+            "import_context_overlap_weight": self.import_context_overlap_weight,
+        }
+
+
+@dataclass
+class CrossDocumentProfile:
+    """Optional origin-aware scoring branch for cross-document pairs."""
+
+    enabled: bool = False
+    edge_threshold_scale: float = 1.0
+    surface_fractions: Dict[str, float] = field(default_factory=lambda: {
+        "grammatical": 0.35,
+        "structural": 0.25,
+        "statistical": 0.20,
+        "semantic": 0.15,
+        "verbatim": 0.05,
+    })
+    shared_anchor_profile: SharedAnchorProfile = field(
+        default_factory=SharedAnchorProfile
+    )
+
+    @classmethod
+    def from_dict(
+        cls,
+        payload: Dict[str, Any],
+        *,
+        strict: bool = True,
+        base: Optional["CrossDocumentProfile"] = None,
+    ) -> "CrossDocumentProfile":
+        allowed = {
+            "enabled",
+            "edge_threshold_scale",
+            "surface_fractions",
+            "shared_anchor_profile",
+        }
+        unknown = set(payload) - allowed
+        if unknown:
+            raise ValueError(f"Unknown cross_document_profile keys: {sorted(unknown)}")
+        if strict and set(payload) != allowed:
+            missing = sorted(allowed - set(payload))
+            raise ValueError(f"Missing cross_document_profile keys: {missing}")
+
+        merged = (base.to_dict() if base is not None else cls().to_dict())
+        if "enabled" in payload:
+            merged["enabled"] = payload["enabled"]
+        if "edge_threshold_scale" in payload:
+            merged["edge_threshold_scale"] = payload["edge_threshold_scale"]
+        if "surface_fractions" in payload:
+            fraction_patch = payload["surface_fractions"]
+            if not isinstance(fraction_patch, dict):
+                raise ValueError("cross_document_profile.surface_fractions must be an object")
+            unknown_fractions = set(fraction_patch) - _SURFACE_SET
+            if unknown_fractions:
+                raise ValueError(
+                    "Unknown cross_document_profile.surface_fractions keys: "
+                    f"{sorted(unknown_fractions)}"
+                )
+            merged["surface_fractions"].update({
+                str(k): float(v) for k, v in fraction_patch.items()
+            })
+        if "shared_anchor_profile" in payload:
+            anchor_patch = payload["shared_anchor_profile"]
+            if not isinstance(anchor_patch, dict):
+                raise ValueError("shared_anchor_profile must be an object")
+            merged["shared_anchor_profile"] = SharedAnchorProfile.from_dict(
+                anchor_patch,
+                strict=strict,
+                base=base.shared_anchor_profile if base is not None else None,
+            ).to_dict()
+
+        profile = cls(
+            enabled=merged["enabled"],
+            edge_threshold_scale=float(merged["edge_threshold_scale"]),
+            surface_fractions={str(k): float(v) for k, v in merged["surface_fractions"].items()},
+            shared_anchor_profile=SharedAnchorProfile.from_dict(
+                merged["shared_anchor_profile"],
+                strict=True,
+            ),
+        )
+        profile.validate()
+        return profile
+
+    def validate(self) -> None:
+        if not isinstance(self.enabled, bool):
+            raise ValueError("cross_document_profile.enabled must be a boolean")
+        if not isinstance(self.edge_threshold_scale, (int, float)):
+            raise ValueError("cross_document_profile.edge_threshold_scale must be numeric")
+        if self.edge_threshold_scale <= 0.0:
+            raise ValueError("cross_document_profile.edge_threshold_scale must be > 0.0")
+
+        keys = set(self.surface_fractions)
+        if keys != _SURFACE_SET:
+            missing = sorted(_SURFACE_SET - keys)
+            extra = sorted(keys - _SURFACE_SET)
+            detail = []
+            if missing:
+                detail.append(f"missing={missing}")
+            if extra:
+                detail.append(f"extra={extra}")
+            raise ValueError(
+                "cross_document_profile.surface_fractions must contain exactly "
+                f"{sorted(_SURFACE_SET)} ({', '.join(detail)})"
+            )
+
+        total = 0.0
+        for name, value in self.surface_fractions.items():
+            if value < 0.0:
+                raise ValueError(
+                    f"cross_document_profile.surface_fractions.{name} must be >= 0.0"
+                )
+            total += value
+        if abs(total - 1.0) > 1e-6:
+            raise ValueError(
+                "cross_document_profile.surface_fractions must sum to 1.0 "
+                f"(got {round(total, 8)})"
+            )
+
+        self.shared_anchor_profile.validate()
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "enabled": self.enabled,
+            "edge_threshold_scale": self.edge_threshold_scale,
+            "surface_fractions": dict(self.surface_fractions),
+            "shared_anchor_profile": self.shared_anchor_profile.to_dict(),
+        }
+
+
+@dataclass
 class ContradictionProfile:
     """Builder-tunable anti-signal rules for contradiction pressure."""
 
@@ -221,6 +394,9 @@ class BootstrapConfig:
         default_factory=ContradictionProfile
     )
     semantic_absent_threshold_scale: float = 1.0
+    cross_document_profile: CrossDocumentProfile = field(
+        default_factory=CrossDocumentProfile
+    )
 
     @classmethod
     def default(cls) -> "BootstrapConfig":
@@ -238,12 +414,14 @@ class BootstrapConfig:
             "explicit_reference_profile",
             "contradiction_profile",
             "semantic_absent_threshold_scale",
+            "cross_document_profile",
         }
         unknown = set(payload) - allowed
         if unknown:
             raise ValueError(f"Unknown bootstrap config keys: {sorted(unknown)}")
-        if set(payload) != allowed:
-            missing = sorted(allowed - set(payload))
+        required = allowed - {"cross_document_profile"}
+        if not required.issubset(payload):
+            missing = sorted(required - set(payload))
             raise ValueError(f"Missing bootstrap config keys: {missing}")
 
         fractions = payload["surface_fractions"]
@@ -259,6 +437,12 @@ class BootstrapConfig:
         contradiction_profile = payload["contradiction_profile"]
         if not isinstance(contradiction_profile, dict):
             raise ValueError("contradiction_profile must be an object")
+        cross_document_profile = payload.get(
+            "cross_document_profile",
+            CrossDocumentProfile().to_dict(),
+        )
+        if not isinstance(cross_document_profile, dict):
+            raise ValueError("cross_document_profile must be an object")
 
         config = cls(
             edge_threshold=float(payload["edge_threshold"]),
@@ -274,6 +458,10 @@ class BootstrapConfig:
                 strict=True,
             ),
             semantic_absent_threshold_scale=float(payload["semantic_absent_threshold_scale"]),
+            cross_document_profile=CrossDocumentProfile.from_dict(
+                cross_document_profile,
+                strict=True,
+            ),
         )
         config.validate()
         return config
@@ -287,6 +475,7 @@ class BootstrapConfig:
             "explicit_reference_profile",
             "contradiction_profile",
             "semantic_absent_threshold_scale",
+            "cross_document_profile",
         }
         unknown = set(overrides) - allowed
         if unknown:
@@ -340,6 +529,15 @@ class BootstrapConfig:
                 strict=False,
                 base=self.contradiction_profile,
             ).to_dict()
+        if "cross_document_profile" in overrides:
+            cross_document_patch = overrides["cross_document_profile"]
+            if not isinstance(cross_document_patch, dict):
+                raise ValueError("cross_document_profile override must be an object")
+            payload["cross_document_profile"] = CrossDocumentProfile.from_dict(
+                cross_document_patch,
+                strict=False,
+                base=self.cross_document_profile,
+            ).to_dict()
 
         return BootstrapConfig.from_dict(payload)
 
@@ -377,6 +575,7 @@ class BootstrapConfig:
         self.grammatical_match_profile.validate()
         self.explicit_reference_profile.validate()
         self.contradiction_profile.validate()
+        self.cross_document_profile.validate()
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -387,6 +586,7 @@ class BootstrapConfig:
             "explicit_reference_profile": self.explicit_reference_profile.to_dict(),
             "contradiction_profile": self.contradiction_profile.to_dict(),
             "semantic_absent_threshold_scale": self.semantic_absent_threshold_scale,
+            "cross_document_profile": self.cross_document_profile.to_dict(),
         }
 
     def save_json(self, path: Path) -> None:
@@ -544,6 +744,10 @@ def _explicit_reference_tokens(hunk: Any) -> set[str]:
     return _normalize_reference_tokens(raw_refs + norm_refs)
 
 
+def _import_context_tokens(hunk: Any) -> set[str]:
+    return _normalize_reference_tokens(list(getattr(hunk, "import_context", []) or []))
+
+
 def _target_hint_tokens(hunk: Any) -> set[str]:
     tokens: set[str] = set()
     origin_text = str(getattr(hunk, "origin_id", "")).lower().replace("\\", "/")
@@ -592,6 +796,48 @@ def _explicit_reference_signal(
     return min(
         1.0,
         profile.overlap_weight * overlap + profile.target_hint_bonus * hit,
+    )
+
+
+def _is_cross_document_pair(a: Any, b: Any) -> bool:
+    return str(getattr(a, "origin_id", "")) != str(getattr(b, "origin_id", ""))
+
+
+def _cross_document_shared_anchor_signal(
+    a: Any,
+    b: Any,
+    profile: SharedAnchorProfile,
+) -> float:
+    if (
+        profile.reference_overlap_weight <= 0.0
+        and profile.target_hint_bonus <= 0.0
+        and profile.import_context_overlap_weight <= 0.0
+    ):
+        return 0.0
+
+    a_refs = _explicit_reference_tokens(a)
+    b_refs = _explicit_reference_tokens(b)
+    a_imports = _import_context_tokens(a)
+    b_imports = _import_context_tokens(b)
+    a_targets = _target_hint_tokens(a)
+    b_targets = _target_hint_tokens(b)
+
+    ref_overlap = _jaccard(a_refs, b_refs)
+    import_overlap = _jaccard(a_imports, b_imports)
+
+    a_anchor_tokens = a_refs | a_imports
+    b_anchor_tokens = b_refs | b_imports
+    hint_hit = 0.0
+    if (a_anchor_tokens and a_anchor_tokens & b_targets) or (
+        b_anchor_tokens and b_anchor_tokens & a_targets
+    ):
+        hint_hit = 1.0
+
+    return min(
+        1.0,
+        profile.reference_overlap_weight * ref_overlap
+        + profile.target_hint_bonus * hint_hit
+        + profile.import_context_overlap_weight * import_overlap,
     )
 
 
@@ -717,34 +963,47 @@ class BootstrapNucleus:
         return self.config.edge_threshold
 
     def _effective_edge_threshold(self, a: Any, b: Any) -> float:
+        threshold = self.config.edge_threshold
         if not _has_embedding(a) and not _has_embedding(b):
-            return self.config.edge_threshold * self.config.semantic_absent_threshold_scale
-        return self.config.edge_threshold
+            threshold *= self.config.semantic_absent_threshold_scale
+        if _is_cross_document_pair(a, b) and self.config.cross_document_profile.enabled:
+            threshold *= self.config.cross_document_profile.edge_threshold_scale
+        return threshold
 
     def evaluate(self, a: Any, b: Any) -> NucleusResult:
         from ..contract.ontology import get_coupling
 
         w_base = (get_coupling(a.node_kind) + get_coupling(b.node_kind)) / 2.0
+        is_cross_document = _is_cross_document_pair(a, b)
+        surface_fractions = self.config.surface_fractions
+        structural_signal = (
+            _structural_similarity(a, b)
+            + _explicit_reference_signal(
+                a,
+                b,
+                self.config.explicit_reference_profile,
+            )
+        )
+        if is_cross_document and self.config.cross_document_profile.enabled:
+            surface_fractions = self.config.cross_document_profile.surface_fractions
+            structural_signal += _cross_document_shared_anchor_signal(
+                a,
+                b,
+                self.config.cross_document_profile.shared_anchor_profile,
+            )
+
         sims: Dict[str, float] = {
             "grammatical": _grammatical_similarity(
                 a, b, self.config.grammatical_match_profile
             ),
-            "structural": min(
-                1.0,
-                _structural_similarity(a, b)
-                + _explicit_reference_signal(
-                    a,
-                    b,
-                    self.config.explicit_reference_profile,
-                ),
-            ),
+            "structural": min(1.0, structural_signal),
             "statistical": _statistical_similarity(a, b),
             "semantic": _semantic_similarity(a, b),
             "verbatim": _verbatim_similarity(a, b),
         }
 
         contributions: Dict[str, float] = {
-            surface: w_base * self.config.surface_fractions[surface] * sims[surface]
+            surface: w_base * surface_fractions[surface] * sims[surface]
             for surface in _SURFACE_ORDER
         }
         positive_support = sum(contributions.values())

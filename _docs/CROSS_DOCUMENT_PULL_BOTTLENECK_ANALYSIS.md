@@ -1,30 +1,40 @@
 # Cross-Document Pull Bottleneck Analysis
 
-_Last updated: 2026-03-30. This is the focused analysis note for the main unresolved Phase 1 bottleneck._
+_Last updated: 2026-03-31. This is the focused analysis note for the main unresolved Phase 1 bottleneck._
 
 ---
 
 ## Executive Summary
 
-The current blocker is **not** that the graph lacks useful signal. The blocker is now more specific than that.
+The current blocker is **not** that the graph lacks useful signal. It is also no longer accurate to say the graph is simply stuck at the old `115` plateau.
 
-The Emitter needed a cheap, high-recall way to bring the right distant candidates into comparison.
+Probe 014 proved that native cheap-fetch recall exists and stays cheap.
 
-Probe 014 added that native cheap-fetch lane.
+Probe 018 then proved that the old plateau was partly a scorer-lens problem:
+- a post-change control replay still held `cross-document pull = 115`
+- the origin-aware cross-document scorer v1 lifted that same footing to `234`
+- pair cost stayed flat at `62896`
 
-But cheap-fetch v1 still did **not** improve the headline cross-document pull metric.
+Probe 022-033 then proved that the old cross-document threshold gate was also much too strict:
+- on the same fixed pair budget, softer cross-document thresholds climbed far past the old plateau
+- the graph could match and exceed the old Probe 011 wide-window pull count without pair growth
+- but a softer gate is not automatically a safe gate; very low thresholds eventually admit shakier fragment-heavy winners
 
-The next diagnostic pass made the picture sharper still:
-- the missed cross-document pairs are **not** mostly hovering just below threshold
-- and the losers are dominated by a different interaction mix than the winners
+The next diagnostic pass therefore became sharper still:
+- the missed cross-document pairs were **not** mostly hovering just below threshold
+- the losers were dominated by a different interaction mix than the winners
+- and a single generic scorer lens was part of why recovered cross-document candidates kept losing
 
 In plain terms:
 - if the comparison window stays small, many good long-range pairs are never scored
 - if the comparison window gets widened too far, pair counts explode
 - current targeted recall works mechanically, but still does not recover enough of the wide-window gain
-- current native FTS fallback also works mechanically, but still does not convert recovered candidates into more cross-document pull
+- current native FTS fallback works mechanically, but needed a better cross-document scoring lens before recovered candidates could convert
+- origin-aware scoring materially improves conversion
+- and threshold control on that branch shows the wide-window continent can be reached at fixed pair cost
+- the new bottleneck is now the trust boundary: where to place the cross-document gate so the recovered bridge layer stays useful rather than fragment-heavy
 
-So the project is now fighting a **long-range candidate recall problem under cost constraints**, not a vague “semantic weakness” problem.
+So the project is now fighting a **long-range recall-and-conversion problem under cost constraints**, not a vague “semantic weakness” problem.
 
 ---
 
@@ -123,14 +133,98 @@ Interpretation:
 - so the bottleneck is no longer only "missing cheap fetch"
 - the bottleneck is now also "why cheap-fetch v1 is not converting into scored pull lift"
 
+## Probe 017 — Post-Change Control Replay
+
+Key results:
+- `relations = 17457`
+- `cross-document pull = 115`
+- `training pairs total = 62896`
+
+Interpretation:
+- the scorer refactor itself did not accidentally move the headline metric
+- the old plateau was still reproducible on the same Python-reference list/index footing
+
+## Probe 018 — Origin-Aware Cross-Document Scorer v1
+
+Key results:
+- `relations = 17592`
+- `cross-document pull = 234`
+- `training pairs total = 62896`
+- `above-threshold training pairs = 16163`
+
+Conversion shift:
+- control cross-document winners:
+  - `grammatical_dominant = 106`
+  - `structural_bridge = 2`
+  - `multi_surface = 7`
+- origin-aware winners:
+  - `structural_bridge = 153`
+  - `multi_surface = 69`
+  - `grammatical_dominant = 12`
+
+Interpretation:
+- this tranche cleared the Phase 1 acceptance bar cleanly
+- a single generic scorer lens was part of the old plateau
+- cross-document pairs should not be judged exactly like same-document pairs
+- origin-aware static branching is now a real Phase 1 tool, not just a hypothesis
+- but the wide-window gap is still large (`234` vs Probe 011 `1175`)
+
+## Probe 019 / 020 / 021 — Origin-Aware Ablation Gradient
+
+Key results:
+- fractions only:
+  - `cross-document pull = 150`
+- fractions + threshold scaling:
+  - `cross-document pull = 228`
+- fractions + shared-anchor bonus:
+  - `cross-document pull = 155`
+
+Interpretation:
+- the alternate cross-document lens matters
+- cross-document threshold scaling is the strongest near-term lever
+- the current shared-anchor seam is real but still weak on this footing
+
+## Probe 022-033 — Cross-Document Threshold Sweep
+
+Shared footing:
+- same fixed pair budget: `62896`
+- same origin-aware branch and current partial shared-anchor seam
+- only the cross-document threshold scale moved
+
+Representative ladder:
+- `0.95 -> 206`
+- `0.90 -> 255`
+- `0.85 -> 368`
+- `0.80 -> 588`
+- `0.75 -> 912`
+- `0.70 -> 1406`
+- `0.65 -> 1975`
+- `0.60 -> 2480`
+- `0.50 -> 3876`
+- `0.40 -> 6312`
+- `0.30 -> 8458`
+
+Interpretation:
+- the old cross-document threshold was far too strict
+- softer thresholds kept the winner field strongly `structural_bridge` / `statistical_echo` much deeper than expected
+- the graph can now match and exceed the old Probe 011 wide-window pull count without pair growth
+- but the sweep also revealed a trust boundary:
+  - `0.50`–`0.65` looks like the most promising band so far
+  - `0.40` is the first warning zone where weakest winners start looking shaky
+  - `0.30` is too permissive and admits fragment-heavy bridge fabric
+
 ## What This Means
 
 Together, these probes prove:
 - the system has real long-range signal
 - the current default comparison scope misses too much of it
 - selective recall is possible
-- but current targeted recall is not yet broad enough
-- and cheap-fetch v1, while cheap, is not yet converting recovered breadth into actual pull improvement
+- current targeted recall is not yet broad enough by itself
+- cheap-fetch v1, while cheap, needed a better scorer lens before conversion improved
+- origin-aware scoring can convert more of the recovered breadth into actual pull improvement
+- the old cross-document threshold gate was suppressing a very large structural/statistical layer
+- current partial shared-anchor support is still not the main lever compared with threshold behavior
+- the current problem is no longer raw inability to recover long-range pull; it is choosing the trustworthy control band for that recovery
 
 ---
 
@@ -153,7 +247,7 @@ These things are important, but they are **not** the primary blocker right now:
   - but it is diagnostic, not the missing retrieval fix
 
 So the main issue is narrower and more concrete than it might appear:
-the graph needs better **cheap long-range candidate recall that actually converts into scored cross-document relations**.
+the graph needs better **cheap long-range candidate recall plus cross-document-aware conversion that can recover more of the wide-window gain without pair explosion**.
 
 ---
 
@@ -250,13 +344,26 @@ Meaning:
 - but one-origin crowding was not the hidden cause of the plateau
 - the real problem remains downstream conversion
 
-## 6. Pair explosion under brute force
+## 6. One generic scorer lens was part of the plateau
+
+Probe 018 proved a specific point that earlier probes only implied:
+- candidate selection already knew which pairs were cross-document
+- the old Bootstrap Nucleus still scored all pairs through one generic static lens
+- letting cross-document pairs use a different static profile lifted the headline pull metric from `115` to `234` at the same pair cost
+
+That means the prior bottleneck was not only:
+- "find more distant candidates cheaply"
+
+It was also:
+- "stop asking cross-document pairs to behave like same-document pairs"
+
+## 7. Pair explosion under brute force
 
 Wide-window recovery proves the signal exists, but the pair count becomes too expensive.
 
 That means the stable solution must improve recall **without** approaching Probe 011 cost behavior.
 
-## 7. Dense local hubs can hijack softer field views
+## 8. Dense local hubs can hijack softer field views
 
 The blur experiment showed that dense local neighborhoods, especially index-heavy ones, can dominate soft spread.
 
@@ -264,20 +371,42 @@ Meaning:
 - softer field lenses can be informative
 - but they are not yet safe replacements for candidate selection
 
+## 9. Very soft cross-document gates eventually admit shakier bridge fabric
+
+The threshold sweep changed the bottleneck read one more time.
+
+At first, softer thresholds looked almost suspiciously good because:
+- pair cost stayed fixed
+- grammar-heavy winners did not come roaring back
+- the winner field stayed mostly `structural_bridge` / `statistical_echo`
+
+But weakest-winner inspection finally found the warning zone:
+- around `0.50`, weakest admitted winners still looked borderline-but-defensible
+- around `0.40`, weakest winners began to look noticeably shakier
+- at `0.30`, fragment-heavy and abstract-neighborhood matches became too easy to admit
+
+That means the next Phase 1 job is not "keep lowering the gate until the metric gets huge."
+It is:
+- locate the trustworthy band
+- inspect weakest winners there
+- choose a default that recovers the latent bridge layer without drifting into fragment noise
+
 ---
 
 ## The Best Current Read
 
 The problem is now best described like this:
 
-The system has crossed the threshold where better cross-document relations are possible, but it still lacks a robust low-cost mechanism for proposing the right distant candidates before the heavy scorer runs.
+The system has crossed the threshold where much better cross-document relations are possible, and it now has proof that origin-aware scoring plus cross-document threshold control can recover that layer at fixed pair cost. The remaining problem is to choose the trustworthy operating band for that recovery and avoid drifting into fragment-heavy permissiveness.
 
 That is why:
 - small windows underperform
 - large windows overpay
 - anchor-only recall plateaus
-- and cheap-fetch v1 still fails to convert candidate recovery into actual pull lift
-- and the newest conversion reports show that most misses are true out-competition failures, not near-threshold misses
+- cheap-fetch plus a one-lens scorer plateaus
+- origin-aware scoring improves conversion materially
+- threshold sweeps expose a very large latent bridge layer
+- and weakest-winner inspection becomes the new guardrail for choosing a default
 
 ---
 
@@ -292,10 +421,12 @@ The next likely experiment is:
 - keep the anchor-registry path
 - keep the native SQLite FTS fallback path
 - keep the new conversion reports in the loop
-- inspect why structurally recovered cross-document pairs stay far below threshold
-- compare winner vs loser routing / interaction patterns rather than only counting candidate recall
-- tighten when the fallback fires so it is not effectively universal on this corpus
-- improve deterministic query lexicalization and ranking
+- keep the origin-aware cross-document scorer branch in play
+- keep the stronger alternate cross-document fractions
+- fine-sweep the `0.50`–`0.65` range and inspect weakest admitted winners there
+- do not promote `0.40` or lower as a default unless stronger quality evidence appears
+- keep shared-anchor work secondary until the threshold/fraction line stops paying off
+- decide whether the current partial outbound-reference seam is enough, or whether a later shared-target neighborhood tranche is justified only after that fine sweep stalls
 - keep reusing the current SQLite / FTS infrastructure instead of inventing a large new subsystem
 
 This is the most responsible next step because it targets the actual bottleneck while keeping the Phase 1 scaffold stable.
@@ -320,17 +451,18 @@ Those may matter later, but they do not directly solve the current comparison-re
 
 The next recall-focused tranche should be judged against these realities:
 
-1. **Cross-document pull must rise materially above `115`**
-- otherwise recall is still too weak
+1. **The default operating band must stay above the old `234` accepted profile and remain comfortably beyond the old `115` plateau**
+- otherwise the new scorer control surface is not buying enough real progress
 
-2. **Pair cost must stay far below Probe 011**
+2. **Pair cost must stay fixed or clearly below Probe 011**
 - otherwise we are just recreating the wide-window brute-force path
 
 3. **Cheap-fetch should not fire blindly on every hunk**
 - otherwise the fallback is too broad to be interpretable
 
-4. **Recovered fallback candidates must convert into actual scored wins**
-- otherwise recall breadth is being recovered but not operationalized
+4. **Recovered cross-document winners must remain structurally plausible under weakest-winner inspection**
+- Probe 022-033 proved the metric can become huge
+- the next tranche must choose a trustworthy band, not just a larger number
 
 5. **The bag should become more source-diverse and evidentially useful**
 - especially on the Python reference bottleneck case

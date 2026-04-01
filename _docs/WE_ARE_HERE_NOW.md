@@ -24,6 +24,8 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - The Emitter now supports a parallel traditional embedder lane beside the deterministic semantic path.
 - A builder-side anisotropic blur lens now exists for query-neighborhood experiments over existing Cold Artifact DBs.
 - The Emitter now has a native SQLite FTS fallback lane for ingest-time candidate recall experiments.
+- The Bootstrap Nucleus now also has an optional origin-aware cross-document scoring branch behind profile control.
+- We now have a real cross-document threshold control ladder on that branch, with a likely trust band around `0.50`–`0.65`.
 
 ## Broad tuning read
 
@@ -38,6 +40,9 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - bad scorer math
   - bad comparison scope
   - and genuinely useful new signal lanes
+- We can now also distinguish between:
+  - a useful softer cross-document gate
+  - and a too-permissive gate that starts admitting fragment-heavy bridge fabric
 - The next doctrinal shift is also clearer:
   - the bag should be treated as a bounded observer-centered slice, not a whole-manifold activation
   - the project is missing a cleaner later retrieval control layer:
@@ -89,6 +94,24 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - Conversion diagnostics:
   - proved the current cross-document losers are mostly not near-threshold misses
   - showed the main loser population is structurally plausible cross-document pairs that still fail badly at conversion time
+- Probe 017/018:
+  - proved a post-change control replay still holds the current `115` plateau on the same Python-reference footing
+  - proved the origin-aware cross-document scorer v1 lifts `cross-document nucleus pull` from `115` to `234` without increasing pair count
+  - proved cross-document winners can shift from mostly `grammatical_dominant` to mostly `structural_bridge` plus `multi_surface`
+- Probe 019/020/021:
+  - turned the origin-aware branch into a rudimentary control gradient
+  - showed the alternate cross-document fractions alone lift the footing to `150`
+  - showed fractions + threshold scaling lift it to `228`
+  - showed fractions + shared-anchor bonus lift it only to `155`
+  - current read: the alternate cross-document lens matters, threshold scaling carries most of the extra lift, and the current shared-anchor seam is still weak on this footing
+- Probe 022-033:
+  - turned cross-document threshold scaling into a full control ladder on the same fixed pair budget (`62896`)
+  - showed the old cross-document gate was far too strict
+  - showed softer thresholds keep the winner field strongly `structural_bridge` / `statistical_echo` much deeper than expected
+  - revealed a practical trust boundary:
+    - `0.50`–`0.65` looks like the most promising band so far
+    - `0.40` is the first warning zone
+    - `0.30` looks too permissive and fragment-heavy
 - Query experiment 001:
   - proved a builder-side anisotropic blur lens can be run safely over existing graph probes
   - showed the blur lens exposes neighborhood/topology information that the bag does not
@@ -109,7 +132,7 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 ### Not yet behaviorally ready enough
 
 - candidate selection / comparison scope is still unsettled
-- the current bootstrap is still doing too much compensating for unresolved Phase 1 constraints
+- the current bootstrap still needs more than one static viewing regime for all relation types
 - we do not yet have a disciplined “training data we trust” checkpoint
 - semantic is still not fully alive as an active lane in the working probes
 - the bag exists only as a first CLI evidence surface, not yet as the full STM-facing membrane
@@ -117,6 +140,9 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 - only one traditional sentence model has been compared so far (`sentence-transformers/all-MiniLM-L6-v2`)
 - long-range candidate recall is still unresolved beyond anchor-bearing hunks
 - long-range candidate recall is still unresolved even after anchor + FTS fallback v1
+- origin-aware conversion is now materially better
+- threshold sweeps show the graph can match and exceed the old Probe 011 pull count at fixed pair cost
+- but we have not yet locked the trustworthy default regime for that lift
 - the blur lens is informative, but not yet a trustworthy runtime retrieval surface
 - the bag exists only as a first CLI slice/evidence seam, not yet as the full observer-centered STM membrane
 - the later bag/walker doctrine is getting clearer, but it is not yet runtime behavior
@@ -126,9 +152,73 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 - We should not jump to FFN yet.
 - One more tranche of scorer/comparison-path refinement is the responsible move.
 - If we moved to Phase 2 right now, we would risk teaching the FFN around unresolved scaffold defects instead of teaching it from a trustworthy interaction substrate.
-- The immediate live blocker is still structural candidate conversion, not lack of theory.
+- The immediate live blocker is now narrower:
+  - the graph has moved far past the `115` plateau under origin-aware scoring
+  - the remaining question is where to set the cross-document trust boundary, not whether the layer exists
+- The next likely scorer experiment is now sharper:
+  - keep the origin-aware cross-document branch
+  - keep the stronger alternate cross-document fractions
+  - refine threshold behavior inside the `0.50`–`0.65` band before widening the contract
+  - treat the current shared-anchor seam as additive but still weak until later evidence proves otherwise
 
 ## What we just finished
+
+- Added an optional `cross_document_profile` to the Bootstrap Nucleus config with:
+  - cross-document-only surface fractions
+  - cross-document threshold scaling
+  - a shared-anchor structural bonus built only from current fields (`cross_refs`, `normalized_cross_refs`, `import_context`, and target hints)
+- Added emitter tests proving:
+  - old configs still load without the new profile block
+  - disabled cross-document branching is inert
+  - same-document behavior stays unchanged
+  - shared-anchor bonuses appear only when the current contract actually supports them
+- Added tracked profile:
+  - `_BDHyperNeuronEMITTER/_docs/bootstrap_profiles/python_reference_origin_aware_crossdoc_v1.json`
+- Ran Probe 017 control on the same Python-reference list/index footing as the current plateau:
+  - `relations = 17457`
+  - `cross-document nucleus pull edges = 115`
+  - `training pairs total = 62896`
+- Ran Probe 018 with origin-aware cross-document scoring v1:
+  - `relations = 17592`
+  - `cross-document nucleus pull edges = 234`
+  - `training pairs total = 62896`
+- That means the Phase 1 scorer does need to evaluate different relation classes differently:
+  - the same-document path can stay close to the old footing
+  - the cross-document path benefits from a different static lens
+- The lift is real, but still partial:
+  - `234` is materially better than `115`
+  - but still far below Probe 011 `1175`
+- Ran a three-profile ablation sweep after Probe 018:
+  - fractions-only:
+    - `cross-document nucleus pull edges = 150`
+  - fractions + threshold scaling:
+    - `cross-document nucleus pull edges = 228`
+  - fractions + shared-anchor bonus:
+    - `cross-document nucleus pull edges = 155`
+- That gives us a usable control gradient:
+  - the alternate cross-document lens is the first big move
+  - threshold scaling carries most of the next lift
+  - the current shared-anchor bonus contributes only lightly on this corpus/contract footing
+- Ran a deeper threshold sweep on the same fixed pair budget:
+  - `0.95 -> 206`
+  - `0.90 -> 255`
+  - `0.85 -> 368`
+  - `0.80 -> 588`
+  - `0.75 -> 912`
+  - `0.70 -> 1406`
+  - `0.65 -> 1975`
+  - `0.60 -> 2480`
+  - `0.50 -> 3876`
+  - `0.40 -> 6312`
+  - `0.30 -> 8458`
+- That changed the project read again:
+  - the old cross-document threshold gate was much too strict
+  - the graph can recover and exceed the old Probe 011 pull count without pair growth
+  - but the weakest admitted winners become visibly shakier by `0.40`
+  - `0.30` is now the first clearly too-permissive band
+- Current next step:
+  - fine-sweep and inspect weakest winners inside `0.50`–`0.65`
+  - keep shared-anchor refinement secondary unless that band stalls
 
 - Re-centered the project after the old `final/` move-up.
 - Verified the App Journal install and launcher path.
@@ -358,12 +448,12 @@ We are approaching Phase 2 readiness structurally, but not yet behaviorally.
 
 ## What to do next
 
-Next tranche: **targeted recall refinement + bag contract refinement**
+Next tranche: **origin-aware lens refinement + delayed shared-target decision**
 
 1. Choose the next targeted change:
-  - add a deterministic cheap-fetch fallback behind the new anchor registry and compare it against the current `115` plateau, or
-  - compare at least one more traditional model or query strategy against the current deterministic footing, or
-  - tighten the bag contract using what the first comparison baseline just taught us
+  - refine the origin-aware cross-document fractions and threshold behavior and measure whether `234` can move higher without pair growth, or
+  - decide whether the current partial outbound-reference seam is too weak and needs a later shared-target neighborhood tranche only after the lens/threshold line stops paying off, or
+  - compare at least one more traditional model or query strategy against the current deterministic footing
 2. Keep blur work diagnostic only unless a later pass can prove:
    - less hub collapse
    - better cross-document spread
@@ -377,7 +467,7 @@ Next tranche: **targeted recall refinement + bag contract refinement**
 
 ## One-line read
 
-The graph is real, the bag is validated on fresh local corpora, and the first traditional embedder comparison is in. Right now, deterministic is winning.
+The graph is real, the bag is validated, and origin-aware cross-document scoring plus threshold control has finally exposed the latent cross-document bridge layer. The next job is to choose the trustworthy default band for that lift.
 
 ## Do not drift into yet
 
@@ -413,7 +503,7 @@ The graph is real, the bag is validated on fresh local corpora, and the first tr
 ```powershell
 python _BDHyperNodeSPLITTER/src/app.py --help
 python _BDHyperNeuronEMITTER/src/app.py --help
-python .dev-tools/_app-journal/tools/journal_manifest.py run --input-json "{\"project_root\":\"C:/Users/jacob/Documents/_UsefulAgenticBuilderSANDBOX/Claude-Code/_BDNeuralTranslationSUITE\"}"
+python .dev-tools/_app-journal/tools/journal_manifest.py run --input-json "{\"project_root\":\"C:/Users/jacob/Documents/_AppDesign/_LivePROJECTS/BDNeuralTranslationSUITE\"}"
 ```
 
 ## Known truth about the docs

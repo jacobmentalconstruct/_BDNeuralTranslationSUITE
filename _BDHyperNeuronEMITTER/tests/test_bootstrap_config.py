@@ -21,6 +21,8 @@ def _make_hunk(
     embedding=None,
     origin_id: str = "memory://test",
     cross_refs=None,
+    normalized_cross_refs=None,
+    import_context=None,
 ):
     hunk = HyperHunk(
         content=content,
@@ -30,6 +32,8 @@ def _make_hunk(
         structural_path=structural_path,
         heading_trail=list(heading_trail or []),
         cross_refs=list(cross_refs or []),
+        normalized_cross_refs=list(normalized_cross_refs or []),
+        import_context=list(import_context or []),
         token_count=token_count,
     )
     hunk.embedding = embedding
@@ -47,6 +51,15 @@ class BootstrapConfigTests(unittest.TestCase):
         del payload["surface_fractions"]
         with self.assertRaises(ValueError):
             BootstrapConfig.from_dict(payload)
+
+    def test_old_payload_without_cross_document_profile_still_loads(self):
+        payload = BootstrapConfig.default().to_dict()
+        del payload["cross_document_profile"]
+
+        config = BootstrapConfig.from_dict(payload)
+
+        self.assertFalse(config.cross_document_profile.enabled)
+        self.assertIn("cross_document_profile", config.to_dict())
 
     def test_negative_values_rejected(self):
         payload = BootstrapConfig.default().to_dict()
@@ -104,6 +117,94 @@ class BootstrapConfigTests(unittest.TestCase):
 
 
 class BootstrapBehaviorTests(unittest.TestCase):
+    def test_disabled_cross_document_profile_preserves_current_behavior(self):
+        default_nucleus = BootstrapNucleus()
+        disabled_nucleus = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": False,
+                    "edge_threshold_scale": 0.5,
+                    "surface_fractions": {
+                        "grammatical": 0.0,
+                        "structural": 1.0,
+                        "statistical": 0.0,
+                        "semantic": 0.0,
+                        "verbatim": 0.0,
+                    },
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.4,
+                        "target_hint_bonus": 0.4,
+                        "import_context_overlap_weight": 0.4,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Splitter notes about imports.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/splitter.txt",
+            structural_path="doc/h1_splitter/p1",
+            heading_trail=["Splitter"],
+            cross_refs=["hyperhunk.py"],
+        )
+        b = _make_hunk(
+            content="Emitter notes about imports.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/emitter.txt",
+            structural_path="doc/h1_emitter/p1",
+            heading_trail=["Emitter"],
+            cross_refs=["hyperhunk.py"],
+        )
+
+        self.assertEqual(
+            default_nucleus.evaluate(a, b).__dict__,
+            disabled_nucleus.evaluate(a, b).__dict__,
+        )
+
+    def test_same_document_pair_ignores_cross_document_branch(self):
+        default_nucleus = BootstrapNucleus()
+        tuned_nucleus = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "edge_threshold_scale": 0.5,
+                    "surface_fractions": {
+                        "grammatical": 0.0,
+                        "structural": 1.0,
+                        "statistical": 0.0,
+                        "semantic": 0.0,
+                        "verbatim": 0.0,
+                    },
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.4,
+                        "target_hint_bonus": 0.4,
+                        "import_context_overlap_weight": 0.4,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Intro paragraph about modules and imports.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/reference/import.txt",
+            structural_path="doc/h1_import/p1",
+            heading_trail=["Import System"],
+            cross_refs=["import.txt"],
+        )
+        b = _make_hunk(
+            content="Another paragraph about modules and imports.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/reference/import.txt",
+            structural_path="doc/h1_import/p2",
+            heading_trail=["Import System"],
+            cross_refs=["import.txt"],
+        )
+
+        self.assertEqual(
+            default_nucleus.evaluate(a, b).__dict__,
+            tuned_nucleus.evaluate(a, b).__dict__,
+        )
+
     def test_code_exact_match_beats_generic_prose_exact_match(self):
         nucleus = BootstrapNucleus()
 
@@ -217,6 +318,59 @@ class BootstrapBehaviorTests(unittest.TestCase):
         self.assertEqual(default_result.interaction_vector, scaled_result.interaction_vector)
         self.assertNotEqual(default_result.above_threshold, scaled_result.above_threshold)
 
+    def test_cross_document_pair_uses_alternate_threshold_and_surface_fractions(self):
+        default_nucleus = BootstrapNucleus()
+        tuned_nucleus = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "edge_threshold_scale": 0.5,
+                    "surface_fractions": {
+                        "grammatical": 0.0,
+                        "structural": 1.0,
+                        "statistical": 0.0,
+                        "semantic": 0.0,
+                        "verbatim": 0.0,
+                    },
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.0,
+                        "target_hint_bonus": 0.0,
+                        "import_context_overlap_weight": 0.0,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Paragraph about module imports.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/reference/import.txt",
+            structural_path="doc/h1_shared/p1",
+            heading_trail=["Shared"],
+            token_count=20,
+        )
+        b = _make_hunk(
+            content="Paragraph about module exports.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/reference/export.txt",
+            structural_path="doc/h1_shared/p2",
+            heading_trail=["Shared"],
+            token_count=22,
+        )
+
+        default_result = default_nucleus.evaluate(a, b)
+        tuned_result = tuned_nucleus.evaluate(a, b)
+
+        self.assertLess(
+            tuned_nucleus._effective_edge_threshold(a, b),
+            default_nucleus._effective_edge_threshold(a, b),
+        )
+        self.assertEqual(tuned_result.routing_profile["structural"], 1.0)
+        self.assertEqual(tuned_result.routing_profile["grammatical"], 0.0)
+        self.assertGreater(
+            tuned_result.routing_profile["structural"],
+            default_result.routing_profile["structural"],
+        )
+
     def test_explicit_cross_ref_boost_improves_structural_signal(self):
         baseline = BootstrapNucleus()
         tuned = BootstrapNucleus(
@@ -247,6 +401,106 @@ class BootstrapBehaviorTests(unittest.TestCase):
         baseline_structural = baseline.evaluate(a, b).interaction_vector[1]
         tuned_structural = tuned.evaluate(a, b).interaction_vector[1]
         self.assertGreater(tuned_structural, baseline_structural)
+
+    def test_cross_document_shared_anchor_signal_raises_structural_support(self):
+        baseline = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.0,
+                        "target_hint_bonus": 0.0,
+                        "import_context_overlap_weight": 0.0,
+                    },
+                }
+            })
+        )
+        tuned = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.18,
+                        "target_hint_bonus": 0.12,
+                        "import_context_overlap_weight": 0.15,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Splitter references the HyperHunk contract.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/splitter.txt",
+            structural_path="doc/h1_splitter/p1",
+            heading_trail=["Splitter"],
+            cross_refs=["hyperhunk.py"],
+            normalized_cross_refs=["hyperhunk"],
+            import_context=["core.contract.hyperhunk"],
+        )
+        b = _make_hunk(
+            content="Emitter also references the HyperHunk contract.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/emitter.txt",
+            structural_path="doc/h1_emitter/p1",
+            heading_trail=["Emitter"],
+            cross_refs=["hyperhunk.py"],
+            normalized_cross_refs=["hyperhunk"],
+            import_context=["core.contract.hyperhunk"],
+        )
+
+        baseline_structural = baseline.evaluate(a, b).interaction_vector[1]
+        tuned_structural = tuned.evaluate(a, b).interaction_vector[1]
+        self.assertGreater(tuned_structural, baseline_structural)
+
+    def test_cross_document_pair_without_shared_anchor_signal_gets_no_bonus(self):
+        baseline = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.0,
+                        "target_hint_bonus": 0.0,
+                        "import_context_overlap_weight": 0.0,
+                    },
+                }
+            })
+        )
+        tuned = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "shared_anchor_profile": {
+                        "reference_overlap_weight": 0.18,
+                        "target_hint_bonus": 0.12,
+                        "import_context_overlap_weight": 0.15,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Alpha anchor reference.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/alpha.txt",
+            structural_path="doc/h1_alpha/p1",
+            heading_trail=["Alpha"],
+            cross_refs=["alpha_anchor"],
+            normalized_cross_refs=["alpha_anchor"],
+            import_context=["alpha.module"],
+        )
+        b = _make_hunk(
+            content="Beta anchor reference.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/beta.txt",
+            structural_path="doc/h1_beta/p1",
+            heading_trail=["Beta"],
+            cross_refs=["beta_anchor"],
+            normalized_cross_refs=["beta_anchor"],
+            import_context=["beta.module"],
+        )
+
+        baseline_structural = baseline.evaluate(a, b).interaction_vector[1]
+        tuned_structural = tuned.evaluate(a, b).interaction_vector[1]
+        self.assertEqual(tuned_structural, baseline_structural)
 
     def test_default_contradiction_profile_is_inert(self):
         nucleus = BootstrapNucleus()
