@@ -1,6 +1,6 @@
 # BDNeuralTranslationSUITE — Project Backlog
 
-_Last updated: 2026-03-31. Mirrored in journal as entry `journal_backlog_001`. Use `_docs/WE_ARE_HERE_NOW.md` as the fastest pickup note after interruption._
+_Last updated: 2026-04-01. Mirrored in journal as entry `journal_backlog_001`. Use `_docs/WE_ARE_HERE_NOW.md` as the fastest pickup note after interruption._
 
 ---
 
@@ -116,10 +116,28 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
   - current likely band: `0.50`–`0.65`
   - keep pair count stable while choosing a trustworthy default
   - inspect weakest admitted winners, not just top-line pull count
+- [ ] Treat the current `0.58` origin-aware footing as the active anchor lens while mapping overlay lenses:
+  - do not churn the anchor lens casually
+  - use overlays or bounded side-lenses when exploring new behavior
 - [ ] Promote bag usefulness to a co-equal acceptance surface during trust-band selection:
   - keep bag checks on `hop_limit = 1`
   - prefer profiles that improve human-facing top-item quality on representative queries
   - current leading bag-first default candidate: `0.58`
+- [ ] Quality-control the semantic-gravity overlay family through the bag:
+  - deterministic control
+  - deterministic mid/high gravity
+  - sentence-transformers control
+  - sentence-transformers high gravity
+  - compare evidence usefulness, not just graph size
+- [ ] Decide whether semantic should now be treated as a bounded overlay field:
+  - current read: attraction field yes
+  - primary support beam no
+  - only promote if bag-side quality supports the graph-side lift
+- [ ] Record explicit Phase 1 exit criteria around five-surface functional integration:
+  - each surface mapped in context
+  - each surface measurably useful somewhere meaningful
+  - bag trustworthy enough to act as the reader-facing evidence slice
+  - training data stable enough to justify FFN comparison work
 - [ ] Record the trust boundary explicitly in the active defaults:
   - do not promote `0.40` or lower as the default without stronger quality evidence
   - keep the sweep summaries attached to the chosen default so later agents can see why
@@ -212,6 +230,16 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
 ## Prototype Path After Tranche 10
 
 ### Tranche 11 — Graph Validation + Retrieval Sanity
+- [ ] Treat the rest of Phase 1 as a five-vertex mapping program rather than a single-profile tuning exercise
+- [ ] Record explicit Phase 1 exit criteria around functional integration of all five surfaces:
+  - not equal strength
+  - not mashed averaging
+  - each surface mapped in context
+  - each surface measurably affects scoring/routing somewhere meaningful
+- [ ] Continue the vertex-reactivity map after the first shock-load sweep:
+  - refine structural/statistical interaction mapping
+  - re-run semantic mapping on a footing where the semantic lane is actually active
+  - map verbatim/commonality behavior more deliberately
 - [ ] Inspect Cold Artifact output on real ingests
 - [ ] Verify routing profiles and edge reasons are useful to a human/agent inspector
 - [ ] Tighten schema/versioning/query seams only where real corpus behavior demands it

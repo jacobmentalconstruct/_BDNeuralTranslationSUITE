@@ -140,6 +140,72 @@ class SharedAnchorProfile:
 
 
 @dataclass
+class SemanticGravityProfile:
+    """Optional bounded semantic attraction overlay for cross-document pairs."""
+
+    enabled: bool = False
+    min_similarity: float = 0.2
+    bonus_scale: float = 0.05
+    power: float = 1.0
+    max_bonus: float = 0.08
+
+    @classmethod
+    def from_dict(
+        cls,
+        payload: Dict[str, Any],
+        *,
+        strict: bool = True,
+        base: Optional["SemanticGravityProfile"] = None,
+    ) -> "SemanticGravityProfile":
+        allowed = {
+            "enabled",
+            "min_similarity",
+            "bonus_scale",
+            "power",
+            "max_bonus",
+        }
+        unknown = set(payload) - allowed
+        if unknown:
+            raise ValueError(f"Unknown semantic_gravity_profile keys: {sorted(unknown)}")
+        if strict and set(payload) != allowed:
+            missing = sorted(allowed - set(payload))
+            raise ValueError(f"Missing semantic_gravity_profile keys: {missing}")
+
+        merged = (base.to_dict() if base is not None else cls().to_dict())
+        merged.update(payload)
+        profile = cls(
+            enabled=bool(merged["enabled"]),
+            min_similarity=float(merged["min_similarity"]),
+            bonus_scale=float(merged["bonus_scale"]),
+            power=float(merged["power"]),
+            max_bonus=float(merged["max_bonus"]),
+        )
+        profile.validate()
+        return profile
+
+    def validate(self) -> None:
+        if not isinstance(self.enabled, bool):
+            raise ValueError("semantic_gravity_profile.enabled must be a boolean")
+        if self.min_similarity < 0.0 or self.min_similarity > 1.0:
+            raise ValueError("semantic_gravity_profile.min_similarity must be between 0.0 and 1.0")
+        if self.bonus_scale < 0.0 or self.bonus_scale > 1.0:
+            raise ValueError("semantic_gravity_profile.bonus_scale must be between 0.0 and 1.0")
+        if self.power <= 0.0:
+            raise ValueError("semantic_gravity_profile.power must be > 0.0")
+        if self.max_bonus < 0.0 or self.max_bonus > 1.0:
+            raise ValueError("semantic_gravity_profile.max_bonus must be between 0.0 and 1.0")
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "enabled": self.enabled,
+            "min_similarity": self.min_similarity,
+            "bonus_scale": self.bonus_scale,
+            "power": self.power,
+            "max_bonus": self.max_bonus,
+        }
+
+
+@dataclass
 class CrossDocumentProfile:
     """Optional origin-aware scoring branch for cross-document pairs."""
 
@@ -155,6 +221,9 @@ class CrossDocumentProfile:
     shared_anchor_profile: SharedAnchorProfile = field(
         default_factory=SharedAnchorProfile
     )
+    semantic_gravity_profile: SemanticGravityProfile = field(
+        default_factory=SemanticGravityProfile
+    )
 
     @classmethod
     def from_dict(
@@ -169,6 +238,7 @@ class CrossDocumentProfile:
             "edge_threshold_scale",
             "surface_fractions",
             "shared_anchor_profile",
+            "semantic_gravity_profile",
         }
         unknown = set(payload) - allowed
         if unknown:
@@ -204,6 +274,15 @@ class CrossDocumentProfile:
                 strict=strict,
                 base=base.shared_anchor_profile if base is not None else None,
             ).to_dict()
+        if "semantic_gravity_profile" in payload:
+            gravity_patch = payload["semantic_gravity_profile"]
+            if not isinstance(gravity_patch, dict):
+                raise ValueError("semantic_gravity_profile must be an object")
+            merged["semantic_gravity_profile"] = SemanticGravityProfile.from_dict(
+                gravity_patch,
+                strict=strict,
+                base=base.semantic_gravity_profile if base is not None else None,
+            ).to_dict()
 
         profile = cls(
             enabled=merged["enabled"],
@@ -211,6 +290,10 @@ class CrossDocumentProfile:
             surface_fractions={str(k): float(v) for k, v in merged["surface_fractions"].items()},
             shared_anchor_profile=SharedAnchorProfile.from_dict(
                 merged["shared_anchor_profile"],
+                strict=True,
+            ),
+            semantic_gravity_profile=SemanticGravityProfile.from_dict(
+                merged["semantic_gravity_profile"],
                 strict=True,
             ),
         )
@@ -253,6 +336,7 @@ class CrossDocumentProfile:
             )
 
         self.shared_anchor_profile.validate()
+        self.semantic_gravity_profile.validate()
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -260,6 +344,7 @@ class CrossDocumentProfile:
             "edge_threshold_scale": self.edge_threshold_scale,
             "surface_fractions": dict(self.surface_fractions),
             "shared_anchor_profile": self.shared_anchor_profile.to_dict(),
+            "semantic_gravity_profile": self.semantic_gravity_profile.to_dict(),
         }
 
 
@@ -921,6 +1006,21 @@ def _semantic_similarity(a: Any, b: Any) -> float:
     return max(0.0, dot / (na * nb))
 
 
+def _semantic_gravity_bonus(
+    semantic_similarity: float,
+    profile: SemanticGravityProfile,
+) -> float:
+    """Bounded semantic attraction overlay used only when explicitly enabled."""
+    if not profile.enabled:
+        return 0.0
+    if semantic_similarity <= profile.min_similarity:
+        return 0.0
+    remaining = max(1.0 - profile.min_similarity, 1e-9)
+    normalized = (semantic_similarity - profile.min_similarity) / remaining
+    shaped = max(0.0, min(1.0, normalized)) ** profile.power
+    return min(profile.max_bonus, profile.bonus_scale * shaped)
+
+
 def _verbatim_similarity(a: Any, b: Any) -> float:
     """Verbatim affinity: substring containment + word Jaccard (case-sensitive)."""
     if not a.content or not b.content:
@@ -1006,6 +1106,13 @@ class BootstrapNucleus:
             surface: w_base * surface_fractions[surface] * sims[surface]
             for surface in _SURFACE_ORDER
         }
+        if is_cross_document and self.config.cross_document_profile.enabled:
+            gravity_bonus = w_base * _semantic_gravity_bonus(
+                sims["semantic"],
+                self.config.cross_document_profile.semantic_gravity_profile,
+            )
+            if gravity_bonus > 0.0:
+                contributions["semantic"] += gravity_bonus
         positive_support = sum(contributions.values())
         contradiction = _contradiction_signal(
             a,

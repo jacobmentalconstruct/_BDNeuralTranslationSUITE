@@ -1,8 +1,122 @@
 # BDNeuralTranslationSUITE — Dev Log
 
-_Last updated: 2026-03-31. Journal mirror lives in `_docs/_journalDB/app_journal.sqlite3`._
+_Last updated: 2026-04-01. Journal mirror lives in `_docs/_journalDB/app_journal.sqlite3`._
 
 ---
+
+## 2026-04-01 — Five-vertex shock-load sweep on the `0.58` footing
+
+Journal entry: pending mirror
+
+- Ran a first deliberate five-vertex reactivity map on the origin-aware cross-document scorer footing.
+- Baseline for this sweep family:
+  - Probe 035 (`threshold = 0.58`)
+  - `cross-document nucleus pull edges = 2703`
+  - `relations = 20660`
+  - `above-threshold training pairs = 19231`
+- Sweep method:
+  - keep the same pair budget and same reference footing
+  - promote one cross-document surface aggressively (`0.25`, `0.50`, `0.75`, `0.90`)
+  - shrink the other four surfaces proportionally
+  - use the change in cross-document pull and relation volume as a first “load-bearing vs slack” read
+
+- Semantic sweep:
+  - `0.25 -> 1506`
+  - `0.50 -> 128`
+  - `0.75 -> 0`
+  - `0.90 -> 0`
+  - current read: semantic is still mostly a slack line on the active deterministic/reference footing
+
+- Verbatim sweep:
+  - `0.25 -> 1679`
+  - `0.50 -> 346`
+  - `0.75 -> 46`
+  - `0.90 -> 35`
+  - current read: verbatim is real but limited; modest promotion is survivable, heavy promotion quickly becomes destructive
+
+- Grammatical sweep:
+  - `0.25 -> 2752`
+  - `0.50 -> 2463`
+  - `0.75 -> 1352`
+  - `0.90 -> 713`
+  - current read: grammatical remains strongly active, but it is not the main growth lane and still decays as it is over-promoted
+
+- Statistical sweep:
+  - `0.25 -> 2703`
+  - `0.50 -> 229`
+  - `0.75 -> 0`
+  - `0.90 -> 0`
+  - current read: on this exact sweep shape, pushing statistical too hard also collapses the space; the lane is useful, but not as a dominant single carrying force
+
+- Structural sweep:
+  - `0.25 -> 364`
+  - `0.50 -> 3766`
+  - `0.75 -> 6826`
+  - `0.90 -> 7810`
+  - current read: structural is the strongest current load-bearing surface by far
+
+- Net interpretation:
+  - the active Phase 1 field is still being held mostly by structural support
+  - grammatical remains very alive
+  - verbatim is partially load-bearing but narrow
+  - semantic is not yet functionally integrated on the current deterministic/reference footing
+  - this is exactly why Phase 1 should now be treated as a five-vertex mapping program rather than a hunt for one lucky blended profile
+
+- Artifacts:
+  - `_docs/_analysis/vertex_reactivity_map_2026-04-01/vertex_reactivity_map_2026-04-01.md`
+  - `_docs/_analysis/vertex_reactivity_map_2026-04-01/vertex_reactivity_map_2026-04-01.json`
+
+## 2026-04-01 — Weight-pattern rotation test on the `0.58` footing
+
+Journal entry: pending mirror
+
+- Tested whether the current successful cross-document weight pattern was merely a lucky numeric shape or whether its surface assignment mattered.
+- Method:
+  - kept the same successful cross-document pattern shape
+  - rotated it across the five surfaces instead of re-tuning each surface independently
+- Results:
+  - baseline structural-heavy footing: `2703`
+  - rotated to statistical-heavy: `5`
+  - rotated to semantic-heavy: `83`
+  - rotated to verbatim-heavy: `144`
+  - rotated to grammatical-heavy: `1052`
+- Read:
+  - the current lift is not just “a pattern of numbers that works anywhere”
+  - the field cares about which surface gets which role
+  - surface orientation matters
+
+## 2026-04-01 — Bounded semantic gravity overlays
+
+Journal entry: pending mirror
+
+- Added an optional `semantic_gravity_profile` under the cross-document profile in `_BDHyperNeuronEMITTER/src/core/nucleus/bootstrap.py`.
+- Kept the seam narrow:
+  - disabled by default
+  - cross-document only
+  - bounded bonus
+  - no base lens rewrite
+- Added bootstrap tests proving:
+  - the seam is inert without embeddings
+  - the seam raises semantic share for embedding-bearing cross-document pairs
+- Then tested the same gravity ladder on two semantic providers:
+
+- Deterministic lane:
+  - control: `10955`
+  - low: `11697`
+  - mid: `12052`
+  - high: `12133`
+
+- Sentence-transformers lane:
+  - control: `3380`
+  - low: `3528`
+  - mid: `3700`
+  - high: `3943`
+
+- Current read:
+  - semantic gravity is real in both lanes
+  - semantic behaves better as an attraction overlay than as a primary support beam
+  - the deterministic semantic lane is dramatically stronger on this footing
+  - next job is quality-control through the bag before promoting any semantic-gravity profile as a default
 
 ## 2026-03-31 — Origin-aware cross-document scorer v1
 

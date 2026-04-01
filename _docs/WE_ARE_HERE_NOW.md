@@ -28,6 +28,11 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - We now have a real cross-document threshold control ladder on that branch, with a likely trust band around `0.50`–`0.65`.
 - The Hot Engine bag propagation direction bug is now fixed.
 - Post-fix bag checks make `0.58` look like the leading bag-first default candidate, with `0.55` close behind.
+- We now also have a first five-vertex shock-load map on that `0.58` footing:
+  - structural is the strongest current load-bearing surface
+  - grammatical remains strongly active
+  - verbatim is real but narrow
+  - semantic is still mostly slack on the active deterministic/reference footing
 - The bag view now also applies a light human-facing rerank:
   - prefers exact section/heading anchors when activations are close
   - exposes `rank_score` / `rank_signals` for inspection
@@ -37,6 +42,11 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - small bonus only when multiple lexical variants independently point into the same origin
   - clearest current win: `eval input`
   - current remaining misses look more lexicalization-bound than graph-direction-bound
+- We now also have first bounded semantic-gravity overlay results:
+  - deterministic control/high: `10955 -> 12133`
+  - sentence-transformers control/high: `3380 -> 3943`
+  - current read: semantic behaves more like a long-range attraction field than a primary support beam
+  - current warning: this is graph-strong, but still needs bag-side QC before becoming a default
 
 ## Broad tuning read
 
@@ -69,6 +79,12 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
     - ranking misses
     - lexicalization / alias misses
     - and cases where the best item is still not entering the candidate set cleanly
+- The next Phase 1 framing is sharper too:
+  - Phase 1 should not end when we find one lucky cross-document profile
+  - Phase 1 should end when all five surfaces are individually mapped and functionally integrated in context
+- Rotation testing clarified something important too:
+  - keeping the same weight pattern but rotating it around the five surfaces does not preserve the lift
+  - the field cares about orientation, not just numeric shape
 
 ## What tuning has already taught us
 

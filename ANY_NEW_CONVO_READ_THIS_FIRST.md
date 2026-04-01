@@ -22,6 +22,9 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
   - corroborated origins can receive a small bag-only support bonus
   - this already improves `eval input`
 - The **deterministic semantic lane currently outperforms** the first traditional sentence embedder we tested.
+- We now also have first evidence that semantic works better as an **overlay attraction field** than as a primary support surface:
+  - bounded semantic-gravity overlays improve cross-document pull in both semantic lanes
+  - the deterministic lane is currently far stronger than the sentence-transformer lane on this footing
 - The main unresolved bottleneck is still **cross-document pull**, but the current read is now sharper:
   - cheap-fetch fallback exists
   - origin-aware cross-document scoring v1 has now materially improved conversion
@@ -37,6 +40,7 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
   - the old cross-document threshold gate was much too strict
   - the promising current trust band looks closer to `0.50`–`0.65` than the first accepted `0.92` profile
   - the most useful current bag-facing sub-band looks closer to `0.55`–`0.58`, with `0.58` as the current leading default candidate
+  - that `0.58` read still applies to the current no-semantic-overlay bag footing; the new semantic-gravity path is promising but still needs bag-side QC before promotion
 
 ## The Important Probe Story
 
@@ -96,6 +100,28 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
     - the winner field stays mostly `structural_bridge` / `statistical_echo` deep into the sweep
     - `0.40` is the first warning zone where weakest winners begin to look shaky
     - `0.30` is too permissive and lets fragment-heavy bridge fabric through
+- **Probe 041-060** turned the current `0.58` footing into a first five-vertex shock-load map:
+  - structural is the strongest current load-bearing surface
+  - grammatical remains strongly active
+  - verbatim is real but narrow
+  - semantic is slack on the `embedder=none` footing
+  - statistical is useful, but not as a dominant single carrying force on that exact sweep shape
+- **Probe 061-064** rotated the successful cross-document weight pattern around the five vertices:
+  - baseline structural-heavy footing: `2703`
+  - rotated to statistical-heavy: `5`
+  - rotated to semantic-heavy: `83`
+  - rotated to verbatim-heavy: `144`
+  - rotated to grammatical-heavy: `1052`
+  - result: the field cares about surface assignment, not just the numeric pattern
+- **Probe 065-072** tested a bounded semantic-gravity overlay on top of the anchor lens:
+  - deterministic control/high:
+    - `10955 -> 12133`
+  - sentence-transformers control/high:
+    - `3380 -> 3943`
+  - result:
+    - semantic gravity is a real phenomenon in both lanes
+    - the deterministic semantic lane is much stronger on this footing
+    - semantic currently looks more like a long-range attraction field than a primary support beam
 
 ## What Works Right Now
 
@@ -110,6 +136,7 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
 - builder-side observable probe loop
 - rudimentary bag query workflow
 - side-by-side deterministic vs traditional embedder testing
+- bounded semantic-gravity overlays behind profile control
 
 ## The Current Bottleneck
 
@@ -181,7 +208,8 @@ Do **not** jump to these yet unless the docs explicitly justify it:
 5. [`_docs/GRAPH_PROBES.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\GRAPH_PROBES.md)
 6. [`_docs/DEV_LOG.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\DEV_LOG.md)
 7. [`_docs/ARCHITECTURE.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\ARCHITECTURE.md)
-8. Optional doctrine follow-up: [`_docs/_research/2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_research\2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md)
+8. Current session wrap-up: [`_docs/SESSION_ORIENTATION_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\SESSION_ORIENTATION_2026-04-01.md)
+9. Optional doctrine follow-up: [`_docs/_research/2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_research\2026-03-31_scope_root_bag_slice_and_two_sided_anchoring.md)
 
 ## If You Are Picking Up Work Immediately
 

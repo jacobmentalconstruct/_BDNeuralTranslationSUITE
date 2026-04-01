@@ -60,6 +60,10 @@ class BootstrapConfigTests(unittest.TestCase):
 
         self.assertFalse(config.cross_document_profile.enabled)
         self.assertIn("cross_document_profile", config.to_dict())
+        self.assertIn(
+            "semantic_gravity_profile",
+            config.to_dict()["cross_document_profile"],
+        )
 
     def test_negative_values_rejected(self):
         payload = BootstrapConfig.default().to_dict()
@@ -501,6 +505,111 @@ class BootstrapBehaviorTests(unittest.TestCase):
         baseline_structural = baseline.evaluate(a, b).interaction_vector[1]
         tuned_structural = tuned.evaluate(a, b).interaction_vector[1]
         self.assertEqual(tuned_structural, baseline_structural)
+
+    def test_semantic_gravity_overlay_is_inert_without_embeddings(self):
+        baseline = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "semantic_gravity_profile": {
+                        "enabled": False,
+                        "min_similarity": 0.2,
+                        "bonus_scale": 0.05,
+                        "power": 1.0,
+                        "max_bonus": 0.08,
+                    },
+                }
+            })
+        )
+        tuned = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "semantic_gravity_profile": {
+                        "enabled": True,
+                        "min_similarity": 0.2,
+                        "bonus_scale": 0.08,
+                        "power": 1.0,
+                        "max_bonus": 0.12,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Cross-document alpha note.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/alpha.txt",
+            structural_path="doc/h1_alpha/p1",
+            heading_trail=["Alpha"],
+        )
+        b = _make_hunk(
+            content="Cross-document beta note.",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/beta.txt",
+            structural_path="doc/h1_beta/p1",
+            heading_trail=["Beta"],
+        )
+
+        self.assertEqual(baseline.evaluate(a, b).__dict__, tuned.evaluate(a, b).__dict__)
+
+    def test_semantic_gravity_overlay_raises_semantic_share_for_cross_document_pair(self):
+        baseline = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "semantic_gravity_profile": {
+                        "enabled": False,
+                        "min_similarity": 0.2,
+                        "bonus_scale": 0.05,
+                        "power": 1.0,
+                        "max_bonus": 0.08,
+                    },
+                }
+            })
+        )
+        tuned = BootstrapNucleus(
+            config=BootstrapConfig.default().with_overrides({
+                "cross_document_profile": {
+                    "enabled": True,
+                    "semantic_gravity_profile": {
+                        "enabled": True,
+                        "min_similarity": 0.2,
+                        "bonus_scale": 0.08,
+                        "power": 1.0,
+                        "max_bonus": 0.12,
+                    },
+                }
+            })
+        )
+        a = _make_hunk(
+            content="Semantic alpha",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/alpha.txt",
+            structural_path="doc/h1_alpha/p1",
+            heading_trail=["Alpha"],
+            embedding=[1.0, 0.0],
+        )
+        b = _make_hunk(
+            content="Semantic beta",
+            node_kind="md_paragraph",
+            origin_id="C:/docs/beta.txt",
+            structural_path="doc/h1_beta/p1",
+            heading_trail=["Beta"],
+            embedding=[0.95, 0.05],
+        )
+
+        baseline_result = baseline.evaluate(a, b)
+        tuned_result = tuned.evaluate(a, b)
+
+        self.assertGreater(tuned_result.connection_strength, baseline_result.connection_strength)
+        self.assertGreater(
+            tuned_result.routing_profile["semantic"],
+            baseline_result.routing_profile["semantic"],
+        )
+        self.assertEqual(
+            tuned_result.interaction_vector[3],
+            baseline_result.interaction_vector[3],
+        )
 
     def test_default_contradiction_profile_is_inert(self):
         nucleus = BootstrapNucleus()
