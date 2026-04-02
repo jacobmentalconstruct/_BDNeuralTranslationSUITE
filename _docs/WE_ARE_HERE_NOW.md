@@ -4,7 +4,7 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 
 ## Last updated
 
-2026-04-01
+2026-04-02
 
 ## Fresh-thread start
 
@@ -20,6 +20,26 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - Splitter and Emitter are both live enough to continue development.
 - Bootstrap Nucleus is the active scorer.
 - A rudimentary bag seam now exists through the Emitter CLI.
+- A late-Phase-1 baseline-leg sidecar pass has now clarified a new collaboration doctrine:
+  - shared registry / shared visible state is the right collaboration baseline
+  - human-driven shared-state viewing is proven
+  - agent-driven visible action is still a bounded follow-up seam
+- A minimal separate shared viewer sidecar now exists as the intended mainline collaboration surface:
+  - DB path
+  - query
+  - mode (`fts` / `ann` / `bag`)
+  - provider selection
+  - visible shelf
+  - selected-item detail pane
+  - shared session JSON
+  - JSONL event log
+  - session-level control mode
+  - last-action provenance
+- Corpus doctrine has also shifted:
+  - general English first
+  - then technical/project prose
+  - then code/doc bridge corpora
+  - code is now treated as a second variable, not the initial baseline footing
 - We now have first non-Python pilot corpus baselines across text-heavy and mixed project material.
 - The Emitter now supports a parallel traditional embedder lane beside the deterministic semantic path.
 - A builder-side anisotropic blur lens now exists for query-neighborhood experiments over existing Cold Artifact DBs.
@@ -55,9 +75,48 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - `steep`, `softplus`, `high`, and `xhigh` all preserve the same human-facing top shelf on the current 11-query validation set
   - graph gains are now saturating rather than opening a wholly new regime
   - current read:
-    - `steep` is the safest balanced candidate
+    - `steep` is the safest balanced candidate and is now the promoted safe default
     - `softplus` is the strongest practical compromise
     - `xhigh` is a useful stress point, not an obvious default
+  - current profile organization:
+    - `python_reference_origin_aware_crossdoc_v1_threshold_058_semantic_gravity_default_safe.json`
+      - promoted safe default (`steep` shape)
+    - `..._softplus.json`
+      - stronger practical alternative
+    - `..._high.json`
+      - near-ceiling reference
+    - `..._xhigh.json`
+      - stress / saturation probe
+- We now also have first mapping results for `verbatim` and `contradiction` on top of that safe semantic footing:
+  - `verbatim_light` is basically neutral at the graph level and does not change the current 12-query bag top shelf
+  - `verbatim_mid` / `verbatim_strong` steadily trim cross-document winners without compensating lift
+  - current read: `verbatim` looks more like a precision / articulation-control surface than a bridge-growth surface
+  - `contradiction_soft` is almost neutral and starts to produce explicit anti-signal reasons without collapsing the winner field
+  - `contradiction_mid` prunes more but still does not improve cross-document pull
+  - `contradiction_block` is too blunt as a general default on this footing
+  - current best counter-pressure seed: `contradiction_soft`
+- We now also have the first pairwise `verbatim` excursion map:
+  - `verbatim + semantic` produces modest graph lift and sharply reduces cross-document losers as the pair mass increases
+  - but the same pair does not improve articulation convergence on the tested bag shelf
+  - current read:
+    - graph-positive
+    - articulation-neutral
+    - increasingly geometry-collapsing at higher settings
+  - that follow-up `verbatim + structural` test is now also complete:
+    - it rotates the field toward `structural_bridge`
+    - but it also does not improve articulation convergence on the tested bag shelf
+  - current joint read:
+    - pairwise weight steering alone is not solving articulation control
+    - next likely articulation seam is retrieval/rerank behavior or finer-grain verbatim resolution
+- We also clarified the next sane future verbatim-resolution seam:
+  - live `CIS` is real, but only as hunk-level content-addressed dedupe plus verbatim text persistence
+  - we do **not** yet have a full CAS / Merkle / BPE-backed verbatim layer
+  - if we branch into finer verbatim resolution later, the sane starting shape is:
+    - dedupe hardening
+    - line/span-level sub-hunks
+    - rudimentary scope traversal
+  - explicit caution:
+    - do not stack BPE + CAS + Merkle + full scope-walker work into one tranche
 - The probe monitor is now a more useful observer surface too:
   - live metric cards
   - summary and sample tabs in the same window
@@ -104,6 +163,71 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
 - Semantic-shape testing clarified something important too:
   - once the deterministic semantic field is active, the next question is shape/saturation rather than raw existence
   - the bag shelf is stable across the tested deterministic semantic shapes, so the next choice is about preserving useful winner geometry rather than preventing obvious shelf breakage
+  - the safe operational move is to keep one promoted default while preserving the shape family as a labeled option library
+- Verbatim / contradiction mapping clarified something important too:
+  - `verbatim` should not currently be treated like a second semantic field
+  - the better hypothesis is that it helps control articulation, wording regime, or chosen framing inside an already-grounded neighborhood
+  - contradiction is promising as a later trust-preserving counter-pressure, but only in softer forms
+- First verbatim pair-mapping clarified something important too:
+  - `verbatim + semantic` is not yet giving usable wording-control at the bag surface
+  - it is giving semantic consolidation
+  - so if the goal is chosen framing or articulation control, we should likely pivot to `verbatim + structural` next
+- Second verbatim pair-mapping clarified something important too:
+  - `verbatim + structural` also does not solve wording-control at the bag surface
+  - so the next likely gain is not another naive pair excursion
+  - it is more likely:
+    - retrieval/rerank articulation logic
+    - or finer-grain verbatim resolution
+- Verbatim-resolution discussion clarified something important too:
+  - current articulation limits may partly reflect missing finer lexical resolution in the field
+  - but the right next move is not “jump straight to subword”
+  - the right middle ground is likely line/span granularity with strong dedupe and simple scope movement first
+- Query-side articulation strategy mapping clarified something important too:
+  - on the live `det_steep` DB, the current bag shelf now sits at `same_top = 5`, `same_origin = 6`
+  - `phrase_core` expansion is worse (`4 / 4`)
+  - `identifier_norm` is effectively neutral (`5 / 6`)
+  - `char_ngram` rerank is the first light query-side mover (`6 / 6`)
+  - current read:
+    - char n-gram overlap is the best next query-side articulation seam on the existing hunk field
+    - phrase-core expansion is too blunt on this footing
+    - identifier normalization alone does not add much yet
+- We then promoted that bounded char n-gram seam into the live bag rerank:
+  - first integrated articulation shelf: `same_top = 7`, `same_origin = 7`
+  - the standalone char-ngram overlay is no longer additive because the live bag already includes it
+  - a follow-up import-anchor tuning pass then closed the remaining miss:
+    - punctuation-insensitive alias matching
+    - bounded section-like trust for short anchored list items that look like true statement/label anchors
+  - current integrated articulation shelf now sits at `same_top = 8`, `same_origin = 8`
+  - current read:
+    - the bag itself is now aligned across the full tested articulation shelf
+    - current articulation work can stay bag/query-side until that line stops paying off
+    - lexical-anchor breadth is now decoupled from final bag `top_k`, so the `module imports` import-anchor win survives narrow returned bags too
+- BPE query-probe testing clarified something important too:
+  - the current deterministic BPE space tied to the live `det_steep` DB is not yielding useful articulation neighbors on the Python-reference shelf
+  - `0 / 16` articulation queries produced any concept-relevant readable nearest-token hits
+  - current read:
+    - do not wire BPE query expansion into this reference footing yet
+    - if we revisit BPE later, it should be with corpus-aligned artifacts rather than this current field
+- Plain vector-baseline comparison clarified something important too:
+  - ordinary ANN/vector retrieval is now measured directly against the live bag on the same query shelf
+  - deterministic ANN baseline:
+    - `same_top = 4 / 16`
+    - vector human-facing tops = `14 / 16`
+    - bag human-facing tops = `15 / 16`
+  - sentence-transformer ANN baseline:
+    - `same_top = 8 / 16`
+    - vector human-facing tops = `13 / 16`
+    - bag human-facing tops = `14 / 16`
+  - current read:
+    - plain vector retrieval absolutely works as a real baseline
+    - but it is flatter and less anchor-stable than the bag
+    - the bag is retrieving a shaped evidence slice, not just nearest semantic neighbors
+- The baseline-leg-sidecar real-English pass clarified something important too:
+  - `tech_talks` was a much better natural-language footing than the dictionary baseline
+  - `fts` was often the cleanest leg for explicit phrase queries
+  - sentence-transformers ANN behaved most like a conventional semantic prose baseline
+  - deterministic ANN could be provisioned on the same corpus, but on that footing it remained weaker as a standalone prose retriever
+  - this branch should now be treated as a concluded diagnostic/reference seam rather than expanded indefinitely
 
 ## What tuning has already taught us
 

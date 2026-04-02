@@ -1,0 +1,141 @@
+{
+  "query": "lambda expressions",
+  "mode": "ann",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_069_semgrav_st_control\\cold_anatomy_reference_probe_069_semgrav_st_control.db",
+  "provider": {
+    "provider": "sentence-transformers",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "artifacts_dir": ""
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 4,
+    "group_by": "origin_id",
+    "summary": "8 cosine-ranked evidence items surfaced for \"lambda expressions\" across 4 groups. Top sources: simple_stmts.txt (4), expressions.txt (2), index.txt (1). Top node kinds: fragment_of_md_code_block (2), md_list_item (2), md_heading (2)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+      "item_count": 2,
+      "max_score": 0.663377,
+      "occurrence_ids": [
+        "36ffdfe79c8de393d268b0e567b21506d93f00fa069a18532c2e9ded2e859ed3",
+        "e0a86d2879dec07f5482b7dddef704d6e21d1cda32e9eb73dafe5af08969b098"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "item_count": 4,
+      "max_score": 0.555987,
+      "occurrence_ids": [
+        "47039832f7b34927773f729b3653055165d00385cc719d9def268c20eb165f14",
+        "b69a9a825babb63af164f72bcd1d16415b86f51e12c7f2afe8741fdaf22e3f3d",
+        "ded13dca633ee926152387f44a635a592beadac2dc10ce86f33e6643468d7b1b",
+        "32c258e7b180dccb09828658f89ab810b4170693cadace2c85a4080e44e9a5fa"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+      "item_count": 1,
+      "max_score": 0.543281,
+      "occurrence_ids": [
+        "ce402937346de001650ded4f54796c2b47b1bcd20f3842287ac7016f5f910929"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "item_count": 1,
+      "max_score": 0.498946,
+      "occurrence_ids": [
+        "0dbdec23779c1efd1338f56246ee81e3734c234fb726de4ef8506bacb3cb56d7"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "36ffdfe79c8de393d268b0e567b21506d93f00fa069a18532c2e9ded2e859ed3",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+      "structural_path": "doc/h1_6_2_atoms/h2_6_2_9_yield_expressions/fragment",
+      "node_kind": "fragment_of_md_code_block",
+      "content_snippet": "\" expression] expression ::= conditional_expression | lambda_expr Conditional expressions (sometimes called a \"ternary operator\") have the lowest priority of all Python operations.",
+      "score": 0.663377,
+      "score_kind": "cosine",
+      "content": "\" expression]\n   expression             ::= conditional_expression | lambda_expr\n\nConditional expressions (sometimes called a \"ternary operator\") have\nthe lowest priority of all Python operations.\n\nThe expression \"x if C else y\" first evaluates the condition, *C*\nrather than *x*. If *C* is true, *x* is evaluated and its value is\nreturned; otherwise, *y* is evaluated and its value is returned.\n\nSee **PEP 308** for more details about conditional expressions.\n\n\n6.14. Lambdas\n=============\n\n   lambda_expr ::= \"lambda\" [parameter_list] \":\" expression\n\nLambda expressions (sometimes called lambda forms) are used to create\nanonymous functions. The expression \"lambda parameters: expression\"\nyields a function object.  The unnamed object behaves like a function\nobject defined with:\n\n   def <lambda>(parameters):\n       return expression\n\nSee section Function definitions for the syntax of parameter lists.\nNote that functions created with lambda expressions cannot contain\nstatements or annotations.\n\n\n6.15. Expression lists"
+    },
+    {
+      "occurrence_id": "47039832f7b34927773f729b3653055165d00385cc719d9def268c20eb165f14",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "structural_path": "doc/h1_7_2_assignment_statements/li_2",
+      "node_kind": "md_list_item",
+      "content_snippet": "expression is evaluated.",
+      "score": 0.555987,
+      "score_kind": "cosine",
+      "content": "expression is evaluated."
+    },
+    {
+      "occurrence_id": "ce402937346de001650ded4f54796c2b47b1bcd20f3842287ac7016f5f910929",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+      "structural_path": "doc/h1_the_python_language_reference/li_44",
+      "node_kind": "md_list_item",
+      "content_snippet": "* 6.14. Lambdas",
+      "score": 0.543281,
+      "score_kind": "cosine",
+      "content": "* 6.14. Lambdas"
+    },
+    {
+      "occurrence_id": "0dbdec23779c1efd1338f56246ee81e3734c234fb726de4ef8506bacb3cb56d7",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "structural_path": "doc/h1_2_4_literals/h2_2_4_1_string_and_bytes_literal/fragment",
+      "node_kind": "fragment_of_md_code_block",
+      "content_snippet": "ersion field, introduced by an exclamation point \"'!'\" may follow. A format specifier may also be appended, introduced by a colon \"':'\". A replacement field ends with a closing cur",
+      "score": 0.498946,
+      "score_kind": "cosine",
+      "content": "ersion field, introduced by an exclamation\npoint \"'!'\" may follow.  A format specifier may also be appended,\nintroduced by a colon \"':'\". A replacement field ends with a closing\ncurly bracket \"'}'\".\n\nExpressions in formatted string literals are treated like regular\nPython expressions surrounded by parentheses, with a few exceptions.\nAn empty expression is not allowed, and both \"lambda\"  and assignment\nexpressions \":=\" must be surrounded by explicit parentheses.\nReplacement expressions can contain line breaks (e.g. in triple-quoted\nstrings), but they cannot contain comments.  Each expression is\nevaluated in the context where the formatted string literal appears,\nin order from left to right.\n\nChanged in version 3.7: Prior to Python 3.7, an \"await\" expression and\ncomprehensions containing an \"async for\" clause were illegal in the\nexpressions in formatted string literals due to a problem with the\nimplementation.\n\nWhen the equal sign \"'='\" is provided, the output will have the\nexpression text, the \"'='\" and the ev"
+    },
+    {
+      "occurrence_id": "b69a9a825babb63af164f72bcd1d16415b86f51e12c7f2afe8741fdaf22e3f3d",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "structural_path": "doc/h1_7_1_expression_statements",
+      "node_kind": "md_heading",
+      "content_snippet": "7.1. Expression statements",
+      "score": 0.498837,
+      "score_kind": "cosine",
+      "content": "7.1. Expression statements"
+    },
+    {
+      "occurrence_id": "ded13dca633ee926152387f44a635a592beadac2dc10ce86f33e6643468d7b1b",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "structural_path": "doc/h1_7_1_expression_statements",
+      "node_kind": "md_paragraph",
+      "content_snippet": "An expression statement evaluates the expression list (which may be a single expression).",
+      "score": 0.493308,
+      "score_kind": "cosine",
+      "content": "An expression statement evaluates the expression list (which may be a\nsingle expression)."
+    },
+    {
+      "occurrence_id": "e0a86d2879dec07f5482b7dddef704d6e21d1cda32e9eb73dafe5af08969b098",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+      "structural_path": "doc/h1_6_expressions",
+      "node_kind": "md_heading",
+      "content_snippet": "6. Expressions",
+      "score": 0.486933,
+      "score_kind": "cosine",
+      "content": "6. Expressions"
+    },
+    {
+      "occurrence_id": "32c258e7b180dccb09828658f89ab810b4170693cadace2c85a4080e44e9a5fa",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "structural_path": "doc/h1_7_6_the_return_statement",
+      "node_kind": "md_paragraph",
+      "content_snippet": "If an expression list is present, it is evaluated, else \"None\" is substituted.",
+      "score": 0.464319,
+      "score_kind": "cosine",
+      "content": "If an expression list is present, it is evaluated, else \"None\" is\nsubstituted."
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "ANN-only vector retrieval over occurrence vectors."
+}

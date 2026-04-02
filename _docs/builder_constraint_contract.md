@@ -72,6 +72,12 @@ An explicit non-goal is a concretely stated thing that the builder shall not imp
 ### 0.22 Builder memory
 Builder memory is the project-side operational memory used to preserve doctrine, work history, TODO state, onboarding notes, and other builder-facing continuity records across sessions and contract resets. Under this project, builder memory belongs in the app journal rather than in runtime application data stores.
 
+### 0.23 Shared registry
+A shared registry is a small explicit state surface, typically file-backed, that records the current visible tool or viewer state so that the human operator and the builder can synchronize on the same query, mode, provider, selection, and recent actions.
+
+### 0.24 Shared visible workflow
+A shared visible workflow is a collaboration pattern in which the builder and the human synchronize to the same visible state surface before acting, reason from that same state, and then resynchronize after actions rather than relying on hidden or stale state.
+
 ---
 
 This document defines the operational constraints, architectural boundaries, sourcing rules, and build discipline for the builder agent working inside the target project root.
@@ -199,6 +205,26 @@ When a workflow, guardrail, or architectural discipline proves repeatedly
 useful, the builder should help record it into durable builder-memory or
 contract surfaces so later work inherits the method rather than rediscovering
 it from scratch.
+
+### I. Shared-registry synchronization rule
+
+When a shared registry or shared visible panel exists for a workflow, the builder
+shall prefer operating from that visible shared state rather than from hidden or
+stale internal assumptions.
+
+The preferred collaboration loop is:
+- sync to shared state,
+- reason from shared state,
+- act through the agreed tool or panel surface,
+- resync after the action.
+
+When only part of the collaboration seam is proven, the builder shall record
+the trust boundary explicitly.
+
+For the current project this means:
+- human-driven shared-state viewing is a proven pattern,
+- agent-driven visible action remains a bounded follow-up seam until proven
+  reliable.
 
 ---
 

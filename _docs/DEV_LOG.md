@@ -1,6 +1,41 @@
 # BDNeuralTranslationSUITE — Dev Log
 
-_Last updated: 2026-04-01. Journal mirror lives in `_docs/_journalDB/app_journal.sqlite3`._
+_Last updated: 2026-04-02. Journal mirror lives in `_docs/_journalDB/app_journal.sqlite3`._
+
+---
+
+## 2026-04-02 — Baseline-leg sidecar reintegration doctrine
+
+Journal entry: pending mirror
+
+- Treated the `baseline-leg-sidecar` work as a concluded diagnostic/reference branch rather than a second product line.
+- Promoted the collaboration doctrine into mainline-facing docs:
+  - shared registry as truth surface
+  - `sync -> think -> act -> resync`
+  - human-driven shared-state viewing is proven
+  - agent-driven visible panel action remains a bounded follow-up seam
+- Added a mainline-facing workflow note:
+  - `_docs/SHARED_REGISTRY_WORKFLOW.md`
+- Updated the builder constraint contract with:
+  - `shared registry`
+  - `shared visible workflow`
+  - a new shared-registry synchronization rule
+- Reframed corpus doctrine from narrow reference/code footing toward:
+  - general English first
+  - then technical/project prose
+  - then code/doc bridge corpora
+- Marked the minimal shared viewer as a separate sidecar direction in the tool docs.
+- Kept the pending-action seam explicitly experimental by default:
+  - `baseline_leg_viewer.py` now requires `--enable-panel-actions` before it will try to consume queued panel actions
+  - `baseline_leg_panel_action.py` is now explicitly documented as experimental
+- Added branch conclusion note:
+  - `_docs/_branch_baseline_leg/CONCLUSION.md`
+
+Current read:
+- the branch succeeded as a diagnostic experiment
+- the shared viewer is worth carrying forward in minimal form
+- the bugged pending-action seam should not be treated as mainline truth
+- the next real corpus step is a functional English baseline, not broader workflow experimentation
 
 ---
 
@@ -73,6 +108,393 @@ Artifacts:
 - `_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.md`
 - `_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.json`
 - `_docs/_analysis/reference_probe_076_monitor_typed_event_smoke`
+
+---
+
+## 2026-04-01 — Verbatim participation + contradiction counter-pressure mapping
+
+Journal entry: pending mirror
+
+- Mapped a first `verbatim` overlay family on top of the promoted safe deterministic semantic footing:
+  - Probe 078 `verbatim_light`
+  - Probe 079 `verbatim_mid`
+  - Probe 080 `verbatim_strong`
+- Result:
+  - baseline `det_steep`: `12067` cross-document winners
+  - `verbatim_light`: `12064`
+  - `verbatim_mid`: `12051`
+  - `verbatim_strong`: `11995`
+- Read:
+  - verbatim is participating, but not as a growth or long-range bridge lever
+  - light promotion is survivable
+  - stronger promotion steadily trims the winner field
+  - current best hypothesis: `verbatim` is an articulation / framing control surface rather than a second semantic field
+
+- Mapped a first contradiction counter-pressure family on the same footing:
+  - Probe 081 `contradiction_soft`
+  - Probe 082 `contradiction_mid`
+  - Probe 083 `contradiction_block`
+- Result:
+  - `contradiction_soft`: `12070` cross-document winners
+  - `contradiction_mid`: `12036`
+  - `contradiction_block`: `12036`, but total relations drop sharply to `54839`
+- Read:
+  - soft contradiction is almost neutral and begins to emit explicit anti-signal reasons without collapsing the winner field
+  - medium contradiction prunes more noticeably but does not create new lift
+  - hard block is too blunt on this footing
+  - current best counter-pressure seed: `contradiction_soft`
+
+- Ran a focused bag shelf check across:
+  - `det_steep`
+  - `verbatim_light`
+  - `contradiction_soft`
+  - `contradiction_mid`
+- Query shelf size:
+  - `12`
+- Result:
+  - all four profiles preserved the same top item on `12/12` queries
+- Current conclusion:
+  - neither verbatim light nor soft contradiction is a major top-shelf mover yet
+  - both should currently be treated as subtle field shapers rather than headline bag improvers
+
+Artifacts:
+- `_docs/_analysis/verbatim_contradiction_mapping_2026-04-01/verbatim_contradiction_mapping_2026-04-01.md`
+- `_docs/_analysis/bag_verbatim_contradiction_qc_2026-04-01/bag_verbatim_contradiction_qc_2026-04-01.md`
+- `_docs/_analysis/bag_verbatim_contradiction_qc_2026-04-01/bag_verbatim_contradiction_qc_2026-04-01.json`
+
+---
+
+## 2026-04-01 — First pairwise `verbatim + semantic` excursion map
+
+Journal entry: pending mirror
+
+- Built the first pairwise `verbatim` family with a coupled `semantic + verbatim` orientation.
+- Method:
+  - keep the promoted safe deterministic semantic footing as the anchor lens
+  - preserve the baseline `semantic:verbatim` ratio (`2:1`)
+  - push the pair mass outward while shrinking `grammatical`, `structural`, and `statistical` proportionally
+
+- Probe ladder:
+  - Probe 084 `pair_020`
+  - Probe 085 `pair_028`
+  - Probe 086 `pair_038`
+  - Probe 087 `pair_050`
+
+- Graph read:
+  - baseline `det_steep`: `12067` cross-document winners
+  - `pair_020`: `12112`
+  - `pair_028`: `12157`
+  - `pair_038`: `12180`
+  - `pair_050`: `12190`
+  - losers collapse sharply as the pair mass rises
+  - but winner geometry becomes almost pure `semantic_resonance`
+
+- Bag articulation read:
+  - used an articulation shelf with alternate phrasings:
+    - `lambda expressions` / `anonymous functions`
+    - `assignment expressions` / `walrus operator`
+    - `function definitions` / `def statements`
+    - `resolution of names` / `name lookup`
+    - `interactive input` / `repl input`
+    - `encoding declarations` / `source encoding comments`
+    - `import statements` / `module imports`
+    - `yield expressions` / `generator yield`
+  - result:
+    - no profile in the pair family improved same-top or same-origin convergence beyond the safe baseline
+  - current read:
+    - this pair is graph-positive but articulation-neutral on the tested shelf
+    - it looks more like semantic consolidation than usable wording-control
+
+- Current conclusion:
+  - do not promote this pair family as a default
+  - likely next articulation candidate: `verbatim + structural`
+
+Artifacts:
+- `_docs/_analysis/verbatim_semantic_pair_mapping_2026-04-01/verbatim_semantic_pair_mapping_2026-04-01.md`
+- `_docs/_analysis/bag_verbatim_semantic_articulation_qc_2026-04-01/bag_verbatim_semantic_articulation_qc_2026-04-01.md`
+- `_docs/_analysis/bag_verbatim_semantic_articulation_qc_2026-04-01/bag_verbatim_semantic_articulation_qc_2026-04-01.json`
+
+---
+
+## 2026-04-01 — Second pairwise `verbatim + structural` excursion map
+
+Journal entry: pending mirror
+
+- Built the second pairwise `verbatim` family with a coupled `structural + verbatim` orientation.
+- Method:
+  - same safe deterministic anchor lens
+  - preserve the live structural:verbatim ratio
+  - push the pair mass outward while shrinking `grammatical`, `statistical`, and `semantic`
+
+- Probe ladder:
+  - Probe 088 `structpair_052`
+  - Probe 089 `structpair_060`
+  - Probe 090 `structpair_072`
+  - Probe 091 `structpair_082`
+
+- Graph read:
+  - `structpair_052`: slight structural lift with mixed field still alive
+  - `structpair_060`: no meaningful headline gain
+  - `structpair_072`: structural rotation, rising losers
+  - `structpair_082`: structural takeover, clear degradation
+
+- Bag articulation read:
+  - reused the same articulation shelf as the `verbatim + semantic` pair family
+  - result:
+    - no profile in the structural pair family improved same-top or same-origin convergence beyond the safe baseline
+
+- Current conclusion:
+  - `verbatim + structural` changes field orientation, but does not improve articulation control on the tested shelf
+  - together with the earlier `verbatim + semantic` result, this suggests naive pairwise weight steering is not enough to solve articulation behavior
+  - likely next articulation seam:
+    - retrieval/rerank behavior
+    - or finer-grain verbatim resolution
+
+Artifacts:
+- `_docs/_analysis/verbatim_structural_pair_mapping_2026-04-01/verbatim_structural_pair_mapping_2026-04-01.md`
+- `_docs/_analysis/bag_verbatim_structural_articulation_qc_2026-04-01/bag_verbatim_structural_articulation_qc_2026-04-01.md`
+- `_docs/_analysis/bag_verbatim_structural_articulation_qc_2026-04-01/bag_verbatim_structural_articulation_qc_2026-04-01.json`
+
+---
+
+## 2026-04-01 — Future verbatim-resolution seam clarified
+
+Journal entry: pending mirror
+
+- Clarified the current `CIS` truth boundary:
+  - live runtime `CIS` is real as hunk-level content-addressed dedupe plus verbatim text persistence
+  - it is not yet a full CAS / Merkle / BPE-backed verbatim system
+
+- Clarified the likely articulation-control limitation:
+  - current field strength is mostly at hunk / structural / heading / word-ish overlap resolution
+  - this likely contributes to weak phrasing-shift / alternate-articulation control
+
+- Chose the sane future middle ground rather than jumping straight to full subword infrastructure:
+  - dedupe hardening first
+  - then line/span-level sub-hunks
+  - then rudimentary scope traversal
+
+- Explicitly deferred:
+  - full BPE-backed verbatim storage
+  - full CAS/Merkle rollout
+  - full walker/scope membrane work
+  - all in the same tranche
+
+- Current read:
+  - this is a future branch worth keeping alive
+  - but it should land as a restrained architecture seam, not as a simultaneous multi-system explosion
+
+---
+
+## 2026-04-01 — Query-side articulation strategy probe + contained BPE check
+
+Journal entry: pending mirror
+
+- Built a small repeatable builder-side comparison harness:
+  - `.dev-tools/final-tools/tools/query_articulation_strategy_probe.py`
+- Purpose:
+  - burn through lightweight query-side articulation avenues before touching ingest or splitter granularity
+  - compare:
+    - baseline alias-aware bag behavior
+    - `phrase_core` expansion
+    - `identifier_norm`
+    - `char_ngram` rerank
+
+- Live `det_steep` articulation shelf result:
+  - baseline: `same_top = 5`, `same_origin = 6`
+  - `phrase_core`: `4 / 4`
+  - `identifier_norm`: `5 / 6`
+  - `char_ngram`: `6 / 6`
+
+- Read:
+  - char n-gram overlap is the first lightweight query-side articulation seam that actually improves the current shelf
+  - phrase-core expansion is too blunt on this footing
+  - identifier normalization alone is basically neutral
+  - this keeps the next likely articulation move on the bag/query side, not the ingest side
+
+- Also ran a contained BPE query-time probe against the same `det_steep` footing:
+  - asked the deterministic BPE field for readable nearest-token neighbors on the articulation shelf
+  - result: `0 / 16` queries produced any concept-relevant readable hits
+
+- Read:
+  - the active deterministic BPE field tied to this DB is not the right articulation field for the Python-reference shelf
+  - do not wire BPE query expansion into this footing yet
+  - if BPE is revisited later, it should be with corpus-aligned artifacts rather than the current field
+
+Artifacts:
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01/query_articulation_strategy_probe.md`
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01/query_articulation_strategy_probe.json`
+- `_docs/_analysis/bpe_query_articulation_probe_2026-04-01/bpe_query_articulation_probe_2026-04-01.md`
+- `_docs/_analysis/bpe_query_articulation_probe_2026-04-01/bpe_query_articulation_probe_2026-04-01.json`
+
+---
+
+## 2026-04-01 — Bounded char-ngram seam promoted into the live bag rerank
+
+Journal entry: pending mirror
+
+- Promoted the bounded char-trigram overlap term into:
+  - `_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py`
+- Kept it deliberately small and bag-side:
+  - no graph-schema changes
+  - no ingest changes
+  - no durable score mutation
+
+- Added focused bag tests:
+  - verifies char-ngram can help a better articulation-fit section label outrank a wrong nearby heading
+  - verifies articulation aliases still surface the right section anchor even when a generic paragraph echoes the alternate phrasing
+
+- Validation:
+  - `python -m unittest discover _BDHyperNeuronEMITTER/tests -v`
+  - result: `49/49` passing
+
+- Live articulation shelf result after integration:
+  - baseline bag now sits at `same_top = 7`, `same_origin = 7`
+  - the earlier standalone `char_ngram` overlay is no longer additive because the live bag already contains that seam
+
+- Read:
+  - the bag itself is now much stronger on same-concept/different-wording pairs
+  - the main remaining articulation miss is now narrow:
+    - `import statements` / `module imports`
+  - this means the next articulation work can stay tightly focused on the import-style miss rather than the whole shelf
+
+Artifacts:
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01_live_char_ngram/query_articulation_strategy_probe.md`
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01_live_char_ngram/query_articulation_strategy_probe.json`
+
+---
+
+## 2026-04-01 — Import-anchor articulation pass closes the shelf
+
+Journal entry: pending mirror
+
+- Followed the live char-ngram integration with one bounded import-focused rerank pass in:
+  - `_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py`
+- Goal:
+  - close the last articulation miss (`import statements` / `module imports`) without destabilizing the rest of the shelf
+
+- What changed:
+  - added punctuation-insensitive match normalization for query/alias phrase checks
+  - widened section-like trust to short anchored list items only when they look like true statement/label anchors
+  - explicitly avoided giving that extra trust to comma-fragment grammar list items
+
+- Why:
+  - the clean anchor `* "import" statements.` already existed in the bag
+  - it was losing to broad import-origin prose because:
+    - alias matching was too punctuation-literal
+    - non-index short anchored list items were not trusted as section-like articulation anchors
+
+- Validation:
+  - focused bag tests:
+    - `python -m unittest _BDHyperNeuronEMITTER.tests.test_bag_view -v`
+    - `9/9` passing
+  - full emitter suite:
+    - `python -m unittest discover _BDHyperNeuronEMITTER/tests -v`
+    - `50/50` passing
+  - `py_compile` clean for:
+    - `_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py`
+    - `.dev-tools/final-tools/tools/query_articulation_strategy_probe.py`
+
+- Live articulation shelf result:
+  - prior integrated live shelf: `same_top = 7`, `same_origin = 7`
+  - after import-anchor tuning: `same_top = 8`, `same_origin = 8`
+
+- Read:
+  - the bag/query layer is still producing real articulation gains without a new ingest branch
+  - the full tested eight-pair articulation shelf is now aligned on the baseline live bag path
+  - this keeps the next likely branch as:
+    - more bag/query articulation work while it is still paying off
+    - finer-grain ingest only after that line plateaus
+  - follow-up broader sanity check exposed a `top_k` sensitivity on `module imports`
+  - that was then closed immediately by decoupling lexical-anchor breadth from displayed bag size
+
+Artifacts:
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01_import_anchor_tune_v2/query_articulation_strategy_probe.md`
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01_import_anchor_tune_v2/query_articulation_strategy_probe.json`
+
+---
+
+## 2026-04-01 — Lexical-anchor budget decoupled from returned bag size
+
+Journal entry: pending mirror
+
+- Followed the import-anchor pass with one bounded robustness fix in:
+  - `_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py`
+- Change:
+  - lexical FTS anchor search now uses a minimum internal anchor budget of `8`
+  - final returned bag size can stay smaller (`top_k = 5`, for example) without starving the anchor search itself
+
+- Why:
+  - the broader sanity pass showed `module imports` could reopen as a miss when `top_k` was squeezed
+  - cause:
+    - lexical-anchor breadth was still coupled to the final displayed bag size
+
+- Validation:
+  - focused bag tests:
+    - `python -m unittest _BDHyperNeuronEMITTER.tests.test_bag_view -v`
+    - `10/10` passing
+  - full emitter suite:
+    - `python -m unittest discover _BDHyperNeuronEMITTER/tests -v`
+    - `51/51` passing
+  - targeted check:
+    - `module imports` now holds the same top item at `top_k = 5`, `8`, and `12`
+
+- Read:
+  - the articulation shelf remains `8 / 8`
+  - the remaining narrow-bag sensitivity on the import pair is gone
+  - current bag/query-side articulation work is still paying off without any new ingest branch
+
+Artifacts:
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01_anchor_budget_decoupled/query_articulation_strategy_probe.md`
+- `_docs/_analysis/query_articulation_strategy_probe_2026-04-01_anchor_budget_decoupled/query_articulation_strategy_probe.json`
+- `_docs/_analysis/bag_broader_sanity_post_import_tune_2026-04-01/bag_broader_sanity_post_import_tune_2026-04-01.md`
+
+---
+
+## 2026-04-02 — Plain vector search baseline compared to the bag
+
+Journal entry: pending mirror
+
+- Added a builder-side comparison harness:
+  - `.dev-tools/final-tools/tools/vector_baseline_compare.py`
+- Purpose:
+  - make ordinary ANN/vector search an explicit control instrument
+  - compare plain nearest-neighbor retrieval against the live bag on the same query shelf
+
+- Compared two live reference DBs:
+  - deterministic:
+    - `_docs/_analysis/reference_probe_073_semgrav_det_steep/cold_anatomy_reference_probe_073_semgrav_det_steep.db`
+  - sentence-transformers:
+    - `_docs/_analysis/reference_probe_069_semgrav_st_control/cold_anatomy_reference_probe_069_semgrav_st_control.db`
+
+- Query shelf size:
+  - `16`
+
+- Deterministic read:
+  - ordinary ANN top == bag top on only `4 / 16`
+  - vector human-facing top count = `14 / 16`
+  - bag human-facing top count = `15 / 16`
+  - read:
+    - deterministic plain vector retrieval works, but drifts hard on anchor-sensitive queries
+    - the bag is clearly doing more than restating nearest-neighbor results
+
+- Sentence-transformers read:
+  - ordinary ANN top == bag top on `8 / 16`
+  - vector human-facing top count = `13 / 16`
+  - bag human-facing top count = `14 / 16`
+  - read:
+    - plain sentence-transformer retrieval is a stronger ordinary semantic baseline than the deterministic ANN lane on this shelf
+    - the bag still improves anchor stability and section targeting over plain vector search
+
+- Practical conclusion:
+  - ordinary vector search is absolutely worth keeping as a baseline instrument
+  - the bag is retrieving a shaped evidence slice, not just nearest vectors
+  - this gives us a repeatable way to ask what each isolated surface is really buying us
+
+Artifacts:
+- `_docs/_analysis/vector_baseline_compare_2026-04-02/vector_baseline_compare_summary.json`
+- `_docs/_analysis/vector_baseline_compare_2026-04-02/cold_anatomy_reference_probe_073_semgrav_det_steep_deterministic_vector_baseline_compare.md`
+- `_docs/_analysis/vector_baseline_compare_2026-04-02/cold_anatomy_reference_probe_069_semgrav_st_control_sentence-transformers_vector_baseline_compare.md`
 
 ---
 

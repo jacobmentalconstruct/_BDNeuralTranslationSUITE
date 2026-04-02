@@ -1,0 +1,655 @@
+{
+  "query": "sentance transformers",
+  "mode": "bag",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_069_semgrav_st_control\\cold_anatomy_reference_probe_069_semgrav_st_control.db",
+  "provider": {
+    "provider": "bag-control"
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 4,
+    "group_by": "origin_id",
+    "summary": "8 evidence items surfaced for \"sentance transformers\" across 4 groups. Top sources: C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt (3), C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt (2), C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt (2). Top node kinds: md_list_item (3), md_paragraph (2), fragment_of_md_code_block (2)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+      "item_count": 3,
+      "max_activation": 0.9,
+      "summary": "3 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt. Strongest activation 0.900. Most common kind: md_list_item. Representative item: * parenthesized irrefutable patterns",
+      "occurrence_ids": [
+        "e1592365177d87b76ed9250f13c882db2871bf8fbc609f1ec4787e3e35b8abdc",
+        "10d316b089bf14603fb2719590dc3fc5e1e1d57e7cef36a3907db8508f76662d",
+        "78a892297a4d2712480ee7b83a8922d7d78ca451f3afcd0290e9469f3cf57611"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+      "item_count": 2,
+      "max_activation": 0.9,
+      "summary": "2 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt. Strongest activation 0.900. Most common kind: md_paragraph. Representative item: A dictionary display yields a new dictionary object.",
+      "occurrence_ids": [
+        "66f6b58072c791107f3d18c1445e8ea95d6e0de52c56656476f72090ad84c294",
+        "e0a86d2879dec07f5482b7dddef704d6e21d1cda32e9eb73dafe5af08969b098"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "item_count": 2,
+      "max_activation": 0.9,
+      "summary": "2 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt. Strongest activation 0.900. Most common kind: md_list_item. Representative item: * *Lm* - modifier letters",
+      "occurrence_ids": [
+        "47cef3dfbcebd97eb33c781e83c1ef6a473c21291f682f10063a640cb30b7cb7",
+        "7b9468e06cf5526457f01f15c1ed11dbdf9674f764c65af1785b993eba2389db"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\grammar.txt",
+      "item_count": 1,
+      "max_activation": 0.9,
+      "summary": "1 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\grammar.txt. Strongest activation 0.900. Most common kind: fragment_of_md_code_block. Representative item: tMult)) } | '/=' { _PyPegen_augoperator(p, Div) } | '%=' { _PyPegen_augoperator(p, Mod) } | '&=' { _PyPegen_augoperator(p, BitAnd) } | '|=' { _PyPegen_augoperator(p, BitOr) } | '^=' { _PyPegen_augoperator(p, BitXor) }...",
+      "occurrence_ids": [
+        "c0c461e42bc0661965ed07b23619a3f9f55181ca06160a968359ea78b8a6c710"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "e1592365177d87b76ed9250f13c882db2871bf8fbc609f1ec4787e3e35b8abdc",
+      "activation": 0.9,
+      "hunk_id": "d7497426cdcf2fe536f80791cc7d931cd9104ff1594a746c24880afb143c638a",
+      "node_kind": "md_list_item",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+      "structural_path": "doc/h1_8_6_the_match_statement/h2_8_6_3_irrefutable_case_blocks/li_5",
+      "content_snippet": "* parenthesized irrefutable patterns",
+      "item_summary": "* parenthesized irrefutable patterns",
+      "attention_weight": 0.6,
+      "static_mass": 36,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "5b1b5473a6994161c9f773ae62444123153166c7477b3bbf2a846403086d1089",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "78a892297a4d2712480ee7b83a8922d7d78ca451f3afcd0290e9469f3cf57611",
+          "weight": 0.4107,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.0877,
+            "structural": 0.42,
+            "statistical": 0.2232,
+            "semantic": 0.257,
+            "verbatim": 0.0122
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "0f62d637eb206396316d6109a6b7167fc9a6cdfaa39cba9e3250b091cb4cee17",
+          "weight": 0.4029,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.0894,
+            "structural": 0.4282,
+            "statistical": 0.2,
+            "semantic": 0.2712,
+            "verbatim": 0.0113
+          }
+        }
+      ],
+      "content": "* parenthesized irrefutable patterns",
+      "rank_signals": {
+        "rank_score": 0.906863,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.019608,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.906863
+    },
+    {
+      "occurrence_id": "10d316b089bf14603fb2719590dc3fc5e1e1d57e7cef36a3907db8508f76662d",
+      "activation": 0.9,
+      "hunk_id": "dd786bd1f29f24068d7e979579f87892045d3e4bb6639852cf072ca9b4cb1a6b",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+      "structural_path": "doc/h1_8_4_the_try_statement/h2_8_4_1_except_clause",
+      "content_snippet": "was translated to",
+      "item_summary": "was translated to",
+      "attention_weight": 0.6,
+      "static_mass": 17,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "bf153afaa07494af3160cfe4f6813c66f0239a0778b7a1bcbbc1758343e577b7",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "7c5abe69e2264b4dec2790c290d3ca7384d6a7359206254a451c89d7864fe2f3",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "2313ae94f502277ebcff150590b28f2956f36da7e70fa076e0ad159e14a4cbba",
+          "weight": 0.3628,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0744,
+            "structural": 0.7235,
+            "statistical": 0.1378,
+            "semantic": 0.0643,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "was translated to",
+      "rank_signals": {
+        "rank_score": 0.906667,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.133333,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.906667
+    },
+    {
+      "occurrence_id": "78a892297a4d2712480ee7b83a8922d7d78ca451f3afcd0290e9469f3cf57611",
+      "activation": 0.9,
+      "hunk_id": "6d731bbf09e052ef9f6b84896c53bb2ad402871ae89260657c361af672226653",
+      "node_kind": "md_list_item",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+      "structural_path": "doc/h1_8_6_the_match_statement/h2_8_6_3_irrefutable_case_blocks/li_1",
+      "content_snippet": "* AS Patterns whose left-hand side is irrefutable",
+      "item_summary": "* AS Patterns whose left-hand side is irrefutable",
+      "attention_weight": 0.6,
+      "static_mass": 49,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "bfd26244ec48bae9e0b3a54e02c5347ed4e842747686c44958d6e1590e565015",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "0f62d637eb206396316d6109a6b7167fc9a6cdfaa39cba9e3250b091cb4cee17",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "e1592365177d87b76ed9250f13c882db2871bf8fbc609f1ec4787e3e35b8abdc",
+          "weight": 0.4107,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.0877,
+            "structural": 0.42,
+            "statistical": 0.2232,
+            "semantic": 0.257,
+            "verbatim": 0.0122
+          }
+        }
+      ],
+      "content": "* AS Patterns whose left-hand side is irrefutable",
+      "rank_signals": {
+        "rank_score": 0.9,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.9
+    },
+    {
+      "occurrence_id": "66f6b58072c791107f3d18c1445e8ea95d6e0de52c56656476f72090ad84c294",
+      "activation": 0.9,
+      "hunk_id": "376b761a6f148531cad32be16204ee4a53e54c4caab41e2af4ab0ef5b4087014",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+      "structural_path": "doc/h1_6_2_atoms/h2_6_2_7_dictionary_displays",
+      "content_snippet": "A dictionary display yields a new dictionary object.",
+      "item_summary": "A dictionary display yields a new dictionary object.",
+      "attention_weight": 0.6,
+      "static_mass": 52,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "ce406d60ccbbfe33364c828094a2b5a53687f9b61655dd82ada649a4aa5ffc0b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "1c53d79eb27083c03ec8a740e768d49da113496faef474cf03f1c5b0861ba91b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "74a16eaaeae780caeb42671df29f4ac3919265d0ca4e4427b1e27fa41708912c",
+          "weight": 0.4898,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0551,
+            "structural": 0.5359,
+            "statistical": 0.1153,
+            "semantic": 0.2937,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "A dictionary display yields a new dictionary object.",
+      "rank_signals": {
+        "rank_score": 0.9,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.9
+    },
+    {
+      "occurrence_id": "47cef3dfbcebd97eb33c781e83c1ef6a473c21291f682f10063a640cb30b7cb7",
+      "activation": 0.9,
+      "hunk_id": "9379eaf66efea29977bfe20d4f7d5b3b38a6652520e9426d46ba1769a9ffc9b0",
+      "node_kind": "md_list_item",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "structural_path": "doc/h1_2_3_identifiers_and_keywords/li_4",
+      "content_snippet": "* *Lm* - modifier letters",
+      "item_summary": "* *Lm* - modifier letters",
+      "attention_weight": 0.6,
+      "static_mass": 25,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "6dde014a53a4e5d50eef837c23778a69329190a793a903e422502ce23001e908",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "330a8b848281af92de5781b3822e07577598ecb976f42e68cb8312a728e93ddd",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "b551025828823869c3e56c6e921d338983910340668a9acdde70131f73525470",
+          "weight": 0.4099,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.0878,
+            "structural": 0.3903,
+            "statistical": 0.2927,
+            "semantic": 0.203,
+            "verbatim": 0.0261
+          }
+        }
+      ],
+      "content": "* *Lm* - modifier letters",
+      "rank_signals": {
+        "rank_score": 0.868537,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.02439,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.868537
+    },
+    {
+      "occurrence_id": "e0a86d2879dec07f5482b7dddef704d6e21d1cda32e9eb73dafe5af08969b098",
+      "activation": 0.9,
+      "hunk_id": "ca384ab2b9c8ebd4e621f06d9d04addb5c054b5067e5b834aaef84f16b514146",
+      "node_kind": "md_heading",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+      "structural_path": "doc/h1_6_expressions",
+      "content_snippet": "6. Expressions",
+      "item_summary": "6. Expressions",
+      "attention_weight": 0.6,
+      "static_mass": 14,
+      "why": [
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "728b817124d922f081109089d6faf1d25dd6b540e2c779f834a4b7e260c84a5b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "ed2e89a36b4755032068204c0e5fb0f297e9bfa3c8586922d61b9d63359fd6ec",
+          "weight": 0.5673,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.0286,
+            "structural": 0.2653,
+            "statistical": 0.4223,
+            "semantic": 0.1989,
+            "verbatim": 0.0849
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "37bcb474315d198251cad84ba0a29654a412ddd273242c54a1974cbee14cde4a",
+          "weight": 0.4824,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.4142,
+            "structural": 0.1555,
+            "statistical": 0.1866,
+            "semantic": 0.2437,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "6. Expressions",
+      "rank_signals": {
+        "rank_score": 0.86,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": true,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.86
+    },
+    {
+      "occurrence_id": "7b9468e06cf5526457f01f15c1ed11dbdf9674f764c65af1785b993eba2389db",
+      "activation": 0.9,
+      "hunk_id": "8db13b1e721dde24e954838ca7d6863a2e52d352c6adf26a98220f1d34abb0b8",
+      "node_kind": "fragment_of_md_code_block",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "structural_path": "doc/h1_2_4_literals/h2_2_4_1_string_and_bytes_literal/fragment",
+      "content_snippet": "a raw string).",
+      "item_summary": "a raw string).",
+      "attention_weight": 0.7,
+      "static_mass": 1024,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "15a6e4a1f72f817f937db3e83658c5ce9c717af6b2f847dd0ddd88011facbaae",
+          "weight": 1.0,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "26e3c7c1ed78b90919d18bbf0cfee8d593a7d604350b6f09fb2e499f29e1be31",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "0dbdec23779c1efd1338f56246ee81e3734c234fb726de4ef8506bacb3cb56d7",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "a raw string).  After decoding, the\ngrammar for the contents of the string is:\n\n   f_string          ::= (literal_char | \"{{\" | \"}}\" | replacement_field)*\n   replacement_field ::= \"{\" f_expression [\"=\"] [\"!\" conversion] [\":\" format_spec] \"}\"\n   f_expression      ::= (conditional_expression | \"*\" or_expr)\n                      (\",\" conditional_expression | \",\" \"*\" or_expr)* [\",\"]\n                    | yield_expression\n   conversion        ::= \"s\" | \"r\" | \"a\"\n   format_spec       ::= (literal_char | replacement_field)*\n   literal_char      ::= <any code point except \"{\", \"}\" or NULL>\n\nThe parts of the string outside curly braces are treated literally,\nexcept that any doubled curly braces \"'{{'\" or \"'}}'\" are replaced\nwith the corresponding single curly brace.  A single opening curly\nbracket \"'{'\" marks a replacement field, which starts with a Python\nexpression. To display both the expression text and its value after\nevaluation, (useful in debugging), an equal sign \"'='\" may be added\nafter the expression. A conv",
+      "rank_signals": {
+        "rank_score": 0.794393,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.012552,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": true
+      },
+      "rank_score": 0.794393
+    },
+    {
+      "occurrence_id": "c0c461e42bc0661965ed07b23619a3f9f55181ca06160a968359ea78b8a6c710",
+      "activation": 0.9,
+      "hunk_id": "e401d251b592983f2493093ee0ee811b2396eefeb80465be8dde6346941d175d",
+      "node_kind": "fragment_of_md_code_block",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\grammar.txt",
+      "structural_path": "doc/h1_10_full_grammar_specification/fragment",
+      "content_snippet": "tMult)) } | '/=' { _PyPegen_augoperator(p, Div) } | '%=' { _PyPegen_augoperator(p, Mod) } | '&=' { _PyPegen_augoperator(p, BitAnd) } | '|=' { _PyPegen_augoperator(p, BitOr) } |...",
+      "item_summary": "tMult)) } | '/=' { _PyPegen_augoperator(p, Div) } | '%=' { _PyPegen_augoperator(p, Mod) } | '&=' { _PyPegen_augoperator(p, BitAnd) } | '|=' { _PyPegen_augoperator(p, BitOr) } | '^=' { _PyPegen_augoperator(p, BitXor) }...",
+      "attention_weight": 0.7,
+      "static_mass": 1024,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "a3a69d47b5cac7fa8b55f8183d6f5d52ad95d493a1b8fec2f154f6b3ba56dbc1",
+          "weight": 1.0,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "1fc8b4b1150f1d0b964ae8662fcdf7e0f880a5baeff3944f84affe3afbc3d36e",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "4afa98a122a0de60d1c41abc1efc2068ecf6dcd5a9a4aeb3066d37a2f628728b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "tMult)) }\n    | '/=' { _PyPegen_augoperator(p, Div) }\n    | '%=' { _PyPegen_augoperator(p, Mod) }\n    | '&=' { _PyPegen_augoperator(p, BitAnd) }\n    | '|=' { _PyPegen_augoperator(p, BitOr) }\n    | '^=' { _PyPegen_augoperator(p, BitXor) }\n    | '<<=' { _PyPegen_augoperator(p, LShift) }\n    | '>>=' { _PyPegen_augoperator(p, RShift) }\n    | '**=' { _PyPegen_augoperator(p, Pow) }\n    | '//=' { _PyPegen_augoperator(p, FloorDiv) }\n\nreturn_stmt[stmt_ty]:\n    | 'return' a=[star_expressions] { _PyAST_Return(a, EXTRA) }\n\nraise_stmt[stmt_ty]:\n    | 'raise' a=expression b=['from' z=expression { z }] { _PyAST_Raise(a, b, EXTRA) }\n    | 'raise' { _PyAST_Raise(NULL, NULL, EXTRA) }\n\nglobal_stmt[stmt_ty]: 'global' a[asdl_expr_seq*]=','.NAME+ {\n    _PyAST_Global(CHECK(asdl_identifier_seq*, _PyPegen_map_names_to_ids(p, a)), EXTRA) }\n\nnonlocal_stmt[stmt_ty]: 'nonlocal' a[asdl_expr_seq*]=','.NAME+ {\n    _PyAST_Nonlocal(CHECK(asdl_identifier_seq*, _PyPegen_map_names_to_ids(p, a)), EXTRA) }\n\ndel_stmt[stmt_ty]:\n    | 'del' a=del_tar",
+      "rank_signals": {
+        "rank_score": 0.79307,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.008772,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": true
+      },
+      "rank_score": 0.79307
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "Current bag control path (fused anchors + subgraph + Hot Engine + bag shaping)."
+}

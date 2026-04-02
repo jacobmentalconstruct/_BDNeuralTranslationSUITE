@@ -296,6 +296,161 @@ class BagViewTests(unittest.TestCase):
         self.assertEqual(bag["items"][0]["occurrence_id"], lambdas_item.occurrence_id)
         self.assertTrue(bag["items"][0]["rank_signals"]["lexical_variant_hit"])
 
+    def test_build_bag_can_use_articulation_alias_to_surface_same_section(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            lambdas_item = _make_hunk(
+                content="* 6.14. Lambdas",
+                origin_id="memory://index.txt",
+                node_kind="md_list_item",
+                structural_path="doc/h1_reference/li_12",
+            )
+            generic_para = _make_hunk(
+                content="Anonymous functions can close over state in a generic explanation paragraph.",
+                origin_id="memory://generic.txt",
+                node_kind="md_paragraph",
+                structural_path="doc/h1_generic/p_1",
+            )
+
+            with GraphAssembler(db_path, AlwaysOnNucleus(), window_size=10) as assembler:
+                assembler.ingest_one(lambdas_item)
+                assembler.ingest_one(generic_para)
+
+            fake_results = [
+                SimpleNamespace(
+                    occurrence_id=generic_para.occurrence_id,
+                    activation=0.99,
+                    hunk_id=generic_para.hunk_id,
+                    node_kind=generic_para.node_kind,
+                    attention_weight=0.8,
+                    static_mass=max(1, len(generic_para.content)),
+                ),
+                SimpleNamespace(
+                    occurrence_id=lambdas_item.occurrence_id,
+                    activation=0.95,
+                    hunk_id=lambdas_item.hunk_id,
+                    node_kind=lambdas_item.node_kind,
+                    attention_weight=0.7,
+                    static_mass=max(1, len(lambdas_item.content)),
+                ),
+            ]
+
+            with patch("core.engine.inference.bag_view.run_query", return_value=fake_results):
+                bag = build_bag(
+                    query_text="anonymous functions",
+                    db_path=db_path,
+                    top_k=5,
+                    group_by="origin_id",
+                )
+
+        item_ids = {item["occurrence_id"] for item in bag["items"]}
+        self.assertIn(lambdas_item.occurrence_id, item_ids)
+        alias_item = next(item for item in bag["items"] if item["occurrence_id"] == lambdas_item.occurrence_id)
+        self.assertTrue(alias_item["rank_signals"]["lexical_variant_hit"])
+
+    def test_build_bag_can_use_char_ngrams_to_prefer_better_articulation_fit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            lambdas_item = _make_hunk(
+                content="* 6.14. Lambdas",
+                origin_id="memory://index.txt",
+                node_kind="md_list_item",
+                structural_path="doc/h1_reference/li_12",
+            )
+            wrong_heading = _make_hunk(
+                content="6.2.7. Dictionary displays",
+                origin_id="memory://expressions.txt",
+                node_kind="md_heading",
+                structural_path="doc/h1_6_2_7_dictionary_displays",
+            )
+
+            with GraphAssembler(db_path, AlwaysOnNucleus(), window_size=10) as assembler:
+                assembler.ingest_one(lambdas_item)
+                assembler.ingest_one(wrong_heading)
+
+            fake_results = [
+                SimpleNamespace(
+                    occurrence_id=wrong_heading.occurrence_id,
+                    activation=1.0,
+                    hunk_id=wrong_heading.hunk_id,
+                    node_kind=wrong_heading.node_kind,
+                    attention_weight=0.8,
+                    static_mass=max(1, len(wrong_heading.content)),
+                ),
+                SimpleNamespace(
+                    occurrence_id=lambdas_item.occurrence_id,
+                    activation=0.95,
+                    hunk_id=lambdas_item.hunk_id,
+                    node_kind=lambdas_item.node_kind,
+                    attention_weight=0.7,
+                    static_mass=max(1, len(lambdas_item.content)),
+                ),
+            ]
+
+            with patch("core.engine.inference.bag_view.run_query", return_value=fake_results):
+                bag = build_bag(
+                    query_text="lambda expressions",
+                    db_path=db_path,
+                    top_k=5,
+                    group_by="origin_id",
+                )
+
+        self.assertEqual(bag["items"][0]["occurrence_id"], lambdas_item.occurrence_id)
+        self.assertGreater(
+            bag["items"][0]["rank_signals"]["char_ngram_score"],
+            bag["items"][1]["rank_signals"]["char_ngram_score"],
+        )
+
+    def test_build_bag_can_match_punctuation_wrapped_alias_anchor(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            import_anchor = _make_hunk(
+                content='* "import" statements.',
+                origin_id="memory://executionmodel.txt",
+                node_kind="md_list_item",
+                structural_path="doc/h1_execution/li_3",
+            )
+            broad_para = _make_hunk(
+                content="The following sections describe the protocol for finders and loaders in more detail.",
+                origin_id="memory://import.txt",
+                node_kind="md_paragraph",
+                structural_path="doc/h1_import/p_5",
+            )
+
+            with GraphAssembler(db_path, AlwaysOnNucleus(), window_size=10) as assembler:
+                assembler.ingest_one(import_anchor)
+                assembler.ingest_one(broad_para)
+
+            fake_results = [
+                SimpleNamespace(
+                    occurrence_id=broad_para.occurrence_id,
+                    activation=1.0,
+                    hunk_id=broad_para.hunk_id,
+                    node_kind=broad_para.node_kind,
+                    attention_weight=0.8,
+                    static_mass=max(1, len(broad_para.content)),
+                ),
+                SimpleNamespace(
+                    occurrence_id=import_anchor.occurrence_id,
+                    activation=0.78,
+                    hunk_id=import_anchor.hunk_id,
+                    node_kind=import_anchor.node_kind,
+                    attention_weight=0.7,
+                    static_mass=max(1, len(import_anchor.content)),
+                ),
+            ]
+
+            with patch("core.engine.inference.bag_view.run_query", return_value=fake_results):
+                bag = build_bag(
+                    query_text="module imports",
+                    db_path=db_path,
+                    top_k=5,
+                    group_by="origin_id",
+                )
+
+        self.assertEqual(bag["items"][0]["occurrence_id"], import_anchor.occurrence_id)
+        self.assertTrue(bag["items"][0]["rank_signals"]["lexical_variant_hit"])
+
     def test_build_bag_can_backfill_missing_section_anchor(self):
         with tempfile.TemporaryDirectory() as tmp:
             db_path = Path(tmp) / "cold.db"
@@ -339,6 +494,44 @@ class BagViewTests(unittest.TestCase):
         self.assertIn(section_item.occurrence_id, item_ids)
         backfilled = next(item for item in bag["items"] if item["occurrence_id"] == section_item.occurrence_id)
         self.assertTrue(backfilled["anchor_backfill"])
+
+    def test_build_bag_uses_minimum_lexical_anchor_budget_when_top_k_is_small(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            heading = _make_hunk(
+                content="2.1.4. Encoding declarations",
+                origin_id="memory://lexical_analysis.txt",
+                node_kind="md_heading",
+                structural_path="doc/h1_2_1_4_encoding_declarations",
+            )
+
+            with GraphAssembler(db_path, AlwaysOnNucleus(), window_size=10) as assembler:
+                assembler.ingest_one(heading)
+
+            fake_results = [
+                SimpleNamespace(
+                    occurrence_id=heading.occurrence_id,
+                    activation=1.0,
+                    hunk_id=heading.hunk_id,
+                    node_kind=heading.node_kind,
+                    attention_weight=0.8,
+                    static_mass=max(1, len(heading.content)),
+                ),
+            ]
+
+            with patch("core.engine.inference.bag_view.run_query", return_value=fake_results), patch(
+                "core.engine.inference.bag_view.fts_search", return_value=[]
+            ) as mock_fts:
+                build_bag(
+                    query_text="encoding declarations",
+                    db_path=db_path,
+                    top_k=5,
+                    group_by="origin_id",
+                )
+
+        self.assertTrue(mock_fts.called)
+        for call in mock_fts.call_args_list:
+            self.assertGreaterEqual(call.kwargs["top_k"], 8)
 
 
 if __name__ == "__main__":

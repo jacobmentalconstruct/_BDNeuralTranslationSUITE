@@ -21,14 +21,19 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
 
-from .provider import _lexical_anchor_queries, query as run_query
+from .provider import _alias_anchor_queries, _lexical_anchor_queries, query as run_query
 from .retrieval import fts_search
 
 _ANCHOR_BACKFILL_KINDS = {"md_heading", "rst_section", "rst_title", "md_list_item"}
+_MIN_LEXICAL_ANCHOR_TOP_K = 8
 
 
 def _normalize_whitespace(text: str) -> str:
     return " ".join(text.split())
+
+
+def _normalize_match_text(text: str) -> str:
+    return " ".join(re.findall(r"[a-z0-9_]+", text.lower()))
 
 
 def _sentence_summary(text: str, limit: int = 220) -> str:
@@ -56,42 +61,90 @@ def _query_tokens(text: str) -> list[str]:
     return [token for token in re.findall(r"[a-z0-9_]+", text.lower()) if len(token) > 1]
 
 
+def _char_ngrams(text: str, n: int = 3) -> set[str]:
+    compact = re.sub(r"\s+", " ", text.lower()).strip()
+    if not compact:
+        return set()
+    if len(compact) < n:
+        return {compact}
+    return {compact[idx : idx + n] for idx in range(len(compact) - n + 1)}
+
+
+def _char_ngram_jaccard(left: str, right: str, n: int = 3) -> float:
+    left_ngrams = _char_ngrams(left, n=n)
+    right_ngrams = _char_ngrams(right, n=n)
+    if not left_ngrams or not right_ngrams:
+        return 0.0
+    union = left_ngrams | right_ngrams
+    if not union:
+        return 0.0
+    return len(left_ngrams & right_ngrams) / len(union)
+
+
 def _bag_rank_signals(
     *,
     query_text: str,
     lexical_queries: list[str],
+    alias_queries: list[str],
     item: dict[str, Any],
     anchor_occurrence_ids: set[str],
     origin_anchor_count: int,
     origin_query_support_count: int,
 ) -> dict[str, Any]:
     normalized_query = _normalize_whitespace(query_text).lower()
+    match_query = _normalize_match_text(query_text)
     normalized_variants = [
         _normalize_whitespace(variant).lower()
-        for variant in lexical_queries
+        for variant in alias_queries
         if _normalize_whitespace(variant).strip()
     ]
+    match_variants = [
+        _normalize_match_text(variant)
+        for variant in alias_queries
+        if _normalize_match_text(variant).strip()
+    ]
     normalized_text = _normalize_whitespace(item.get("content", "")).lower()
+    match_text = _normalize_match_text(item.get("content", ""))
     query_token_set = set(_query_tokens(query_text))
     text_token_set = set(_query_tokens(normalized_text))
     token_overlap = len(query_token_set & text_token_set)
-    exact_phrase = bool(normalized_query and normalized_query in normalized_text)
+    char_ngram_score = _char_ngram_jaccard(normalized_query, normalized_text)
+    exact_phrase = bool(
+        (normalized_query and normalized_query in normalized_text)
+        or (match_query and match_query in match_text)
+    )
     lexical_variant_hit = any(
-        variant != normalized_query and variant in normalized_text for variant in normalized_variants
+        variant != normalized_query and variant in normalized_text
+        for variant in normalized_variants
+    ) or any(
+        variant != match_query and variant in match_text for variant in match_variants
     )
     node_kind = str(item.get("node_kind", ""))
     origin_name = Path(str(item.get("origin_id", ""))).name
     is_heading = node_kind in {"md_heading", "rst_section", "rst_title"}
     is_index_list_item = origin_name == "index.txt" and node_kind == "md_list_item"
+    is_anchor_list_item = node_kind == "md_list_item" and item.get("occurrence_id") in anchor_occurrence_ids
     is_fragment = "fragment" in node_kind
     is_code_block = "code_block" in node_kind
     content_length = len(_normalize_whitespace(item.get("content", "")))
     is_short = content_length < 30
     is_anchor = item.get("occurrence_id") in anchor_occurrence_ids
+    has_statement_like_punctuation = bool(
+        re.search(r"[\"'`:;.]$", normalized_text) or '"' in normalized_text or "'" in normalized_text
+    )
+    is_short_articulation_label = is_heading or (
+        is_index_list_item
+        or (is_anchor_list_item and content_length < 80 and has_statement_like_punctuation)
+    )
     section_label_bonus = (exact_phrase or lexical_variant_hit) and (
-        is_heading or (is_index_list_item and content_length < 60)
+        is_short_articulation_label
     )
     section_locator_bonus = 0.16 if is_index_list_item and exact_phrase and content_length < 60 else 0.0
+    articulation_anchor_bonus = (
+        0.12
+        if lexical_variant_hit and not exact_phrase and is_short_articulation_label
+        else 0.0
+    )
     origin_anchor_bonus = 0.06 * max(0, origin_query_support_count - 1)
 
     rank_score = float(item["activation"])
@@ -101,9 +154,11 @@ def _bag_rank_signals(
     rank_score += 0.08 if is_anchor else 0.0
     rank_score += origin_anchor_bonus
     rank_score += 0.03 * token_overlap
+    rank_score += 0.35 * char_ngram_score
     rank_score += 0.07 if section_label_bonus else 0.0
     rank_score += section_locator_bonus
     rank_score += 0.04 if lexical_variant_hit and section_label_bonus else 0.0
+    rank_score += articulation_anchor_bonus
     rank_score -= 0.12 if is_index_list_item and not section_label_bonus else 0.0
     rank_score -= 0.04 if is_short and not section_label_bonus else 0.0
     rank_score -= 0.08 if is_fragment else 0.0
@@ -114,11 +169,13 @@ def _bag_rank_signals(
         "exact_phrase": exact_phrase,
         "lexical_variant_hit": lexical_variant_hit,
         "token_overlap": token_overlap,
+        "char_ngram_score": round(char_ngram_score, 6),
         "is_anchor": is_anchor,
         "origin_anchor_count": origin_anchor_count,
         "origin_query_support_count": origin_query_support_count,
         "origin_anchor_bonus": round(origin_anchor_bonus, 6),
         "section_locator_bonus": round(section_locator_bonus, 6),
+        "articulation_anchor_bonus": round(articulation_anchor_bonus, 6),
         "is_heading": is_heading,
         "is_index_list_item": is_index_list_item,
         "is_fragment": is_fragment,
@@ -281,10 +338,12 @@ def build_bag(
     conn = sqlite3.connect(str(db_path))
     try:
         lexical_queries = _lexical_anchor_queries(query_text)
+        alias_queries = _alias_anchor_queries(query_text)
+        lexical_anchor_top_k = max(top_k, _MIN_LEXICAL_ANCHOR_TOP_K)
         lexical_anchors = []
         lexical_anchor_pairs: list[tuple[str, str]] = []
         for lexical_query in lexical_queries:
-            query_anchors = fts_search(conn, lexical_query, top_k=top_k)
+            query_anchors = fts_search(conn, lexical_query, top_k=lexical_anchor_top_k)
             lexical_anchors.extend(query_anchors)
             lexical_anchor_pairs.extend(
                 (lexical_query, anchor.occurrence_id) for anchor in query_anchors
@@ -332,6 +391,7 @@ def build_bag(
         item["rank_signals"] = _bag_rank_signals(
             query_text=query_text,
             lexical_queries=lexical_queries,
+            alias_queries=alias_queries,
             item=rank_item,
             anchor_occurrence_ids=lexical_anchor_ids,
             origin_anchor_count=int(origin_anchor_counts.get(item["origin_id"], 0)),
@@ -376,6 +436,7 @@ def build_bag(
             item["rank_signals"] = _bag_rank_signals(
                 query_text=query_text,
                 lexical_queries=lexical_queries,
+                alias_queries=alias_queries,
                 item=rank_item,
                 anchor_occurrence_ids=lexical_anchor_ids,
                 origin_anchor_count=int(origin_anchor_counts.get(item["origin_id"], 0)),

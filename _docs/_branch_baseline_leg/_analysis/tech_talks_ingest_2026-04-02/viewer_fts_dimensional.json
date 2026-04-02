@@ -1,0 +1,132 @@
+{
+  "query": "dimensional",
+  "mode": "fts",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_branch_baseline_leg\\_analysis\\tech_talks_ingest_2026-04-02\\cold_anatomy_tech_talks_st.db",
+  "provider": {
+    "provider": "fts"
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 3,
+    "group_by": "origin_id",
+    "summary": "8 bm25-ranked evidence items surfaced for \"dimensional\" across 3 groups. Top sources: master_spec_text.txt (6), The Three-Manifold Mind_ A Deterministic Bluepri.md (1), The End of the Black Box_ How Pure Math is Recla.md (1). Top node kinds: paragraph (6), md_list (1), md_paragraph (1)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\The End of the Black Box_ How Pure Math is Recla.md",
+      "item_count": 1,
+      "max_score": -1.359428,
+      "occurrence_ids": [
+        "e0845d624b403da15beef17d739ab3869bd058bcf773f71a85dce2305ddb0cdd"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\The Three-Manifold Mind_ A Deterministic Bluepri.md",
+      "item_count": 1,
+      "max_score": -1.928497,
+      "occurrence_ids": [
+        "80a6b5089f4f5871d6429144ecaf80e16dd693504d4a2b7cd7cc546ea2a615c6"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "item_count": 6,
+      "max_score": -4.208198,
+      "occurrence_ids": [
+        "bcdd8a596d435da18304758f681480436b57f9344bc960d1e3c4837607394064",
+        "7026f0697a8651349608248dfe4f11b6aea843999b5a03d611cb1309250ec1e6",
+        "e6513ec6481fe6412ae1081fd6bda75fa98fbc2b6f3fed4d7f459d7eb42ab426",
+        "88ea099db0f98964443226c9a55071a69c97949101d65bb280db6fe91caa8281",
+        "9102411320e69726b0f474be4e8a5466e7f15ce03e908ce30daf2b4b01991646",
+        "bd6cbc8046a1a110e719fd24b5bf2208eb2e7b754942a0b0aee61f0495958386"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "bcdd8a596d435da18304758f681480436b57f9344bc960d1e3c4837607394064",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "Dimensional",
+      "score": -9.095346,
+      "score_kind": "bm25",
+      "content": "Dimensional"
+    },
+    {
+      "occurrence_id": "7026f0697a8651349608248dfe4f11b6aea843999b5a03d611cb1309250ec1e6",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "dimensional",
+      "score": -9.095346,
+      "score_kind": "bm25",
+      "content": "dimensional"
+    },
+    {
+      "occurrence_id": "e6513ec6481fe6412ae1081fd6bda75fa98fbc2b6f3fed4d7f459d7eb42ab426",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "high-dimensional",
+      "score": -8.596191,
+      "score_kind": "bm25",
+      "content": "high-dimensional"
+    },
+    {
+      "occurrence_id": "88ea099db0f98964443226c9a55071a69c97949101d65bb280db6fe91caa8281",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "--- PAGE 6 --- 4.2 The Necessity of Dimensional Harmonization Conversely, Cosine Similarity yields scores that typically cluster between 0.3 and 0.9 in dense high-dimensional",
+      "score": -5.624295,
+      "score_kind": "bm25",
+      "content": "--- PAGE 6 ---\n4.2  The  Necessity  of  Dimensional  Harmonization  \nConversely,  Cosine  Similarity  yields  scores  that  typically  cluster  between  0.3  and  0.9  in  dense  \nhigh-dimensional"
+    },
+    {
+      "occurrence_id": "9102411320e69726b0f474be4e8a5466e7f15ce03e908ce30daf2b4b01991646",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "To resolve this dimensional conflict, the blueprint implements Min-Max Normalization . This technique",
+      "score": -5.360281,
+      "score_kind": "bm25",
+      "content": "To  resolve  this  dimensional  conflict,  the  blueprint  implements  Min-Max  Normalization .  This  \ntechnique"
+    },
+    {
+      "occurrence_id": "bd6cbc8046a1a110e719fd24b5bf2208eb2e7b754942a0b0aee61f0495958386",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "--- PAGE 10 --- truncation. 7. The Deterministic GraphRAG Python Blueprint The integration of FAISS semantic search, NetworkX topological modeling, Min-Max dimensional",
+      "score": -4.208198,
+      "score_kind": "bm25",
+      "content": "--- PAGE 10 ---\ntruncation.  \n7.  The  Deterministic  GraphRAG  Python  Blueprint  \nThe  integration  of  FAISS  semantic  search,  NetworkX  topological  modeling,  Min-Max  \ndimensional"
+    },
+    {
+      "occurrence_id": "80a6b5089f4f5871d6429144ecaf80e16dd693504d4a2b7cd7cc546ea2a615c6",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\The Three-Manifold Mind_ A Deterministic Bluepri.md",
+      "structural_path": "doc/h3_the_three_manifold_mind_a_dete/h5_3_microservice_manager_mind_2_",
+      "node_kind": "md_list",
+      "content_snippet": "**Anchor Discovery:** The system executes a semantic search via FAISS to identify top- $k$ \"anchor nodes\" that align with the query\u2019s high-dimensional vector. 2. **Bounded Expansio",
+      "score": -1.928497,
+      "score_kind": "bm25",
+      "content": "**Anchor Discovery:**  The system executes a semantic search via FAISS to identify top- $k$  \"anchor nodes\" that align with the query\u2019s high-dimensional vector.\n2.  **Bounded Expansion:**  Starting from these anchors, the system performs a Breadth-First Search (BFS) outward to the hop depth defined in the Retrieval Plan. This builds a localized topology from Mind 1 substrates, integrating Knowledge Graphs and Lineage DAGs."
+    },
+    {
+      "occurrence_id": "e0845d624b403da15beef17d739ab3869bd058bcf773f71a85dce2305ddb0cdd",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\The End of the Black Box_ How Pure Math is Recla.md",
+      "structural_path": "doc/h3_the_end_of_the_black_box_how_p/h5_spectral_compression_as_the_se",
+      "node_kind": "md_paragraph",
+      "content_snippet": "The technical heart of the project is a classical mathematical technique known as **Spectral Compression** . The pipeline begins with **NPMI (Normalized Pointwise Mutual Informatio",
+      "score": -1.359428,
+      "score_kind": "bm25",
+      "content": "The technical heart of the project is a classical mathematical technique known as  **Spectral Compression** . The pipeline begins with  **NPMI (Normalized Pointwise Mutual Information)**  to create what can be described as a  **\"friction matrix.\"**\nIn this matrix, tokens that share a strong semantic association have \"low friction,\" while unrelated tokens have high friction. The system then applies  **Truncated SVD (Singular Value Decomposition)**  to compress this massive, sparse association matrix into a dense, high-dimensional representation. This is the \"elegant signal\" at its finest: achieving dense semantic representation through pure matrix factorization without the overhead of a single transformer block."
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "FTS-only lexical retrieval over content nodes."
+}

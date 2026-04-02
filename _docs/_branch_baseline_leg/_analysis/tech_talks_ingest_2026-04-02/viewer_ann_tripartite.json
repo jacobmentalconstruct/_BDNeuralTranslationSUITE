@@ -1,0 +1,155 @@
+{
+  "query": "tripartite",
+  "mode": "ann",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_branch_baseline_leg\\_analysis\\tech_talks_ingest_2026-04-02\\cold_anatomy_tech_talks_st.db",
+  "provider": {
+    "provider": "sentence-transformers",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "artifacts_dir": ""
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 6,
+    "group_by": "origin_id",
+    "summary": "8 cosine-ranked evidence items surfaced for \"tripartite\" across 6 groups. Top sources: README.md (2), MIGRATION_GUIDE.md (2), TREESITTER_README.md (1). Top node kinds: md_heading (4), md_paragraph (2), md_code_block (2)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md",
+      "item_count": 2,
+      "max_score": 0.722518,
+      "occurrence_ids": [
+        "6bb6adfb859bd12aab002aeb612b035131236ed6c2d105753f1a43fa0049c1a4",
+        "f1b58567394709a2b6838716b19a08dd3a6fce95509619d2d5a47c9d72d2cb1f"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md",
+      "item_count": 1,
+      "max_score": 0.652597,
+      "occurrence_ids": [
+        "ca04982317375f6aa0beb80f0076acf65d8cdbde6e74c52f8b99b5d2b51d85f4"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\ONBOARDING_NEXT_SESSION.md",
+      "item_count": 1,
+      "max_score": 0.527818,
+      "occurrence_ids": [
+        "43f0c3018970d36c62276c4ba3d86cae7037a281f8ac7dec0dee02c075bc373e"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\NodeWALKER_ Tripartite Cartridge Traversal Engin.md",
+      "item_count": 1,
+      "max_score": 0.51061,
+      "occurrence_ids": [
+        "99491a4894abb8a759554ca4c3948d244dc90d0ed51e64bb1ef63159cd3d4822"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_INTEGRATION.md",
+      "item_count": 1,
+      "max_score": 0.503854,
+      "occurrence_ids": [
+        "98a63734c685af020a26f5cefdbb008aaec5fe99f2d7b097c6e492d2bb7c6a7b"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\MIGRATION_GUIDE.md",
+      "item_count": 2,
+      "max_score": 0.496066,
+      "occurrence_ids": [
+        "008dda85ce63f76de4185cbf15295d510e48e16c183aa0ea0576d67fb8019688",
+        "4494f4b7b17676a44ca832ad31a0f942b9a493cf63c0b2da3470fc690d09f818"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "6bb6adfb859bd12aab002aeb612b035131236ed6c2d105753f1a43fa0049c1a4",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md",
+      "structural_path": "doc/h1_tree_sitter_multi_language_int/h2_quick_start_5_minutes/h3_2_add_to_tripartite",
+      "node_kind": "md_heading",
+      "content_snippet": "2. Add to Tripartite",
+      "score": 0.722518,
+      "score_kind": "cosine",
+      "content": "2. Add to Tripartite"
+    },
+    {
+      "occurrence_id": "f1b58567394709a2b6838716b19a08dd3a6fce95509619d2d5a47c9d72d2cb1f",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md",
+      "structural_path": "doc/h1_tree_sitter_multi_language_int/h2_license",
+      "node_kind": "md_paragraph",
+      "content_snippet": "Same as Tripartite (MIT).",
+      "score": 0.652597,
+      "score_kind": "cosine",
+      "content": "Same as Tripartite (MIT)."
+    },
+    {
+      "occurrence_id": "ca04982317375f6aa0beb80f0076acf65d8cdbde6e74c52f8b99b5d2b51d85f4",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md",
+      "structural_path": "doc/h1_treesitterchunker_multi_langua/h2_license",
+      "node_kind": "md_paragraph",
+      "content_snippet": "Same as Tripartite (MIT).",
+      "score": 0.652597,
+      "score_kind": "cosine",
+      "content": "Same as Tripartite (MIT)."
+    },
+    {
+      "occurrence_id": "43f0c3018970d36c62276c4ba3d86cae7037a281f8ac7dec0dee02c075bc373e",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\ONBOARDING_NEXT_SESSION.md",
+      "structural_path": "doc/h1_onboarding_prompt_next_session/h2_project_context_tripartitedata",
+      "node_kind": "md_heading",
+      "content_snippet": "\ud83c\udfaf Project Context: _TripartiteDataSTORE",
+      "score": 0.527818,
+      "score_kind": "cosine",
+      "content": "\ud83c\udfaf Project Context: _TripartiteDataSTORE"
+    },
+    {
+      "occurrence_id": "99491a4894abb8a759554ca4c3948d244dc90d0ed51e64bb1ef63159cd3d4822",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\NodeWALKER_ Tripartite Cartridge Traversal Engin.md",
+      "structural_path": "doc/h3_nodewalker_tripartite_cartridg/h4_1_the_tripartite_data_architec",
+      "node_kind": "md_heading",
+      "content_snippet": "1. The Tripartite Data Architecture",
+      "score": 0.51061,
+      "score_kind": "cosine",
+      "content": "1. The Tripartite Data Architecture"
+    },
+    {
+      "occurrence_id": "98a63734c685af020a26f5cefdbb008aaec5fe99f2d7b097c6e492d2bb7c6a7b",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_INTEGRATION.md",
+      "structural_path": "doc/h1_tree_sitter_integration_guide_",
+      "node_kind": "md_heading",
+      "content_snippet": "Tree-Sitter Integration Guide for Tripartite",
+      "score": 0.503854,
+      "score_kind": "cosine",
+      "content": "Tree-Sitter Integration Guide for Tripartite"
+    },
+    {
+      "occurrence_id": "008dda85ce63f76de4185cbf15295d510e48e16c183aa0ea0576d67fb8019688",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\MIGRATION_GUIDE.md",
+      "structural_path": "doc/h1_migration_guide_adding_tree_si/h2_best_practices",
+      "node_kind": "md_code_block",
+      "content_snippet": "sqlite3 tripartite.db \".backup tripartite_backup.db\"",
+      "score": 0.496066,
+      "score_kind": "cosine",
+      "content": "sqlite3 tripartite.db \".backup tripartite_backup.db\""
+    },
+    {
+      "occurrence_id": "4494f4b7b17676a44ca832ad31a0f942b9a493cf63c0b2da3470fc690d09f818",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\MIGRATION_GUIDE.md",
+      "structural_path": "doc/h1_migration_guide_adding_tree_si/h2_migration_strategies/h3_strategy_1_fresh_start_recomme",
+      "node_kind": "md_code_block",
+      "content_snippet": "rm tripartite.db python -m tripartite.cli ingest /path/to/codebase --db tripartite.db",
+      "score": 0.484078,
+      "score_kind": "cosine",
+      "content": "rm tripartite.db\n   python -m tripartite.cli ingest /path/to/codebase --db tripartite.db"
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "ANN-only vector retrieval over occurrence vectors."
+}

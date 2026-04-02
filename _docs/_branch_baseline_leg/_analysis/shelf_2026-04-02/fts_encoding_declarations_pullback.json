@@ -1,0 +1,77 @@
+{
+  "query": "encoding declarations",
+  "mode": "fts",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_073_semgrav_det_steep\\cold_anatomy_reference_probe_073_semgrav_det_steep.db",
+  "provider": {
+    "provider": "fts"
+  },
+  "summary": {
+    "item_count": 3,
+    "group_count": 2,
+    "group_by": "origin_id",
+    "summary": "3 bm25-ranked evidence items surfaced for \"encoding declarations\" across 2 groups. Top sources: lexical_analysis.txt (2), datamodel.txt (1). Top node kinds: md_heading (1), md_paragraph (1), fragment_of_md_code_block (1)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\datamodel.txt",
+      "item_count": 1,
+      "max_score": -6.689511,
+      "occurrence_ids": [
+        "4d56ace0346ff572eed8478437915f58ddca5d979d31ff1a9d0a9a107177600b"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "item_count": 2,
+      "max_score": -12.400537,
+      "occurrence_ids": [
+        "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8",
+        "34d5eaf9ce7b0cb95b0c156f9e8267425af9a721a723599fe8a14a1029f5970f"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "structural_path": "doc/h1_2_1_line_structure/h2_2_1_4_encoding_declarations",
+      "node_kind": "md_heading",
+      "content_snippet": "2.1.4. Encoding declarations",
+      "score": -15.862505,
+      "score_kind": "bm25"
+    },
+    {
+      "occurrence_id": "34d5eaf9ce7b0cb95b0c156f9e8267425af9a721a723599fe8a14a1029f5970f",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+      "structural_path": "doc/h1_2_4_literals/h2_2_4_1_string_and_bytes_literal",
+      "node_kind": "md_paragraph",
+      "content_snippet": "One syntactic restriction not indicated by these productions is that whitespace is not allowed between the \"stringprefix\" or \"bytesprefix\" and the rest of the literal. The source c",
+      "score": -12.400537,
+      "score_kind": "bm25"
+    },
+    {
+      "occurrence_id": "4d56ace0346ff572eed8478437915f58ddca5d979d31ff1a9d0a9a107177600b",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\datamodel.txt",
+      "structural_path": "doc/h1_3_2_the_standard_type_hierarch/h2_3_2_4_numbers_number/fragment",
+      "node_kind": "fragment_of_md_code_block",
+      "content_snippet": "code object | +----------------------------------------------------+----------------------------------------------------+ | codeobject.co_flags | An \"integer\" encoding a number of ",
+      "score": -6.689511,
+      "score_kind": "bm25"
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [
+      "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8"
+    ],
+    "items": [
+      {
+        "occurrence_id": "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8",
+        "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+        "structural_path": "doc/h1_2_1_line_structure/h2_2_1_4_encoding_declarations",
+        "node_kind": "md_heading",
+        "pullback_text": "2.1.4. Encoding declarations"
+      }
+    ]
+  },
+  "retrieval_leg": "FTS-only lexical retrieval over content nodes."
+}

@@ -1,6 +1,6 @@
 # BDNeuralTranslationSUITE — Project Backlog
 
-_Last updated: 2026-04-01. Mirrored in journal as entry `journal_backlog_001`. Use `_docs/WE_ARE_HERE_NOW.md` as the fastest pickup note after interruption._
+_Last updated: 2026-04-02. Mirrored in journal as entry `journal_backlog_001`. Use `_docs/WE_ARE_HERE_NOW.md` as the fastest pickup note after interruption._
 
 ---
 
@@ -13,6 +13,35 @@ Phase 1 baseline is complete and runnable:
 - Root docs now carry an explicit recovery checkpoint and root architecture note
 
 The project is now pointed at a solid prototype path, not at open-ended invention.
+
+---
+
+## Reintegration Addendum — Baseline-Leg Sidecar Takeaways ACTIVE
+
+Goal: absorb the proven outcomes of the baseline-leg-sidecar branch into mainline Phase 1 without turning that branch into a second product line.
+
+### Immediate reintegration tasks
+
+- [ ] Promote registry-first collaboration doctrine into mainline docs and setup constraints:
+  - shared registry as truth surface
+  - `sync -> think -> act -> resync`
+  - explicit note that human-driven shared-state viewing is proven while agent-driven visible action is still a bounded follow-up seam
+- [ ] Keep the minimal shared viewer as a **separate sidecar**, not an Emitter GUI tab
+- [ ] Make the minimal shared viewer discoverable in the main tool/setup surfaces
+- [ ] Keep agent-driven pending-action execution out of mainline truth until it is reliable
+- [ ] Freeze the `baseline-leg-sidecar` branch as a diagnostic/reference seam with a written conclusion note
+
+### Immediate corpus/doctrine tasks
+
+- [ ] Reframe mainline corpus doctrine around **general English first**
+- [ ] Establish a functional English baseline corpus tranche for causal/natural-language interaction
+- [ ] Separate corpus planning into:
+  - general English baseline
+  - technical/project prose
+  - code-specific corpora
+  - code/doc bridge corpora
+- [ ] Keep lexical retrieval as an explicit baseline/control instrument during corpus expansion
+- [ ] Record storage/compression as an upcoming architecture seam triggered by corpus growth, but do not solve it in this tranche
 
 ---
 
@@ -139,14 +168,94 @@ Goal: turn the Splitter from “runnable baseline” into a trustworthy neuron-p
   - graph result is stronger
   - current bag QC did not degrade the top shelf
   - still inspect broader/stubborn query families before promoting it as a default
-- [ ] Decide whether `steep` or `softplus` should be the promoted deterministic semantic-gravity default:
-  - `steep` currently looks safer for preserving more non-semantic winner geometry
-  - `softplus` currently looks like the strongest practical compromise
-  - `xhigh` is a useful ceiling point, not an obvious default
+- [x] Decide the promoted deterministic semantic-gravity safe default:
+  - promoted safe default: `steep`
+  - reason: preserves more non-semantic winner geometry while matching the broader bag shelf
+  - keep `softplus` as the strongest practical alternative
+  - keep `high` as a near-ceiling reference
+  - keep `xhigh` as a stress / saturation probe
+- [ ] Organize the semantic-gravity shape family as a maintained option library rather than discarded tuning debris:
+  - safe default
+  - stronger practical alternative
+  - near-ceiling reference
+  - stress ceiling
+  - record intended use for each, not just the numbers
 - [ ] Decide whether semantic should now be treated as a bounded overlay field:
   - current read: attraction field yes
   - primary support beam no
   - only promote if bag-side quality supports the graph-side lift
+- [x] Map the first `verbatim` overlay family on top of the promoted safe semantic footing:
+  - `verbatim_light`, `verbatim_mid`, `verbatim_strong`
+  - read: survivable as a narrow support surface, but not a growth lever
+  - current best hypothesis: articulation / framing control, not long-range pull
+- [x] Map the first contradiction counter-pressure family on top of the same footing:
+  - `contradiction_soft`, `contradiction_mid`, `contradiction_block`
+  - read: soft contradiction is the only promising current seed
+  - hard blocking is too blunt on the reference footing
+- [x] Design a more deliberate articulation-control test set for `verbatim`:
+  - same-but-different phrasing
+  - alias / synonym shifts
+  - NL phrasing to code-ish phrasing
+  - chosen framing / wording preservation
+- [x] Run the first pairwise `verbatim + semantic` excursion map:
+  - result: slight graph lift, fewer losers, no articulation improvement on the tested bag shelf
+  - current read: semantic consolidation yes, wording-control no
+- [ ] Run the next pairwise `verbatim + structural` excursion map:
+  - goal: test whether wording can be pinned to the intended structural framing more effectively than with `verbatim + semantic`
+  - keep the same articulation shelf so pair families stay comparable
+- [x] Run the next pairwise `verbatim + structural` excursion map:
+  - result: field rotates structurally, but articulation convergence on the tested bag shelf does not improve
+- [ ] Stop treating simple pairwise weight steering as the leading articulation-control hypothesis:
+  - `verbatim + semantic` and `verbatim + structural` both failed to improve the current articulation shelf
+- [ ] Pivot articulation work toward:
+  - retrieval/rerank articulation behavior
+  - finer-grain verbatim resolution (line/span before BPE)
+  - alias / phrase mapping
+- [x] Run a lightweight query-side articulation strategy probe on the live `det_steep` DB:
+  - baseline current bag shelf: `same_top = 5`, `same_origin = 6`
+  - `phrase_core`: `4 / 4`
+  - `identifier_norm`: `5 / 6`
+  - `char_ngram`: `6 / 6`
+  - current read:
+    - char n-gram rerank is the first lightweight query-side mover worth considering
+    - phrase-core expansion is too blunt on this footing
+    - identifier normalization alone is basically neutral
+- [x] Promote a bounded char-ngram term into the live bag rerank as an articulation experiment:
+  - integrated live shelf now sits at `same_top = 7`, `same_origin = 7`
+  - current read:
+    - char-ngram belongs in the bag/query layer, not in graph scoring
+    - the articulation shelf became strong enough to isolate the remaining import-style miss instead of the whole family
+- [x] Run a contained BPE query-time articulation probe before any new build branch:
+  - result: `0 / 16` concept-relevant readable nearest-token hits on the active reference shelf
+  - current read:
+    - do not promote BPE query expansion on this footing
+    - if BPE is revisited, use corpus-aligned artifacts rather than the current field
+- [x] Focus the next articulation pass on the remaining import-style miss:
+  - `import statements` / `module imports`
+  - result:
+    - punctuation-insensitive alias matching plus bounded short-anchor trust closed the miss
+    - integrated live shelf now sits at `same_top = 8`, `same_origin = 8`
+- [ ] Keep articulation work on the bag/query side while it is still producing real gains:
+  - current integrated shelf is fully aligned on the tested eight-pair set
+  - only branch into finer-grain ingest when bag/query shaping clearly plateaus
+- [x] Decouple lexical-anchor breadth from final bag `top_k`:
+  - `module imports` now keeps the same clean import anchor at `top_k = 5`, `8`, and `12`
+  - useful anchor breadth now survives even when the returned bag is intentionally narrow
+- [ ] Keep one-surface retrieval baselines as explicit control instruments:
+  - ordinary ANN/vector search now has a repeatable comparison harness
+  - use it to compare single-surface retrieval against the full bag before declaring a new lens family genuinely useful
+- [ ] Design the future finer-grain verbatim branch as a restrained middle ground:
+  - verify hunk-level dedupe assumptions first
+  - define identity rules for line/span-level sub-hunks
+  - add rudimentary parent/child/sibling scope traversal for those smaller units
+  - explicitly defer full BPE/CAS/Merkle/walker integration
+- [ ] Decide whether line-level or short-span-level sub-hunks are the better first articulation-control seam:
+  - evaluate expected leverage on wording/framing against implementation complexity
+  - do not assume subword/BPE is the first landing point by default
+- [ ] Revisit contradiction as a trust-preserving pressure rather than a headline-metric lever:
+  - keep `contradiction_soft` as the seed
+  - inspect whether it helps on ambiguity, drift, or wrong-anchor cases
+  - do not promote hard blocking without a narrower target regime
 - [ ] Keep the live probe monitor evolving as a first-class observer surface:
   - current state now includes live metric cards, summary/sample tabs, and five-surface color cues
   - next likely UI seam is a richer same-window message/update model for panel-specific refresh

@@ -63,7 +63,33 @@ class EmbeddingProviderTests(unittest.TestCase):
         )
         self.assertEqual(
             _lexical_anchor_queries("lambda expressions"),
-            ["lambda expressions", "lambdas", "lambda_expressions", "lambda expression"],
+            [
+                "lambda expressions",
+                "lambda expression",
+                "lambdas",
+                "anonymous functions",
+                "lambda_expressions",
+            ],
+        )
+        self.assertEqual(
+            _lexical_anchor_queries("anonymous functions"),
+            [
+                "anonymous functions",
+                "lambda expressions",
+                "lambda expression",
+                "lambdas",
+                "anonymous_functions",
+                "anonymous function",
+            ],
+        )
+        self.assertEqual(
+            _lexical_anchor_queries("walrus operator"),
+            [
+                "walrus operator",
+                "assignment expressions",
+                "assignment expression",
+                "walrus_operator",
+            ],
         )
 
     def test_provider_spec_round_trip(self):
@@ -165,6 +191,44 @@ class EmbeddingProviderTests(unittest.TestCase):
             self.assertEqual(calls[:3], ["eval input", "expression input", "eval_input"])
             self.assertEqual(len(results), 1)
             self.assertEqual(results[0].occurrence_id, "occ-variant")
+
+    def test_query_runs_fts_over_articulation_alias_variants(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "cold.db"
+            db_path.touch()
+
+            calls = []
+
+            def _fake_fts(conn, query_text, top_k=10):
+                calls.append(query_text)
+                if query_text == "lambda expressions":
+                    return [
+                        AnchorResult(
+                            occurrence_id="occ-lambda",
+                            hunk_id="h-lambda",
+                            score=0.94,
+                            origin_id="memory://expressions.txt",
+                            node_kind="md_heading",
+                            content_snippet="6.14. Lambda expressions",
+                        )
+                    ]
+                return []
+
+            with patch(
+                "core.engine.inference.retrieval.fts_search",
+                side_effect=_fake_fts,
+            ), patch(
+                "core.engine.inference.retrieval.load_subgraph",
+                return_value={"nodes": {}, "edges": [], "inhibit_occ_pairs": []},
+            ), patch(
+                "core.engine.inference.hot_engine.HotEngine",
+                _FakeHotEngine,
+            ):
+                results = query("anonymous functions", db_path=db_path, top_k=5)
+
+            self.assertEqual(calls[:4], ["anonymous functions", "lambda expressions", "lambda expression", "lambdas"])
+            self.assertEqual(len(results), 1)
+            self.assertEqual(results[0].occurrence_id, "occ-lambda")
 
 
 if __name__ == "__main__":

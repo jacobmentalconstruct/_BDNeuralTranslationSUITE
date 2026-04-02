@@ -1,0 +1,21 @@
+{
+  "query": "sentance transformers",
+  "mode": "fts",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_069_semgrav_st_control\\cold_anatomy_reference_probe_069_semgrav_st_control.db",
+  "provider": {
+    "provider": "fts"
+  },
+  "summary": {
+    "item_count": 0,
+    "group_count": 0,
+    "group_by": "origin_id",
+    "summary": "0 bm25-ranked evidence items surfaced for \"sentance transformers\" across 0 groups. Top sources: none. Top node kinds: none."
+  },
+  "groups": [],
+  "items": [],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "FTS-only lexical retrieval over content nodes."
+}

@@ -1,0 +1,118 @@
+{
+  "query": "gravity",
+  "mode": "fts",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_branch_baseline_leg\\_analysis\\tech_talks_ingest_2026-04-02\\cold_anatomy_tech_talks_st.db",
+  "provider": {
+    "provider": "fts"
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 1,
+    "group_by": "origin_id",
+    "summary": "8 bm25-ranked evidence items surfaced for \"gravity\" across 1 groups. Top sources: master_spec_text.txt (8). Top node kinds: paragraph (8)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "item_count": 8,
+      "max_score": -6.12449,
+      "occurrence_ids": [
+        "3e1f4c8cba8bfbe9caf66daa30d62e4f916695a623c5954ecabb824ab0ecdc19",
+        "9a4afef4039a77982b69216d82ecdb84aad042489b15cfbabd2ee02557b8a544",
+        "8f85b1ff5307e040609995552386b21dcf1e3398afc8474323fc842c6c3d28be",
+        "7c66d259c7fc6219c3d3a72688a085cb369c9be90e00460ff04553b37ed08e6e",
+        "c60be1cf85c895882e51655f5c555c95b0d4701e1ee80851cdf659abed89871b",
+        "eb9528cf8a38ad7b1d82f152c2b878fc5543fc5e18e7dcd9598bca30c73f2eef",
+        "3a4f85c3caa419c47d512f9164fbb3ba67d984c5770ccf475e5d1da0fefcc3c4",
+        "eb38e5edc0c2dbbd54de6c4d754686a21450c578f33a6bc1423893a52f2ceceb"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "3e1f4c8cba8bfbe9caf66daa30d62e4f916695a623c5954ecabb824ab0ecdc19",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "gravity"
+    },
+    {
+      "occurrence_id": "9a4afef4039a77982b69216d82ecdb84aad042489b15cfbabd2ee02557b8a544",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "gravity"
+    },
+    {
+      "occurrence_id": "8f85b1ff5307e040609995552386b21dcf1e3398afc8474323fc842c6c3d28be",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "gravity"
+    },
+    {
+      "occurrence_id": "7c66d259c7fc6219c3d3a72688a085cb369c9be90e00460ff04553b37ed08e6e",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "Gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "Gravity"
+    },
+    {
+      "occurrence_id": "c60be1cf85c895882e51655f5c555c95b0d4701e1ee80851cdf659abed89871b",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "Gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "Gravity"
+    },
+    {
+      "occurrence_id": "eb9528cf8a38ad7b1d82f152c2b878fc5543fc5e18e7dcd9598bca30c73f2eef",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "Gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "Gravity"
+    },
+    {
+      "occurrence_id": "3a4f85c3caa419c47d512f9164fbb3ba67d984c5770ccf475e5d1da0fefcc3c4",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "Gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "Gravity"
+    },
+    {
+      "occurrence_id": "eb38e5edc0c2dbbd54de6c4d754686a21450c578f33a6bc1423893a52f2ceceb",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "node_kind": "paragraph",
+      "content_snippet": "Gravity",
+      "score": -6.12449,
+      "score_kind": "bm25",
+      "content": "Gravity"
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "FTS-only lexical retrieval over content nodes."
+}

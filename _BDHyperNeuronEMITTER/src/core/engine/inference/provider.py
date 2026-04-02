@@ -39,10 +39,36 @@ from typing import Any, Dict, List, Optional, Tuple
 log = logging.getLogger(__name__)
 EMBEDDING_PROVIDER_FILENAME = "embedding_provider_effective.json"
 DEFAULT_SENTENCE_TRANSFORMER_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-_QUERY_VARIANT_ALIASES = {
-    "eval input": ["expression input", "eval_input"],
-    "lambda expressions": ["lambdas"],
-}
+_QUERY_VARIANT_FAMILIES = (
+    ("eval input", "expression input", "eval_input"),
+    ("lambda expressions", "lambda expression", "lambdas", "anonymous functions"),
+    ("assignment expressions", "assignment expression", "walrus operator"),
+    ("function definitions", "function definition", "def statements", "def statement"),
+    ("resolution of names", "name resolution", "name lookup"),
+    ("interactive input", "interactive interpreter input", "repl input"),
+    ("encoding declarations", "encoding declaration", "source encoding comments", "source encoding comment"),
+    ("import statements", "import statement", "module imports", "module import"),
+    ("yield expressions", "yield expression", "generator yield"),
+)
+
+
+def _build_query_variant_aliases() -> dict[str, list[str]]:
+    alias_map: dict[str, list[str]] = {}
+    for family in _QUERY_VARIANT_FAMILIES:
+        normalized_family = []
+        seen_family: set[str] = set()
+        for variant in family:
+            compact = " ".join(str(variant).split()).strip().lower()
+            if not compact or compact in seen_family:
+                continue
+            seen_family.add(compact)
+            normalized_family.append(compact)
+        for variant in normalized_family:
+            alias_map[variant] = [candidate for candidate in normalized_family if candidate != variant]
+    return alias_map
+
+
+_QUERY_VARIANT_ALIASES = _build_query_variant_aliases()
 
 
 # ── Result type ──────────────────────────────────────────────────────
@@ -354,16 +380,35 @@ def create_embed_provider(spec: EmbeddingProviderSpec) -> Optional[Any]:
     raise ValueError(f"Unsupported embedding provider: {spec.provider}")
 
 
+def _alias_anchor_queries(text: str) -> List[str]:
+    normalized = " ".join(text.split()).strip()
+    if not normalized:
+        return []
+
+    lowered = normalized.lower()
+    alias_variants = _QUERY_VARIANT_ALIASES.get(lowered, [])
+
+    deduped: List[str] = []
+    seen: set[str] = set()
+    for variant in alias_variants:
+        compact = " ".join(str(variant).split()).strip()
+        if not compact:
+            continue
+        lowered_variant = compact.lower()
+        if lowered_variant in seen:
+            continue
+        seen.add(lowered_variant)
+        deduped.append(compact)
+    return deduped
+
+
 def _lexical_anchor_queries(text: str) -> List[str]:
     normalized = " ".join(text.split()).strip()
     if not normalized:
         return []
 
     variants: List[str] = [normalized]
-    lowered = normalized.lower()
-
-    alias_variants = _QUERY_VARIANT_ALIASES.get(lowered, [])
-    variants.extend(alias_variants)
+    variants.extend(_alias_anchor_queries(normalized))
 
     if " " in normalized and "_" not in normalized:
         variants.append(normalized.replace(" ", "_"))

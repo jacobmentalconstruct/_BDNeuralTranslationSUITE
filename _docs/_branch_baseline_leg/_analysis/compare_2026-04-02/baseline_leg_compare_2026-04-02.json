@@ -1,0 +1,672 @@
+{
+  "query_shelf": [
+    "lexical analysis",
+    "encoding declarations",
+    "yield expressions",
+    "operator precedence",
+    "assignment expressions",
+    "lambda expressions",
+    "function definitions",
+    "import statements",
+    "module imports",
+    "resolution of names",
+    "name lookup",
+    "eval input",
+    "interactive input",
+    "repl input",
+    "function calls",
+    "decorators"
+  ],
+  "top_k": 8,
+  "legs": {
+    "fts": {
+      "label": "fts",
+      "mode": "fts",
+      "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_073_semgrav_det_steep\\cold_anatomy_reference_probe_073_semgrav_det_steep.db",
+      "provider": "fts",
+      "summary": {
+        "query_count": 16,
+        "human_facing_top_count": 10,
+        "same_top_count_vs_bag": 5,
+        "same_origin_count_vs_bag": 6
+      }
+    },
+    "ann_sentence": {
+      "label": "ann_sentence",
+      "mode": "ann",
+      "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_069_semgrav_st_control\\cold_anatomy_reference_probe_069_semgrav_st_control.db",
+      "provider": "sentence-transformers",
+      "summary": {
+        "query_count": 16,
+        "human_facing_top_count": 13,
+        "same_top_count_vs_bag": 6,
+        "same_origin_count_vs_bag": 7
+      }
+    },
+    "ann_deterministic": {
+      "label": "ann_deterministic",
+      "mode": "ann",
+      "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_073_semgrav_det_steep\\cold_anatomy_reference_probe_073_semgrav_det_steep.db",
+      "provider": "deterministic",
+      "summary": {
+        "query_count": 16,
+        "human_facing_top_count": 14,
+        "same_top_count_vs_bag": 4,
+        "same_origin_count_vs_bag": 5
+      }
+    },
+    "bag": {
+      "label": "bag",
+      "mode": "bag",
+      "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_073_semgrav_det_steep\\cold_anatomy_reference_probe_073_semgrav_det_steep.db",
+      "provider": "bag",
+      "summary": {
+        "query_count": 16,
+        "human_facing_top_count": 15,
+        "same_top_count_vs_bag": 16,
+        "same_origin_count_vs_bag": 16
+      }
+    }
+  },
+  "rows": [
+    {
+      "query": "lexical analysis",
+      "legs": {
+        "fts": {
+          "occurrence_id": "3414ee90137914630c91512e03467754c39878183ac86152944dfedf520ec256",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 2. Lexical analysis",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_sentence": {
+          "occurrence_id": "65bc9201f87f51d78f0fed4a704ec85cdff7f080b750a37357a6555464f8b371",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "2. Lexical analysis",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "3414ee90137914630c91512e03467754c39878183ac86152944dfedf520ec256",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 2. Lexical analysis",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "bag": {
+          "occurrence_id": "3414ee90137914630c91512e03467754c39878183ac86152944dfedf520ec256",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 2.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "encoding declarations",
+      "legs": {
+        "fts": {
+          "occurrence_id": "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "2.1.4. Encoding declarations",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_sentence": {
+          "occurrence_id": "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "2.1.4. Encoding declarations",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "07003a6cf2d9b61a0f101b7d25250543d8e2080d1ea0bc215b30a5dbe6b95746",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "The following example shows various indentation errors:",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": true
+        },
+        "bag": {
+          "occurrence_id": "1a87787d320ec90078ed18de903e8e5254c83f402a23615fbdf8877aaa322bc8",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\lexical_analysis.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "2.1.4. Encoding declarations",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "yield expressions",
+      "legs": {
+        "fts": {
+          "occurrence_id": "326204b1f2acd5744abf3c52a8f1bc7edb71dbc74f7818e639d200b4a8e4011d",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "For full details of \"yield\" semantics, refer to the Yield expressions section.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "09b39536bcc0892ccdb269e9c3b7ad1dbd800146fe199780ad665f7259061b1c",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "6.2.9. Yield expressions",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "f43541fa5e6b64a6d6f90a20d5b6ea3af0aa070c6d055e83c1e85c4f18b98969",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 3.3. Special method names",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "09b39536bcc0892ccdb269e9c3b7ad1dbd800146fe199780ad665f7259061b1c",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "6.2.9. Yield expressions",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "operator precedence",
+      "legs": {
+        "fts": {
+          "occurrence_id": "64883d79521739703b3d3d19b3bc7922973c63aad42687715c5f4c232ecb50d9",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.17. Operator precedence",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_sentence": {
+          "occurrence_id": "64883d79521739703b3d3d19b3bc7922973c63aad42687715c5f4c232ecb50d9",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.17. Operator precedence",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "64883d79521739703b3d3d19b3bc7922973c63aad42687715c5f4c232ecb50d9",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.17. Operator precedence",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "bag": {
+          "occurrence_id": "64883d79521739703b3d3d19b3bc7922973c63aad42687715c5f4c232ecb50d9",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.17.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "assignment expressions",
+      "legs": {
+        "fts": {
+          "occurrence_id": "5635fb695493381c6de41a1d00e43905a3b381beb5c3f1ccd313ca675f88adc5",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* assignment expressions,",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "5635fb695493381c6de41a1d00e43905a3b381beb5c3f1ccd313ca675f88adc5",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* assignment expressions,",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "e429b8a8ba6a965dd0fc09f2af60d8ffe4fc2c4a4a60baddcfeb65ac5f0b3e9f",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.12. Assignment expressions",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "bag": {
+          "occurrence_id": "e429b8a8ba6a965dd0fc09f2af60d8ffe4fc2c4a4a60baddcfeb65ac5f0b3e9f",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.12.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "lambda expressions",
+      "legs": {
+        "fts": {
+          "occurrence_id": "36ffdfe79c8de393d268b0e567b21506d93f00fa069a18532c2e9ded2e859ed3",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": "\" expression] expression ::= conditional_expression | lambda_expr Conditional expressions (sometimes called a \"ternary operator\") have the lowest priority of all Python operations.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "36ffdfe79c8de393d268b0e567b21506d93f00fa069a18532c2e9ded2e859ed3",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": "\" expression] expression ::= conditional_expression | lambda_expr Conditional expressions (sometimes called a \"ternary operator\") have the lowest priority of all Python operations.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "36ffdfe79c8de393d268b0e567b21506d93f00fa069a18532c2e9ded2e859ed3",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": "\" expression] expression ::= conditional_expression | lambda_expr Conditional expressions (sometimes called a \"ternary operator\") have the lowest priority of all Python operations.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "ce402937346de001650ded4f54796c2b47b1bcd20f3842287ac7016f5f910929",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 6.14.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "function definitions",
+      "legs": {
+        "fts": {
+          "occurrence_id": "ef92739cb3a6f761cfd8724abf4144e0e6069e897a555cdea2f4b8fb165edf9f",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* function definitions,",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "ef92739cb3a6f761cfd8724abf4144e0e6069e897a555cdea2f4b8fb165edf9f",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* function definitions,",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "365c4937f32d94a2e682c7ee221de84d397e3199893d0a7cd32b2385b9d4c3be",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 8.7. Function definitions",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "bag": {
+          "occurrence_id": "365c4937f32d94a2e682c7ee221de84d397e3199893d0a7cd32b2385b9d4c3be",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 8.7.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "import statements",
+      "legs": {
+        "fts": {
+          "occurrence_id": "603c889a2c03310fbbae25c131291323b84209dd3e9e6c2651c5a08d96c12c86",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* \"import\" statements.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_sentence": {
+          "occurrence_id": "603c889a2c03310fbbae25c131291323b84209dd3e9e6c2651c5a08d96c12c86",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* \"import\" statements.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "c1e705cb6a581357fee5c8978330f139c9ef459b9958c637de5f595cb9b2e47e",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 7. Simple statements",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "603c889a2c03310fbbae25c131291323b84209dd3e9e6c2651c5a08d96c12c86",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* \"import\" statements.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "module imports",
+      "legs": {
+        "fts": {
+          "occurrence_id": "aec8e43833e137b3fd2ae073d94f49c7029ed8a93fed0a83fb0787bcae225446",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+          "node_kind": "md_blockquote",
+          "content_snippet": ">> import spam >> spam.foo <module 'spam.foo' from '/tmp/imports/spam/foo.py'> >> spam.Foo <class 'spam.foo.Foo'>",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "04e5b3484fa993c11f6314781f8e3e3ceb0dfedbeea58c3382b658e8538a7ff2",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "\"importlib.import_module()\" is provided to support applications that determine dynamically the modules to be loaded.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "f76f013473f72c7e40c6501b1019f55ebd2f91dbaaee18187ca1755165a02bdd",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "8. Compound statements",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "603c889a2c03310fbbae25c131291323b84209dd3e9e6c2651c5a08d96c12c86",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* \"import\" statements.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "resolution of names",
+      "legs": {
+        "fts": {
+          "occurrence_id": "51828b061db9dd37fd70377f4bc3e780525cf865bea6a7d734c0d58bf27294bb",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "4.2.2. Resolution of names",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_sentence": {
+          "occurrence_id": "51828b061db9dd37fd70377f4bc3e780525cf865bea6a7d734c0d58bf27294bb",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "4.2.2. Resolution of names",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "47039832f7b34927773f729b3653055165d00385cc719d9def268c20eb165f14",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "expression is evaluated.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "51828b061db9dd37fd70377f4bc3e780525cf865bea6a7d734c0d58bf27294bb",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "4.2.2. Resolution of names",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "name lookup",
+      "legs": {
+        "fts": {
+          "occurrence_id": "abc500f073d88b55ba3bd81ba637c5af55992d5e9cec9852d0408a1e9dac7ba0",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\datamodel.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": ", \"object.__getattribute__(self, name)\". Note: This method may still be bypassed when looking up special methods as the result of implicit invocation via language syntax or built-i",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "b2882b68ac166477bb05c34fe67b3603ec1d57bf1192c7b7a183ab1dbf4753bb",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "md_code_block",
+          "content_snippet": "name ::= othername",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "9340ca98e151bcc017180a6399eb59159a0c1cb6b9b6221ad724b88e8f4f48eb",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* Otherwise: the name is bound to the object in the global namespace or the outer namespace determined by \"nonlocal\", respectively.",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "51828b061db9dd37fd70377f4bc3e780525cf865bea6a7d734c0d58bf27294bb",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "4.2.2. Resolution of names",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "eval input",
+      "legs": {
+        "fts": {
+          "occurrence_id": "4833e4b8be2dc02e888bf36bbe8e0e5accc3477c7afb7593c82c2ec9ba732ca2",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\toplevel_components.txt",
+          "node_kind": "md_code_block",
+          "content_snippet": "eval_input ::= expression_list NEWLINE*",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": true
+        },
+        "ann_sentence": {
+          "occurrence_id": "e9f30c2edd492119019945a9f64f7892f887e309426352b6910bb7bd564e1edd",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\toplevel_components.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "\"eval()\" is used for expression input. It ignores leading whitespace. The string argument to \"eval()\" must have the following form:",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "0a5b067aa41ced74c8ea43f9c011a4b0a4974c6102daed365c5a69d4c8e7189f",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\datamodel.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "The appropriate metaclass for a class definition is determined as follows:",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "8ea5d2a8149a25363ce9f229daa8e11827293ccb1c60b8d09a7721108bf3ab89",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\toplevel_components.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "9.4. Expression input",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "interactive input",
+      "legs": {
+        "fts": {
+          "occurrence_id": "2b428f12508aaab1770c5d3caaa2532fa964f458acfb399ace2e1d793d7e5334",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 9.3. Interactive input",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "26a443f9db3f5c4aaf3b54601ccddc41642f0927cea610d1b5ff3915bca8d0a4",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\toplevel_components.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "9.3. Interactive input",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        },
+        "ann_deterministic": {
+          "occurrence_id": "1e67003426de6a8631af9b85b78a551a3880941c77983d0d267bf493ff4c0a90",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* interactive prompt",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "26a443f9db3f5c4aaf3b54601ccddc41642f0927cea610d1b5ff3915bca8d0a4",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\toplevel_components.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "9.3. Interactive input",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "repl input",
+      "legs": {
+        "fts": {
+          "occurrence_id": null,
+          "origin_id": null,
+          "node_kind": null,
+          "content_snippet": null,
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "e12620dabb52ca46db947aee599d6351112f891d383498f0c40f2f15c1168002",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "In interactive mode, if the value is not \"None\", it is converted to a string using the built-in \"repr()\" function and the resulting string is written to standard output on a line b",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "c652e149e1ca440b1e0ddfa582485805c8070ce1602123bbeab5ca2e74cb8530",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+          "node_kind": "md_code_block",
+          "content_snippet": "if x < y < z: print(x); print(y); print(z)",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "26a443f9db3f5c4aaf3b54601ccddc41642f0927cea610d1b5ff3915bca8d0a4",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\toplevel_components.txt",
+          "node_kind": "md_heading",
+          "content_snippet": "9.3. Interactive input",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "function calls",
+      "legs": {
+        "fts": {
+          "occurrence_id": "25ca792054a7bfd86849a395c5ce1eff0e5ae90ca7d9312a3543ac204e0fb3c0",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "Module loaders provide the critical function of loading: module execution. The import machinery calls the \"importlib.abc.Loader.exec_module()\" method with a single argument, the mo",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "ef92739cb3a6f761cfd8724abf4144e0e6069e897a555cdea2f4b8fb165edf9f",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\executionmodel.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* function definitions,",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "365c4937f32d94a2e682c7ee221de84d397e3199893d0a7cd32b2385b9d4c3be",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 8.7. Function definitions",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "30c00d5df48789421116da7d529c10e67cc0477a240ab3ad8c95d8419582db02",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\expressions.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": "| tests and identity tests | +-------------------------------------------------+---------------------------------------+ | \"not x\" | Boolean NOT | +-----------------------------...",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    },
+    {
+      "query": "decorators",
+      "legs": {
+        "fts": {
+          "occurrence_id": "c8eed80108f72734a9df3b9665e7314d25f7bc56e2101020390605e3c415bef1",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": "Support for forward references within annotations by preserving annotations in a string form at runtime instead of eager evaluation. **PEP 318** - Decorators for Functions and Meth",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_sentence": {
+          "occurrence_id": "3051e6a9c457f9eeb8fe52e0c132e79fd54d0c674880e1bc1b234b5a73bb06f4",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\compound_stmts.txt",
+          "node_kind": "fragment_of_md_code_block",
+          "content_snippet": "for the decorator expressions are the same as for function decorators. The result is then bound to the class name. Changed in version 3.9: Classes may be decorated with any valid \"",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "ann_deterministic": {
+          "occurrence_id": "2dd29cf36cacadfab9d3c94c84a4d38b5b89fc193abf4ac6e3353448f80c435c",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\index.txt",
+          "node_kind": "md_list_item",
+          "content_snippet": "* 2.3. Identifiers and keywords",
+          "same_top_as_bag": false,
+          "same_origin_as_bag": false
+        },
+        "bag": {
+          "occurrence_id": "57432e0a16774d65abc1d115cdcf0f96c76230eba22cd667a42e3211aed78057",
+          "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\datamodel.txt",
+          "node_kind": "md_paragraph",
+          "content_snippet": "Below is a list of the types that are built into Python.",
+          "same_top_as_bag": true,
+          "same_origin_as_bag": true
+        }
+      }
+    }
+  ],
+  "difference_read": [
+    "- FTS-only preserves exact lexical anchors well, but it only matches the bag top on `5/16` queries.",
+    "- Sentence-transformers ANN is the closest 'normal vector' leg here, matching the bag top on `6/16` queries.",
+    "- Deterministic ANN diverges more from the bag than sentence-transformers ANN (`4` vs `6` same-top hits), which suggests a shifted or specialized field rather than a conventional semantic neighborhood map.",
+    "- The bag's added value is anchor stability and readable evidence shaping; it lands a human-facing top item on `15/16` queries in this run."
+  ],
+  "branch_note": "Branch-local diagnostic artifact only. This compare does not alter the live bag path and should not be treated as promotive truth without explicit review."
+}

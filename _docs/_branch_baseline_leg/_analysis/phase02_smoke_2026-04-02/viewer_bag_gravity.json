@@ -1,0 +1,655 @@
+{
+  "query": "gravity",
+  "mode": "bag",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_branch_baseline_leg\\_analysis\\tech_talks_ingest_2026-04-02\\cold_anatomy_tech_talks_st.db",
+  "provider": {
+    "provider": "bag-control"
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 4,
+    "group_by": "origin_id",
+    "summary": "8 evidence items surfaced for \"gravity\" across 4 groups. Top sources: C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt (3), C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md (2), C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md (2). Top node kinds: paragraph (3), md_paragraph (3), md_heading (2)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md",
+      "item_count": 2,
+      "max_activation": 1.0,
+      "summary": "2 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md. Strongest activation 1.000. Most common kind: md_heading. Representative item: 4. Use It",
+      "occurrence_ids": [
+        "6af7e13759bf2614b7185cc96a2afc9b0e89defb93b0f95a7eb1cd9ddd1b2a73",
+        "32742ef465d7388307f19c9a6684dc5977447578671528dc5e534fd2232659aa"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md",
+      "item_count": 2,
+      "max_activation": 1.0,
+      "summary": "2 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md. Strongest activation 1.000. Most common kind: md_heading. Representative item: 4. Test It",
+      "occurrence_ids": [
+        "a0b16ed0961302bc3b490871a0af1562f432d9e569bab79fb566ca71f72ffd6f",
+        "6923817d1080ede7106c28314369e76e24b9508be1fa6cecd127410595470c86"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "item_count": 3,
+      "max_activation": 0.9,
+      "summary": "3 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt. Strongest activation 0.900. Most common kind: paragraph. Representative item: Gravity",
+      "occurrence_ids": [
+        "3a4f85c3caa419c47d512f9164fbb3ba67d984c5770ccf475e5d1da0fefcc3c4",
+        "3e1f4c8cba8bfbe9caf66daa30d62e4f916695a623c5954ecabb824ab0ecdc19",
+        "7c66d259c7fc6219c3d3a72688a085cb369c9be90e00460ff04553b37ed08e6e"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_INTEGRATION.md",
+      "item_count": 1,
+      "max_activation": 0.9,
+      "summary": "1 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_INTEGRATION.md. Strongest activation 0.900. Most common kind: md_paragraph. Representative item: Edit `tripartite/pipeline/ingest.py` and replace the `_get_chunker` function (around line 6125):",
+      "occurrence_ids": [
+        "2a970905084c9230f54035b7696f7d907d0436ff6e5f64e0a4acc5da6841d7f4"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "3a4f85c3caa419c47d512f9164fbb3ba67d984c5770ccf475e5d1da0fefcc3c4",
+      "activation": 0.9,
+      "hunk_id": "f45575e4205f4cc8356d73eaa13a9582bcb129bce4c404ccec5e445bb4312d65",
+      "node_kind": "paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "content_snippet": "Gravity",
+      "item_summary": "Gravity",
+      "attention_weight": 0.6,
+      "static_mass": 7,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "0c67f675bc6b1553a876f26248090c5cc0f787a3ec005acf37387adbca48c01a",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "03edd78e3fa7b0fe5325b493e7dfa00f3beefa961a870a3bfa87a58fec9e3233",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "eb38e5edc0c2dbbd54de6c4d754686a21450c578f33a6bc1423893a52f2ceceb",
+          "weight": 0.5891,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.1087,
+            "structural": 0.2122,
+            "statistical": 0.3395,
+            "semantic": 0.2546,
+            "verbatim": 0.0849
+          }
+        }
+      ],
+      "content": "Gravity",
+      "rank_signals": {
+        "rank_score": 1.46,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 1.0,
+        "is_anchor": true,
+        "origin_anchor_count": 8,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.46
+    },
+    {
+      "occurrence_id": "3e1f4c8cba8bfbe9caf66daa30d62e4f916695a623c5954ecabb824ab0ecdc19",
+      "activation": 0.9,
+      "hunk_id": "bc3c0c533bd8d8c081e446454550535ba4f194d440b8be0f83816d292aaab841",
+      "node_kind": "paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "content_snippet": "gravity",
+      "item_summary": "gravity",
+      "attention_weight": 0.6,
+      "static_mass": 7,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "003cb1b00fd4e15a61483201c2de502b8cfbc328fd3517ab42cee23eca145fce",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "96f0ce2d0d3d06e174f17b0ca526c25f45e305926e912cfd7002c8e0e7fc068e",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "7c66d259c7fc6219c3d3a72688a085cb369c9be90e00460ff04553b37ed08e6e",
+          "weight": 0.5391,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.1188,
+            "structural": 0.2319,
+            "statistical": 0.371,
+            "semantic": 0.2783,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "gravity",
+      "rank_signals": {
+        "rank_score": 1.46,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 1.0,
+        "is_anchor": true,
+        "origin_anchor_count": 8,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.46
+    },
+    {
+      "occurrence_id": "7c66d259c7fc6219c3d3a72688a085cb369c9be90e00460ff04553b37ed08e6e",
+      "activation": 0.9,
+      "hunk_id": "f45575e4205f4cc8356d73eaa13a9582bcb129bce4c404ccec5e445bb4312d65",
+      "node_kind": "paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\master_spec_text.txt",
+      "structural_path": "doc",
+      "content_snippet": "Gravity",
+      "item_summary": "Gravity",
+      "attention_weight": 0.6,
+      "static_mass": 7,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "e57ae3ce196da33b48d7a438516b0c200788f0330728c2d4759a06bf34018649",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "b29b6714be7c55edc8de9999558d211ffec862e54aea9ee6103bce231c6b0f58",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "3e1f4c8cba8bfbe9caf66daa30d62e4f916695a623c5954ecabb824ab0ecdc19",
+          "weight": 0.5391,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.1188,
+            "structural": 0.2319,
+            "statistical": 0.371,
+            "semantic": 0.2783,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "Gravity",
+      "rank_signals": {
+        "rank_score": 1.46,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 1.0,
+        "is_anchor": true,
+        "origin_anchor_count": 8,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.46
+    },
+    {
+      "occurrence_id": "6af7e13759bf2614b7185cc96a2afc9b0e89defb93b0f95a7eb1cd9ddd1b2a73",
+      "activation": 1.0,
+      "hunk_id": "26027a9ef74fc1463d916a20a943f3a3f2d16b6ca1f5d62e17a1d0fbfc8cccf1",
+      "node_kind": "md_heading",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md",
+      "structural_path": "doc/h1_tree_sitter_multi_language_int/h2_quick_start_5_minutes/h3_4_use_it",
+      "content_snippet": "4. Use It",
+      "item_summary": "4. Use It",
+      "attention_weight": 0.6,
+      "static_mass": 9,
+      "why": [
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "90173469ee2d9dab75f08476812a651b17a1883fa338709fed33272c0149022a",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "3368540d5038b09b6d934e043e8d80123d47ddde8f5505608b0bca8d5bc6f43b",
+          "weight": 0.6093,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.3619,
+            "structural": 0.2924,
+            "statistical": 0.1477,
+            "semantic": 0.198,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "6bb6adfb859bd12aab002aeb612b035131236ed6c2d105753f1a43fa0049c1a4",
+          "weight": 0.5366,
+          "interaction_mode": "grammatical_dominant",
+          "routing_profile": {
+            "grammatical": 0.4109,
+            "structural": 0.332,
+            "statistical": 0.0671,
+            "semantic": 0.19,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "4. Use It",
+      "rank_signals": {
+        "rank_score": 0.96,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": true,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.96
+    },
+    {
+      "occurrence_id": "a0b16ed0961302bc3b490871a0af1562f432d9e569bab79fb566ca71f72ffd6f",
+      "activation": 1.0,
+      "hunk_id": "83fcc7e9768587ce01e5175339367df02e7714177ebb9a8f80f05eb45cb5484f",
+      "node_kind": "md_heading",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md",
+      "structural_path": "doc/h1_treesitterchunker_multi_langua/h2_quick_start/h3_4_test_it",
+      "content_snippet": "4. Test It",
+      "item_summary": "4. Test It",
+      "attention_weight": 0.6,
+      "static_mass": 10,
+      "why": [
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "a1be5636416099ad5e24460b5020942049d8421b595c9de5f1eae33ca892000a",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "126b2a16cb484109ccf1b7487cdefd98bbd0c06bfcac5eca5bc7c02febb5a691",
+          "weight": 0.5335,
+          "interaction_mode": "grammatical_dominant",
+          "routing_profile": {
+            "grammatical": 0.4133,
+            "structural": 0.3573,
+            "statistical": 0.1125,
+            "semantic": 0.117,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "e648a13df9cc6cd0948e36552d0c51603ac54511efea2580fab0e046a3f7028f",
+          "weight": 0.5087,
+          "interaction_mode": "grammatical_dominant",
+          "routing_profile": {
+            "grammatical": 0.4335,
+            "structural": 0.2212,
+            "statistical": 0.2005,
+            "semantic": 0.1301,
+            "verbatim": 0.0147
+          }
+        }
+      ],
+      "content": "4. Test It",
+      "rank_signals": {
+        "rank_score": 0.96,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": true,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.96
+    },
+    {
+      "occurrence_id": "32742ef465d7388307f19c9a6684dc5977447578671528dc5e534fd2232659aa",
+      "activation": 0.9,
+      "hunk_id": "d3b2d9de183c1392be586e95ac7d267c62cad2f1870cf901fe6660a1522a5b21",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\README.md",
+      "structural_path": "doc/h1_tree_sitter_multi_language_int/h2_key_features/h3_5_graceful_fallback",
+      "content_snippet": "**Never breaks ingestion.** Falls back to line-window chunking if:",
+      "item_summary": "**Never breaks ingestion.** Falls back to line-window chunking if:",
+      "attention_weight": 0.6,
+      "static_mass": 66,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "b1cbc179f1dc6d4d1f86c57532576a9045f5bf74f2bb71fc1d099febe1379d4a",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "f5f0b067cd00fbbc8dae7c0e3d6975a20eda9a9131b93b13c66006580488cca0",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "d10dd71baa2e115851193c1473433cfd8b34179d15ebaf3d67f80028d11d2c5e",
+          "weight": 0.3284,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.195,
+            "structural": 0.2207,
+            "statistical": 0.2093,
+            "semantic": 0.3749,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "**Never breaks ingestion.** Falls back to line-window chunking if:",
+      "rank_signals": {
+        "rank_score": 0.9,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.9
+    },
+    {
+      "occurrence_id": "2a970905084c9230f54035b7696f7d907d0436ff6e5f64e0a4acc5da6841d7f4",
+      "activation": 0.9,
+      "hunk_id": "ced68e46b8ab28c66b80f373e91793daa379e981e6ea07e3e34c65b98bd83795",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_INTEGRATION.md",
+      "structural_path": "doc/h1_tree_sitter_integration_guide_/h2_installation/h3_step_4_update_chunker_selectio",
+      "content_snippet": "Edit `tripartite/pipeline/ingest.py` and replace the `_get_chunker` function (around line 6125):",
+      "item_summary": "Edit `tripartite/pipeline/ingest.py` and replace the `_get_chunker` function (around line 6125):",
+      "attention_weight": 0.85,
+      "static_mass": 96,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "df1f27101ff6c9b7f0e6a547ef70fef9dfeadd1f41e6413cd62a3303ddf5f24a",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "95147b17d32bfa5c6c3578e80877d97056bbd34e6b88a12280883685366c7b5c",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "1fb23bfff7fcf8e39a3adb0bc51eddb0f134294fb85d7a906650e51e97132f0e",
+          "weight": 0.3615,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0697,
+            "structural": 0.581,
+            "statistical": 0.0801,
+            "semantic": 0.265,
+            "verbatim": 0.0041
+          }
+        }
+      ],
+      "content": "Edit `tripartite/pipeline/ingest.py` and replace the `_get_chunker` function (around line 6125):",
+      "rank_signals": {
+        "rank_score": 0.9,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.9
+    },
+    {
+      "occurrence_id": "6923817d1080ede7106c28314369e76e24b9508be1fa6cecd127410595470c86",
+      "activation": 0.9,
+      "hunk_id": "a39f87c0ebac0e5524cc28156145991d31afff0322c12122915f6f5283e2cae6",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\tech_talks\\TREESITTER_README.md",
+      "structural_path": "doc/h1_treesitterchunker_multi_langua/h2_quick_start/h3_3_update_chunker_routing",
+      "content_snippet": "In `tripartite/pipeline/ingest.py`, replace the `_get_chunker` function:",
+      "item_summary": "In `tripartite/pipeline/ingest.py`, replace the `_get_chunker` function:",
+      "attention_weight": 0.6,
+      "static_mass": 72,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "6edbe94a86ca7c67eb6be6da55dd4c0680a344b2470421e34ed4fa6a99a9d136",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "a5c689c0b867e06dc647c515a3ea89c539e8bb941aeefbd8ef2dd71c492269b6",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "6edbe94a86ca7c67eb6be6da55dd4c0680a344b2470421e34ed4fa6a99a9d136",
+          "weight": 0.3528,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0744,
+            "structural": 0.6201,
+            "statistical": 0.0709,
+            "semantic": 0.2346,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "In `tripartite/pipeline/ingest.py`, replace the `_get_chunker` function:",
+      "rank_signals": {
+        "rank_score": 0.9,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 0,
+        "origin_query_support_count": 0,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 0.9
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "Current bag control path (fused anchors + subgraph + Hot Engine + bag shaping)."
+}

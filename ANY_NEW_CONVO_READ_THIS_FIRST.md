@@ -11,8 +11,15 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
 ## Current Exact Footing
 
 - We are still in **Phase 1**, not Phase 2.
+- A late-Phase-1 diagnostic branch (`baseline-leg-sidecar`) has now clarified two mainline truths:
+  - shared registry / shared visible state is the right collaboration doctrine
+  - a narrow code/reference footing is not enough; corpus planning now needs a real English baseline
 - The active scorer is still the **Bootstrap Nucleus**.
 - The **bag CLI exists** and is useful enough to inspect evidence on real corpora.
+- A minimal separate shared viewer sidecar now exists for collaborative retrieval work:
+  - human-driven shared-state viewing is proven
+  - agent-driven visible panel action is still an experimental follow-up seam
+  - collaboration doctrine is now: `sync -> think -> act -> resync`
 - The bag path now also has a confirmed Hot Engine direction fix:
   - activation had been propagating backward relative to stored `source_occ_id -> target_occ_id` relations
   - that bug is now fixed
@@ -128,8 +135,8 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
   - `steep`, `softplus`, and `xhigh` all sit very close to the earlier `high` point on graph metrics
   - current read:
     - `xhigh` adds only marginal gain over `high`
-    - `steep` preserves more `multi_surface` / `structural_bridge` winner geometry
-    - `softplus` is a strong compromise point
+    - `steep` preserves more `multi_surface` / `structural_bridge` winner geometry and is now the promoted safe default
+    - `softplus` is a strong compromise point that remains worth keeping as an option
   - the current semantic-shape QC artifact is:
     - [`_docs/_analysis/bag_semantic_shape_qc_2026-04-01/bag_semantic_shape_qc_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\bag_semantic_shape_qc_2026-04-01\bag_semantic_shape_qc_2026-04-01.md)
   - the live monitor was also upgraded in this stretch:
@@ -137,6 +144,66 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
     - summary and sample tabs
     - five-surface color cues
     - typed `report_summary` / `report_snapshot` events
+- We have now started mapping two more Phase 1 surface families on top of that safe semantic footing:
+  - `verbatim` currently looks more like a precision / articulation-control surface than a growth lever
+  - light verbatim promotion is survivable, but stronger promotion steadily trims cross-document winners
+  - `contradiction_soft` is the most interesting current counter-pressure seed
+  - `contradiction_block` is too blunt on this reference footing
+  - the combined mapping note is:
+    - [`_docs/_analysis/verbatim_contradiction_mapping_2026-04-01/verbatim_contradiction_mapping_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\verbatim_contradiction_mapping_2026-04-01\verbatim_contradiction_mapping_2026-04-01.md)
+- We now also have the first paired `verbatim` excursion map:
+  - `verbatim + semantic` lifts graph metrics slightly and reduces cross-document losers
+  - but it does not improve articulation convergence on the tested bag shelf
+  - current read: this pair produces semantic consolidation more than wording-control
+  - the next better articulation candidate is likely `verbatim + structural`
+  - mapping note:
+    - [`_docs/_analysis/verbatim_semantic_pair_mapping_2026-04-01/verbatim_semantic_pair_mapping_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\verbatim_semantic_pair_mapping_2026-04-01\verbatim_semantic_pair_mapping_2026-04-01.md)
+- We now also have the second paired `verbatim` excursion map:
+  - `verbatim + structural` changes the field orientation, but still does not improve articulation convergence on the tested bag shelf
+  - current joint read from both pair maps:
+    - naive pairwise weight steering is not enough to solve articulation control
+    - the next better seam is likely retrieval/rerank behavior or finer-grain verbatim resolution
+  - mapping note:
+    - [`_docs/_analysis/verbatim_structural_pair_mapping_2026-04-01/verbatim_structural_pair_mapping_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\verbatim_structural_pair_mapping_2026-04-01\verbatim_structural_pair_mapping_2026-04-01.md)
+- We also clarified a future verbatim-resolution seam:
+  - the live `CIS` layer is currently hunk-level content-addressed dedupe plus verbatim text persistence
+  - it is **not** yet a full CAS / Merkle / BPE-backed verbatim store
+  - current sane middle-ground branch, when we are ready, is:
+    - dedupe hardening first
+    - then line/span-level sub-hunks
+    - then rudimentary scope traversal
+  - current explicit non-goal:
+    - do **not** try to land BPE + CAS + Merkle + full walker scope control all in one tranche
+- We now also have the first query-side articulation strategy comparison over the live `det_steep` DB:
+  - baseline current bag shelf: `same_top = 5`, `same_origin = 6`
+  - `phrase_core` expansion is worse: `4 / 4`
+  - `identifier_norm` is basically neutral: `5 / 6`
+  - `char_ngram` rerank is the first light query-side mover: `6 / 6`
+  - current read:
+    - char n-gram overlap is the most promising next query-side articulation seam on the existing hunk field
+    - phrase-core expansion is too blunt on this footing
+    - identifier normalization alone does not buy much yet
+  - mapping note:
+    - [`_docs/_analysis/query_articulation_strategy_probe_2026-04-01/query_articulation_strategy_probe.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\query_articulation_strategy_probe_2026-04-01\query_articulation_strategy_probe.md)
+- We then promoted the bounded char n-gram term into the live bag rerank in [`_BDHyperNeuronEMITTER/src/core/engine/inference/bag_view.py`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_BDHyperNeuronEMITTER\src\core\engine\inference\bag_view.py):
+  - first integrated live articulation shelf: `same_top = 7`, `same_origin = 7`
+  - punctuation-insensitive alias matching plus bounded short-anchor trust then closed the remaining import-style miss
+  - current integrated live articulation shelf now sits at `same_top = 8`, `same_origin = 8`
+  - current read:
+    - the bag is now aligned across the full tested articulation shelf
+    - this win came from bag/query shaping, not a new ingest branch
+    - lexical-anchor breadth has now also been decoupled from final bag return count, so the `module imports` win holds even when the displayed bag is narrow
+  - integrated mapping notes:
+    - [`_docs/_analysis/query_articulation_strategy_probe_2026-04-01_live_char_ngram/query_articulation_strategy_probe.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\query_articulation_strategy_probe_2026-04-01_live_char_ngram\query_articulation_strategy_probe.md)
+    - [`_docs/_analysis/query_articulation_strategy_probe_2026-04-01_import_anchor_tune_v2/query_articulation_strategy_probe.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\query_articulation_strategy_probe_2026-04-01_import_anchor_tune_v2\query_articulation_strategy_probe.md)
+    - [`_docs/_analysis/query_articulation_strategy_probe_2026-04-01_anchor_budget_decoupled/query_articulation_strategy_probe.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\query_articulation_strategy_probe_2026-04-01_anchor_budget_decoupled\query_articulation_strategy_probe.md)
+- We also ran a contained BPE query-time articulation probe against the same `det_steep` footing:
+  - result: `0 / 16` queries produced any concept-relevant readable nearest-token hits
+  - current read:
+    - the active deterministic BPE space tied to this DB is not the right articulation field for the Python-reference shelf
+    - do **not** wire BPE query expansion into this footing yet
+  - probe note:
+    - [`_docs/_analysis/bpe_query_articulation_probe_2026-04-01/bpe_query_articulation_probe_2026-04-01.md`](C:\Users\jacob\Documents\_AppDesign\_LivePROJECTS\BDNeuralTranslationSUITE\_docs\_analysis\bpe_query_articulation_probe_2026-04-01\bpe_query_articulation_probe_2026-04-01.md)
 
 ## What Works Right Now
 
@@ -174,6 +241,15 @@ The sharper problem now is:
 
 The parked next step is:
 
+- keep the baseline-leg-sidecar branch as a concluded diagnostic/reference seam, not a second product line
+- promote only the proven collaboration pieces into mainline:
+  - shared registry
+  - minimal separate sidecar viewer
+  - explicit action provenance
+- shift corpus doctrine toward:
+  - general English first
+  - then technical/project English
+  - then code/doc bridge corpora
 - keep the current sliding window and current SQLite/FTS reuse path
 - keep the origin-aware cross-document branch in the active scorer experiment lane
 - keep the Hot Engine direction fix as current runtime truth
@@ -196,9 +272,10 @@ The parked next step is:
   - targeted lexicalization / alias refinement for stubborn queries
   - then, if needed, decoupling anchor budget from final bag size
 - on the active semantic-gravity lane, the next close choice is now:
-  - `steep` vs `softplus`
-  - not “whether semantic gravity is real at all”
-  - not “whether to promote xhigh just because it is numerically largest”
+  - no longer “is semantic gravity real at all?”
+  - the safe default is now `steep`
+  - `softplus` remains the strongest practical alternative
+  - `high` / `xhigh` remain labeled ceiling/stress points rather than promoted defaults
 
 Phase 2 remains the goal, but it is **not** unlocked yet.
 

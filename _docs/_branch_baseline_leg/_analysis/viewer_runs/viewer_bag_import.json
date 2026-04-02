@@ -1,0 +1,639 @@
+{
+  "query": "import",
+  "mode": "bag",
+  "db_path": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_docs\\_analysis\\reference_probe_069_semgrav_st_control\\cold_anatomy_reference_probe_069_semgrav_st_control.db",
+  "provider": {
+    "provider": "bag-control"
+  },
+  "summary": {
+    "item_count": 8,
+    "group_count": 2,
+    "group_by": "origin_id",
+    "summary": "8 evidence items surfaced for \"import\" across 2 groups. Top sources: C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt (6), C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt (2). Top node kinds: md_paragraph (5), md_heading (1), md_code_block (1)."
+  },
+  "groups": [
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "item_count": 6,
+      "max_activation": 1.0,
+      "summary": "6 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt. Strongest activation 1.000. Most common kind: md_paragraph. Representative item: 5.3.3. Import hooks",
+      "occurrence_ids": [
+        "3b2e594f093eb725656cb47e86f0f0786643cc1772f2f18554f6fc2678a62a83",
+        "65ac410d2522afa8b0e3b59e4da2718628e4a71c4846f60c23d68cc4d9f51786",
+        "76d8501ebe4acf5e9b07de5218d90a1ad5c248037b09e1cf15c6af9cb426ce06",
+        "5055878d3bed6b5015360fcdf1c232fb0f689224affdd704977566467a2a5d0d",
+        "4ff7bbad1d5de430dc8404a269e3c04fda10a937dbb4539fc8989d513af7f8da",
+        "c2fdc560ce14601941671a720fa2f6cc7682769107cbc801a9730afe85073dec"
+      ]
+    },
+    {
+      "group_key": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "item_count": 2,
+      "max_activation": 1.0,
+      "summary": "2 items in C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt. Strongest activation 1.000. Most common kind: md_code_block. Representative item: future_stmt ::= \"from\" \"__future__\" \"import\" feature [\"as\" identifier] (\",\" feature [\"as\" identifier])* | \"from\" \"__future__\" \"import\" \"(\" feature [\"as\" identifier] (\",\" feature [\"as\" identifier])* [\",\"] \")\" feature :...",
+      "occurrence_ids": [
+        "933a96d547e809ae91aa6894d3c9f77234e2aa0cfaf86992e33c6e87ffbdb50a",
+        "2d128fddf9a474fb13ee6622e8436c1a73f329ab8a99711674bd53b2c16306a1"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "occurrence_id": "3b2e594f093eb725656cb47e86f0f0786643cc1772f2f18554f6fc2678a62a83",
+      "activation": 1.0,
+      "hunk_id": "e227960bb05f0d4118c662b9d6fd633ddcc5ccfc124529e40c162057c780a559",
+      "node_kind": "md_heading",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "structural_path": "doc/h1_5_3_searching/h2_5_3_3_import_hooks",
+      "content_snippet": "5.3.3. Import hooks",
+      "item_summary": "5.3.3. Import hooks",
+      "attention_weight": 0.6,
+      "static_mass": 19,
+      "why": [
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "90ef27b0edd07ddb920c21a1e881d6efc254a641506ad5e509f70ca1318e285b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "3acbb9c10ecebf9c9a2afa0f3b503f0f4ae8da6008e1ffb250e1cf05ca92fe08",
+          "weight": 0.5506,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.3629,
+            "structural": 0.3269,
+            "statistical": 0.1362,
+            "semantic": 0.174,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "37093fc2089445dc11b2cf3cc2d5e5987721fe4d643c3d67644e213e40eb0b52",
+          "weight": 0.5303,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.3768,
+            "structural": 0.3395,
+            "statistical": 0.1697,
+            "semantic": 0.114,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "5.3.3. Import hooks",
+      "rank_signals": {
+        "rank_score": 1.4275,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 0.25,
+        "is_anchor": false,
+        "origin_anchor_count": 6,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": true,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.4275
+    },
+    {
+      "occurrence_id": "65ac410d2522afa8b0e3b59e4da2718628e4a71c4846f60c23d68cc4d9f51786",
+      "activation": 1.0,
+      "hunk_id": "2c4e6abd1977e36099bcfd53776246fc145bc58ab67fc215ca3bccae08b88a4a",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "structural_path": "doc/h1_5_7_package_relative_imports",
+      "content_snippet": "Absolute imports may use either the \"import <>\" or \"from <> import <>\" syntax, but relative imports may only use the second form; the reason for this is that:",
+      "item_summary": "Absolute imports may use either the \"import <>\" or \"from <> import <>\" syntax, but relative imports may only use the second form; the reason for this is that:",
+      "attention_weight": 0.95,
+      "static_mass": 158,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "432b22897fdcef580bdaabc40a966c8e409a653562119c8f22a92c734c2d648f",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "e5d6ccee9478bed91422d6bef7ab0fe4b639d911250406a4ca108fc18cf0a047",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "de53f3cda935c05c729aeeedee4262f82c8060978b55c7ae0e129503f08293ad",
+          "weight": 0.4362,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0619,
+            "structural": 0.6018,
+            "statistical": 0.0622,
+            "semantic": 0.2741,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "Absolute imports may use either the \"import <>\" or \"from <> import <>\"\nsyntax, but relative imports may only use the second form; the reason\nfor this is that:",
+      "rank_signals": {
+        "rank_score": 1.182727,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 0.036364,
+        "is_anchor": false,
+        "origin_anchor_count": 6,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.182727
+    },
+    {
+      "occurrence_id": "76d8501ebe4acf5e9b07de5218d90a1ad5c248037b09e1cf15c6af9cb426ce06",
+      "activation": 1.0,
+      "hunk_id": "8724a359521dfb049053f4edac85502eff4c92669aa8dd0328951a45d4037220",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "structural_path": "doc/h1_5_the_import_system",
+      "content_snippet": "Changed in version 3.3: The import system has been updated to fully implement the second phase of **PEP 302**.",
+      "item_summary": "Changed in version 3.3: The import system has been updated to fully implement the second phase of **PEP 302**.",
+      "attention_weight": 0.95,
+      "static_mass": 306,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "df7d2540eed2f81ce2df06727cb73f8261674310bd71accfd4675ee658265b2f",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "8a8f1c27b866eb74de7a6e176a9f2c24f60917fcc08f6a594f604a9d7ed1ee35",
+          "weight": 0.4018,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0896,
+            "structural": 0.5226,
+            "statistical": 0.1682,
+            "semantic": 0.2139,
+            "verbatim": 0.0057
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "5055878d3bed6b5015360fcdf1c232fb0f689224affdd704977566467a2a5d0d",
+          "weight": 0.3983,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0904,
+            "structural": 0.5273,
+            "statistical": 0.1598,
+            "semantic": 0.22,
+            "verbatim": 0.0025
+          }
+        }
+      ],
+      "content": "Changed in version 3.3: The import system has been updated to fully\nimplement the second phase of **PEP 302**. There is no longer any\nimplicit import machinery - the full import system is exposed through\n\"sys.meta_path\". In addition, native namespace package support has\nbeen implemented (see **PEP 420**).",
+      "rank_signals": {
+        "rank_score": 1.176195,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 0.017699,
+        "is_anchor": false,
+        "origin_anchor_count": 6,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.176195
+    },
+    {
+      "occurrence_id": "5055878d3bed6b5015360fcdf1c232fb0f689224affdd704977566467a2a5d0d",
+      "activation": 1.0,
+      "hunk_id": "ad3f61ed6aa96e781a35c6c4a1feb9430d3c508a6cb51c3da06867ec258703fb",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "structural_path": "doc/h1_5_the_import_system",
+      "content_snippet": "A direct call to \"__import__()\" performs only the module search and, if found, the module creation operation.",
+      "item_summary": "A direct call to \"__import__()\" performs only the module search and, if found, the module creation operation.",
+      "attention_weight": 0.95,
+      "static_mass": 315,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "6cc7eae0054dd3a97c79494243974d8ba33d523ddb11992e69aeffb15f167a23",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "8a8f1c27b866eb74de7a6e176a9f2c24f60917fcc08f6a594f604a9d7ed1ee35",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "6cc7eae0054dd3a97c79494243974d8ba33d523ddb11992e69aeffb15f167a23",
+          "weight": 0.4432,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0812,
+            "structural": 0.4738,
+            "statistical": 0.1521,
+            "semantic": 0.2821,
+            "verbatim": 0.0108
+          }
+        }
+      ],
+      "content": "A direct call to \"__import__()\" performs only the module search and,\nif found, the module creation operation.  While certain side-effects\nmay occur, such as the importing of parent packages, and the updating\nof various caches (including \"sys.modules\"), only the \"import\"\nstatement performs a name binding operation.",
+      "rank_signals": {
+        "rank_score": 1.17614,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 0.017544,
+        "is_anchor": false,
+        "origin_anchor_count": 6,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.17614
+    },
+    {
+      "occurrence_id": "4ff7bbad1d5de430dc8404a269e3c04fda10a937dbb4539fc8989d513af7f8da",
+      "activation": 1.0,
+      "hunk_id": "1e30cd6c9159e24917648ea3786c299ff0d200cc99fa9775e2a067c3f6779279",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "structural_path": "doc/h1_5_3_searching",
+      "content_snippet": "To begin the search, Python needs the *fully qualified* name of the module (or package, but for the purposes of this discussion, the difference is immaterial) being imported.",
+      "item_summary": "To begin the search, Python needs the *fully qualified* name of the module (or package, but for the purposes of this discussion, the difference is immaterial) being imported.",
+      "attention_weight": 0.95,
+      "static_mass": 331,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "219374ef8fa40b7cd75d2d1db1d28025e4c6de36dfea0c8fe7e672136045bb2b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "d7c37a4508dffe0ad32b5e8f1d82bda3528d2ca13ef7dbe311446a25460dbc19",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "outgoing",
+          "op": "pull",
+          "other_occurrence_id": "d7c37a4508dffe0ad32b5e8f1d82bda3528d2ca13ef7dbe311446a25460dbc19",
+          "weight": 0.4405,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.0817,
+            "structural": 0.4768,
+            "statistical": 0.1719,
+            "semantic": 0.2601,
+            "verbatim": 0.0095
+          }
+        }
+      ],
+      "content": "To begin the search, Python needs the *fully qualified* name of the\nmodule (or package, but for the purposes of this discussion, the\ndifference is immaterial) being imported.  This name may come from\nvarious arguments to the \"import\" statement, or from the parameters to\nthe \"importlib.import_module()\" or \"__import__()\" functions.",
+      "rank_signals": {
+        "rank_score": 1.175809,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 0.016598,
+        "is_anchor": false,
+        "origin_anchor_count": 6,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.175809
+    },
+    {
+      "occurrence_id": "933a96d547e809ae91aa6894d3c9f77234e2aa0cfaf86992e33c6e87ffbdb50a",
+      "activation": 1.0,
+      "hunk_id": "5a37fb705443c0086c0a4a8275ecf49d73de7fccd6aa7f8f47cfb0bd482d2e07",
+      "node_kind": "md_code_block",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "structural_path": "doc/h1_7_11_the_import_statement/h2_7_11_1_future_statements",
+      "content_snippet": "future_stmt ::= \"from\" \"__future__\" \"import\" feature [\"as\" identifier] (\",\" feature [\"as\" identifier])* | \"from\" \"__future__\" \"import\" \"(\" feature [\"as\" identifier] (\",\" feature...",
+      "item_summary": "future_stmt ::= \"from\" \"__future__\" \"import\" feature [\"as\" identifier] (\",\" feature [\"as\" identifier])* | \"from\" \"__future__\" \"import\" \"(\" feature [\"as\" identifier] (\",\" feature [\"as\" identifier])* [\",\"] \")\" feature :...",
+      "attention_weight": 1.3,
+      "static_mass": 282,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "19476e89b24f88032574285274505484d9b369924179256313482cd25d61a81b",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "3a8ee459184da92d3f03b6797c1be6fadccb01330991e78ea4435a64073c99a3",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "739cb4c5a9880a18bb1cfdf1fd80162786bd55e9c10a4af75c26e1491d8afa4b",
+          "weight": 0.6135,
+          "interaction_mode": "multi_surface",
+          "routing_profile": {
+            "grammatical": 0.1807,
+            "structural": 0.2967,
+            "statistical": 0.2428,
+            "semantic": 0.25,
+            "verbatim": 0.0298
+          }
+        }
+      ],
+      "content": "future_stmt ::= \"from\" \"__future__\" \"import\" feature [\"as\" identifier]\n                (\",\" feature [\"as\" identifier])*\n                | \"from\" \"__future__\" \"import\" \"(\" feature [\"as\" identifier]\n                (\",\" feature [\"as\" identifier])* [\",\"] \")\"\nfeature     ::= identifier",
+      "rank_signals": {
+        "rank_score": 1.156471,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 1,
+        "char_ngram_score": 0.047059,
+        "is_anchor": false,
+        "origin_anchor_count": 1,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.156471
+    },
+    {
+      "occurrence_id": "c2fdc560ce14601941671a720fa2f6cc7682769107cbc801a9730afe85073dec",
+      "activation": 1.0,
+      "hunk_id": "dd8aea94e97bd7416b564d790204f5cbcfee117129737be440750afe813db2ee",
+      "node_kind": "md_paragraph",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\import.txt",
+      "structural_path": "doc/h1_5_7_package_relative_imports",
+      "content_snippet": "In either \"subpackage1/moduleX.py\" or \"subpackage1/__init__.py\", the following are valid relative imports:",
+      "item_summary": "In either \"subpackage1/moduleX.py\" or \"subpackage1/__init__.py\", the following are valid relative imports:",
+      "attention_weight": 0.95,
+      "static_mass": 106,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "4deb2253847e972e1ad91038c0cf39218bf1ea7b5e867fe18831b95dfac716cd",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "432b22897fdcef580bdaabc40a966c8e409a653562119c8f22a92c734c2d648f",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "4deb2253847e972e1ad91038c0cf39218bf1ea7b5e867fe18831b95dfac716cd",
+          "weight": 0.471,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.055,
+            "structural": 0.535,
+            "statistical": 0.0946,
+            "semantic": 0.3153,
+            "verbatim": 0.0
+          }
+        }
+      ],
+      "content": "In either \"subpackage1/moduleX.py\" or \"subpackage1/__init__.py\", the\nfollowing are valid relative imports:",
+      "rank_signals": {
+        "rank_score": 1.155909,
+        "exact_phrase": true,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.045455,
+        "is_anchor": false,
+        "origin_anchor_count": 6,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.155909
+    },
+    {
+      "occurrence_id": "2d128fddf9a474fb13ee6622e8436c1a73f329ab8a99711674bd53b2c16306a1",
+      "activation": 1.0,
+      "hunk_id": "a7c4a26a6b4397a488a8d8e2593025723582c2098b60078c138201f00cf60246",
+      "node_kind": "md_list_item",
+      "origin_id": "C:\\Users\\jacob\\Documents\\_AppDesign\\_LivePROJECTS\\BDNeuralTranslationSUITE\\_corpus_examples\\python-3.11.15-docs-text\\reference\\simple_stmts.txt",
+      "structural_path": "doc/h1_7_11_the_import_statement/li_1",
+      "content_snippet": "1. find the module specified in the \"from\" clause, loading and initializing it if necessary;",
+      "item_summary": "1. find the module specified in the \"from\" clause, loading and initializing it if necessary;",
+      "attention_weight": 0.95,
+      "static_mass": 92,
+      "why": [
+        {
+          "direction": "outgoing",
+          "op": "precedes",
+          "other_occurrence_id": "2cd6c37909217c7c67f6344ef1831a9d9fbf29a5cbffa3a43f47283f3e7179c7",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "precedes",
+          "other_occurrence_id": "51702e43ec9dbbaf3a496d99f59ee1f501b1c168042295e5a7f167a20053f082",
+          "weight": 0.8,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "structural": 1.0,
+            "grammatical": 0.0,
+            "statistical": 0.0,
+            "semantic": 0.0,
+            "verbatim": 0.0
+          }
+        },
+        {
+          "direction": "incoming",
+          "op": "pull",
+          "other_occurrence_id": "e07d6f5964e8e0372d88a7cb0877312a37908a0196f639ac476367730a2ef59a",
+          "weight": 0.4738,
+          "interaction_mode": "structural_bridge",
+          "routing_profile": {
+            "grammatical": 0.076,
+            "structural": 0.4432,
+            "statistical": 0.1987,
+            "semantic": 0.2603,
+            "verbatim": 0.0217
+          }
+        }
+      ],
+      "content": "1. find the module specified in the \"from\" clause, loading and\ninitializing it if necessary;",
+      "rank_signals": {
+        "rank_score": 1.0,
+        "exact_phrase": false,
+        "lexical_variant_hit": false,
+        "token_overlap": 0,
+        "char_ngram_score": 0.0,
+        "is_anchor": false,
+        "origin_anchor_count": 1,
+        "origin_query_support_count": 1,
+        "origin_anchor_bonus": 0.0,
+        "section_locator_bonus": 0.0,
+        "articulation_anchor_bonus": 0.0,
+        "is_heading": false,
+        "is_index_list_item": false,
+        "is_fragment": false
+      },
+      "rank_score": 1.0
+    }
+  ],
+  "pullback": {
+    "selected_occurrence_ids": [],
+    "items": []
+  },
+  "retrieval_leg": "Current bag control path (fused anchors + subgraph + Hot Engine + bag shaping)."
+}
