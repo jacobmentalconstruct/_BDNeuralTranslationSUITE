@@ -20,6 +20,14 @@ This project is past vague-concept stage. The pipeline is real, measurable, and 
   - human-driven shared-state viewing is proven
   - agent-driven visible panel action is still an experimental follow-up seam
   - collaboration doctrine is now: `sync -> think -> act -> resync`
+- A builder-only English triplet training loop now also exists:
+  - `_BDHyperNeuronEMITTER/tools/english_triplet_training_loop.py`
+  - generates controlled high-contrast English bundles from seed words
+  - keeps NDJSON as the main artifact and uses SQLite/FTS as a uniqueness registry
+  - current vocabulary footing is **general English first**
+  - tracked seed lists and presets now live under `_BDHyperNeuronEMITTER/tools/examples/`
+  - current preferred broader seed list:
+    - `_BDHyperNeuronEMITTER/tools/examples/iambic-mnemonic-master/word-lists/basic-english-850.txt`
 - The bag path now also has a confirmed Hot Engine direction fix:
   - activation had been propagating backward relative to stored `source_occ_id -> target_occ_id` relations
   - that bug is now fixed

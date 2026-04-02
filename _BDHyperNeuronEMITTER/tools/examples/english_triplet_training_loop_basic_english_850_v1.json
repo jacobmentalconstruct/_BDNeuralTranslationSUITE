@@ -1,0 +1,11 @@
+{
+  "model": "llama3.2:3b",
+  "word_list_path": "_BDHyperNeuronEMITTER/tools/examples/iambic-mnemonic-master/word-lists/basic-english-850.txt",
+  "output_dir": "_docs/_analysis/english_triplet_training_loop/basic_english_850_v1_example_run",
+  "registry_db": "_docs/_analysis/english_triplet_training_loop/basic_english_850_v1_example_run/uniqueness_registry.sqlite3",
+  "target_count_per_word": 1,
+  "max_attempts_per_type": 6,
+  "timeout_seconds": 45,
+  "generation_pass": 1,
+  "word_limit": 25
+}

@@ -26,8 +26,11 @@ Journal entry: pending mirror
   - then code/doc bridge corpora
 - Marked the minimal shared viewer as a separate sidecar direction in the tool docs.
 - Kept the pending-action seam explicitly experimental by default:
-  - `baseline_leg_viewer.py` now requires `--enable-panel-actions` before it will try to consume queued panel actions
-  - `baseline_leg_panel_action.py` is now explicitly documented as experimental
+  - `_BDHyperNeuronEMITTER/tools/baseline_leg_viewer.py` now requires `--enable-panel-actions` before it will try to consume queued panel actions
+  - `_BDHyperNeuronEMITTER/tools/baseline_leg_panel_action.py` is now explicitly documented as experimental
+- Moved the kept sidecar/shared-registry seam and English triplet generator out of `.dev-tools` into the tracked permanent home:
+  - `_BDHyperNeuronEMITTER/tools/`
+  - this includes the shared viewer/session/lib seam, the experimental panel-action helper, example job JSON, and the tracked general-English word-list pack
 - Added branch conclusion note:
   - `_docs/_branch_baseline_leg/CONCLUSION.md`
 
@@ -1638,3 +1641,40 @@ Journal entry: `journal_final_cleanup_20260326`
 ## Historical anchor
 
 - `journal_tranche7_devlog` remains the tranche-specific log for the Emitter CLI, GUI, and original Phase 1 integration milestone.
+
+## 2026-04-02 — Builder-side English triplet training loop
+
+- Added a new builder-only tool:
+  - `_BDHyperNeuronEMITTER/tools/english_triplet_training_loop.py`
+- Purpose:
+  - generate controlled general-English training data for later scorer / FFN work
+  - keep the loop minimally invasive and outside live runtime paths
+- V1 shape:
+  - runtime-selected Ollama model
+  - core-English seed-word list
+  - high-contrast example families:
+    - `anchor`
+    - `semantic_match`
+    - `structural_match`
+    - `grammatical_nonsense`
+    - `syntactic_shift`
+  - accepted/rejected NDJSON outputs
+  - SQLite/FTS uniqueness registry used as a deterministic filter, not the primary corpus artifact
+- Added:
+  - bundled core-English seed list
+  - example JSON job
+  - focused unit tests
+- Ran a first real local smoke with:
+  - `qwen2.5:0.5b`
+  - built-in core-English list
+  - `word_limit = 1`
+  - result:
+    - `accepted_bundle_count = 1`
+    - `accepted_example_count = 5`
+    - `rejected_attempt_count = 1`
+- Current read after the real smoke:
+  - the generation path is working end to end
+  - but prompt/validator sharpness still needs follow-up before a larger English tranche
+- Current trust boundary:
+  - this is a builder-side corpus-growth seam only
+  - it is not yet wired into live ingest, live training, or Phase 2 runtime behavior

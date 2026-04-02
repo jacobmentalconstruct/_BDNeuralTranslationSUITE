@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 EMITTER_SRC = REPO_ROOT / "_BDHyperNeuronEMITTER" / "src"
-TOOLS_DIR = REPO_ROOT / ".dev-tools" / "final-tools" / "tools"
+TOOLS_DIR = REPO_ROOT / "_BDHyperNeuronEMITTER" / "tools"
 for path in (str(EMITTER_SRC), str(TOOLS_DIR)):
     if path not in sys.path:
         sys.path.insert(0, path)

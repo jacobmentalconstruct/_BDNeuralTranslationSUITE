@@ -35,6 +35,17 @@ Goal: absorb the proven outcomes of the baseline-leg-sidecar branch into mainlin
 
 - [ ] Reframe mainline corpus doctrine around **general English first**
 - [ ] Establish a functional English baseline corpus tranche for causal/natural-language interaction
+- [x] Add a minimally invasive builder-side English triplet training loop:
+  - runtime-selected Ollama model
+  - NDJSON-first accepted/rejected artifacts
+  - SQLite/FTS uniqueness registry
+  - high-contrast bundle types:
+    - `anchor`
+    - `semantic_match`
+    - `structural_match`
+    - `grammatical_nonsense`
+    - `syntactic_shift`
+- [ ] Run the first recorded core-English generation pass and inspect bundle quality before adding technical vocabulary
 - [ ] Separate corpus planning into:
   - general English baseline
   - technical/project prose

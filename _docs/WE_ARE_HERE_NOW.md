@@ -35,6 +35,28 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - JSONL event log
   - session-level control mode
   - last-action provenance
+- A builder-only English triplet training loop now exists:
+  - `_BDHyperNeuronEMITTER/tools/english_triplet_training_loop.py`
+  - runtime-selected Ollama model
+  - NDJSON-first output
+  - SQLite/FTS uniqueness registry
+  - required example families:
+    - `anchor`
+    - `semantic_match`
+    - `structural_match`
+    - `grammatical_nonsense`
+    - `syntactic_shift`
+  - current use:
+    - controlled general-English corpus growth for later scorer / FFN work
+    - not a live runtime feature
+    - tracked permanent inputs now live under `_BDHyperNeuronEMITTER/tools/examples/`
+    - current preferred broader general-English list:
+      - `_BDHyperNeuronEMITTER/tools/examples/iambic-mnemonic-master/word-lists/basic-english-850.txt`
+  - first real smoke:
+    - `qwen2.5:0.5b`
+    - `word_limit = 1`
+    - accepted `5` example rows, rejected `1`
+    - current read: generation path is real, but prompt/validator quality still needs tightening before larger corpus passes
 - Corpus doctrine has also shifted:
   - general English first
   - then technical/project prose
@@ -122,6 +144,9 @@ _Overwrite this file at each small milestone. It is the fastest crash-recovery /
   - summary and sample tabs in the same window
   - five-surface color cues
   - typed `report_summary` / `report_snapshot` events behind the viewer
+- The kept builder/sidecar tools that now matter to the saved app no longer depend on `.dev-tools`:
+  - permanent tracked home: `_BDHyperNeuronEMITTER/tools/`
+  - `.dev-tools` remains builder-only and disposable
 
 ## Broad tuning read
 

@@ -53,11 +53,14 @@ Not yet promoted as mainline truth:
 ## Current Tool Surface
 
 Minimal shared-view sidecar tools:
-- `.dev-tools/final-tools/tools/baseline_leg_viewer.py`
-- `.dev-tools/final-tools/tools/baseline_leg_session.py`
+- `_BDHyperNeuronEMITTER/tools/baseline_leg_viewer.py`
+- `_BDHyperNeuronEMITTER/tools/baseline_leg_session.py`
+
+Tracked permanent home:
+- `_BDHyperNeuronEMITTER/tools/`
 
 Experimental follow-up helper:
-- `.dev-tools/final-tools/tools/baseline_leg_panel_action.py`
+- `_BDHyperNeuronEMITTER/tools/baseline_leg_panel_action.py`
 
 The panel-action helper remains experimental unless the viewer is explicitly run
 with panel-action execution enabled and that seam is proven reliable.
